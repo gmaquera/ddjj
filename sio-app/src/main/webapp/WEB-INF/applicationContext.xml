@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="pe.gob.ocma"></context:component-scan>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="sybase.jdbc4.sqlanywhere.IDriver" />
+		<!--			
+		<property name="url"
+			value="jdbc:sqlanywhere:eng=db_desarrollo_11;Host=172.22.220.118" />
+		
+		<property name="url"
+			value="jdbc:sqlanywhere:eng=ocma11;Host=172.22.0.25" />		
+		-->		
+		<property name="url"
+			value="jdbc:sqlanywhere:eng=ocma12;Host=172.22.221.231" />	
+		
+		
+		<property name="username" value="aqueque" />
+		<property name="password" value="@dolfo...5" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>pe.gob.ocma.entities.web_ocma</value>
+				<value>pe.gob.ocma.entities.generico</value>
+				<value>pe.gob.ocma.entities.persona</value>
+				<value>pe.gob.ocma.entities.ubigeojud</value>
+				<value>pe.gob.ocma.entities.seguridad</value>
+				<value>pe.gob.ocma.entities.tareas</value>
+				<value>pe.gob.ocma.entities.auditoria</value>				
+				<value>pe.gob.ocma.entities.organosjurisd</value>
+				<value>pe.gob.ocma.entities.oc_ocma</value>
+				<value>pe.gob.ocma.entities.web</value>				
+				<value>pe.gob.ocma.entities.ubigeo</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SybaseAnywhereDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<!--  				
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				-->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="hibernateTransaction"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="hibernateTransaction" />
+
+	<!-- Spring Security -->
+	<security:http pattern="/resources/**" security="none" />
+
+	<security:http auto-config="false" use-expressions="true">
+
+		<security:intercept-url pattern="/login.xhtml*"
+			access="isAnonymous()" />
+
+		<security:intercept-url pattern="/sistema/**"
+			access="isAuthenticated()" />
+
+		<security:access-denied-handler
+			error-page="/sistema/error/accessDenied.xhtml" />
+
+		<security:form-login login-page="/login.xhtml"
+			login-processing-url="/j_spring_security_check" default-target-url="/sistema/"
+			always-use-default-target="true" authentication-failure-url="/login.xhtml?authfailed=true" />
+
+		<security:logout invalidate-session="true"
+			logout-url="/j_spring_security_logout" logout-success-url="/login.xhtml?loggedout=true"
+			delete-cookies="JSESSIONID" />
+
+		<!--Filters for CAPTCHA -->
+		<security:custom-filter ref="captchaCaptureFilter"
+			before="FORM_LOGIN_FILTER" />
+
+		<security:custom-filter ref="captchaVerifierFilter"
+			after="FORM_LOGIN_FILTER" />
+
+		<security:session-management
+			invalid-session-url="/login.xhtml?sessioninvalid=true">
+			<security:concurrency-control
+				max-sessions="5" error-if-maximum-exceeded="true" />
+		</security:session-management>
+
+	</security:http>
+
+	<!-- Captured data from CAPTCHA -->
+	<bean id="imageCaptchaService"
+		class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService" />
+
+	<bean id="captchaCaptureFilter" class="pe.gob.ocma.seguridad.filter.CaptchaCaptureFilter" />
+
+	<!-- Check the enter CAPTCHA -->
+	<bean id="captchaVerifierFilter" class="pe.gob.ocma.seguridad.filter.CaptchaVerifierFilter"
+		p:failureUrl="/login.xhtml?sessioninvalid=true"
+		p:captchaCaptureFilter-ref="captchaCaptureFilter" p:privateKey="" />
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="autenUsuarioService">
+			<!--  
+			<security:password-encoder hash="md5"></security:password-encoder>
+			-->
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>

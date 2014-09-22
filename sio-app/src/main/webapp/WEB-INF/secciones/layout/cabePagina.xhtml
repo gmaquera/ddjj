@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h:form id="frmCabecera">
+		<p:graphicImage library="images" name="logo111.png" width="42"
+			height="42" styleClass="logo-ocma"></p:graphicImage>
+		
+		<span class="titulo-ofi-descentralizada">OFICINA DE CONTROL DE LA MAGISTRATURA</span>
+		<p:menubar styleClass="menu-usuario" autoDisplay="false">
+			<p:submenu label="#{sesionMBean.apeNomUsuario}" icon="ui-icon-gear"
+				style="padding-top: 4px;">
+				<p:menuitem value="#{msg['msgCambiarContrasenia']}"
+					url="/sistema/seguridad/cambioContrasenia.xhtml" icon="ui-icon-key"
+					ajax="false" immediate="true" />				
+				<p:menuitem value="#{msg['msgTemas']}"
+					url="/sistema/seguridad/temasInterfaz.xhtml" icon="ui-icon-gear"
+					ajax="false" immediate="true" />
+			</p:submenu>
+			<f:facet name="options">
+				<p:button href="#{request.contextPath}/j_spring_security_logout"
+					value="#{msg['msgCerrarSesion']}" icon="ui-icon-cancel"
+					style="height: 34px; margin-left: 10px; border: none;"></p:button>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+</ui:composition>
+</html>

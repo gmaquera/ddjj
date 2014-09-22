@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h:form id="frmTree">
+		<p:tree value="#{treeMenuMBean.root}" var="node" animate="true">
+			<p:treeNode expandedIcon="ui-icon-folder-open"
+				collapsedIcon="ui-icon-folder-collapsed">
+				<h:outputText value="#{node}" />
+			</p:treeNode>
+			<p:treeNode type="document" icon="ui-icon-document">
+				<a href="#{request.contextPath}#{node.url}">#{node.nombre}</a>
+			</p:treeNode>
+		</p:tree>
+	</h:form>
+</ui:composition>
+</html>

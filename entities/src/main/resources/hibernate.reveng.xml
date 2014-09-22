@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_AUDITORIA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_ACREENCIA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_AHORRO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_INGRESO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_MUEBLE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_OTRO_BIEN"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_BLOQUE_VIAJE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_CARGOS"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_CARGOXEJERCICIO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_CONTRALORIA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_CONYUGUE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_DECLARANTE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_DISTRI_JUD"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_EJERCICIO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_INGRESO_CATEGORIA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_INGRESO_ITEM"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_INGRESO_SECTOR"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_ING_ITEM"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_INSTRUMENTO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_LISTA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_LISTAXDJ"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_MASTER"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_OBSERVACION_BLOQUE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_OP_PRESENTACION"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_OTRA_INFORMACION"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_OTRO_BIEN_SECTOR"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_PERSONAL"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_ACREENCIA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_INGRESO"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_MONEDA"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_MOV"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_MUEBLE"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_OBLIGACION"/>
+  <table-filter match-schema="OC_OCMA" match-name="DJ_TIPO_SECTOR"/>
+</hibernate-reverse-engineering>

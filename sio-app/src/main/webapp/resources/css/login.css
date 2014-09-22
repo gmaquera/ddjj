@@ -1,0 +1,118 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: Arial, "Trebuchet MS", Verdana, sans-serif;
+	font-size: 12px;
+	padding: 0 !important;
+	margin: 0;
+	background: #fff;
+}
+
+.logo-sistema {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 376px;
+	height: 417px;
+	margin-top: -208px;
+	margin-left: -386px;
+	background: url('../resources/images/logo-sistema.jpg') no-repeat;
+}
+
+.logo-ocma {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 330px;
+	height: 77px;
+	margin-top: -208px;
+	margin-left: 10px;
+	background: url('../resources/images/logo-ocma.jpg') no-repeat;
+}
+
+.div-login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 350px;
+	margin-top: -120px;
+	margin-left: 10px;
+	/*border: 1px solid;*/
+}
+
+.cell-input-username {
+	width: 332px;
+	height: 41px;
+	background: url('../resources/images/usuario.jpg') no-repeat !important;
+	background-position: -0px -2px !important;
+}
+
+.cell-input-password {
+	width: 332px;
+	height: 41px;
+	background: url('../resources/images/password.jpg') no-repeat !important;
+	background-position: -0px -2px !important;
+}
+
+.input-username {
+	width: 279px;
+	height: 30px;
+	margin-top: 2px;
+	margin-right: 3px;
+	font-size: 20px;
+	background: transparent;
+	border: none !important;
+	text-indent: 16px;
+}
+
+.input-password {
+	width: 279px;
+	height: 30px;
+	margin-top: 3px;
+	margin-right: 3px;
+	font-size: 20px;
+	background: transparent;
+	border: none !important;
+	text-indent: 16px;
+}
+
+.boton-entrar {
+	width: 320px;
+	height: 40px;
+	margin-left: 6px;
+	/*background: url('../resources/images/entrar.jpg') no-repeat !important;
+	border: none;
+	cursor: pointer;*/
+}
+
+.default-text-username {
+	color: #ccc;
+	font-size: 18px;
+}
+
+.default-text-password {
+	color: #ccc;
+	font-size: 24px;
+}
+
+.div-table-base {
+	display: table;
+	border-spacing: 0px;
+}
+
+.div-table {
+	display: table;
+	border-spacing: 10px;
+}
+
+.div-row {
+	display: table-row;
+}
+
+.div-cell {
+	display: table-cell;
+}
+
+.derecha {
+	text-align: right;
+}

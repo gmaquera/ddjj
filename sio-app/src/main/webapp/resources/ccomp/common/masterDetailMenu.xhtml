@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://java.sun.com/jsf/composite">
+
+<cc:interface>
+	<cc:attribute name="icon" required="true" />
+	<cc:attribute name="options" type="java.util.List" required="true" />
+</cc:interface>
+
+<cc:implementation>
+	<div class="div-table" style="margin-top: 4px;">
+		<div class="div-row">
+			<ui:repeat var="item" value="#{cc.attrs.options}">
+				<div class="div-cell">
+					<span class="ui-icon #{cc.attrs.icon}"></span>
+				</div>
+				<div class="div-cell">
+					<p:commandLink value="#{item.label}" action="#{item.value}"
+						ajax="false"></p:commandLink>
+				</div>
+			</ui:repeat>
+		</div>
+	</div>
+</cc:implementation>
+</html>

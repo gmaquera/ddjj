@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-gear icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgCorrelMae']}</span>
+		</div>
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmCorrelMae">
+				<p:dataTable value="#{correlMaeMBean.listaCorrelMae}" var="item"
+					selection="#{correlMaeMBean.correlMae}" selectionMode="single"
+					rowKey="#{item.codCorrel}" paginator="true" paginatorPosition="top"
+					rows="20" emptyMessage="#{msg['msgNoExistenDatos']}"
+					currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+					rowsPerPageTemplate="20,50,100,200">
+					<p:column width="60">
+						<f:facet name="header">
+							<p:commandButton value="#{msg['msgNuevo']}"
+								actionListener="#{correlMaeMBean.nuevo}" immediate="true"
+								update=":pnlDialogos" oncomplete="dlgVarNuevoEditCorrel.show()"
+								icon="ui-icon-document"></p:commandButton>
+						</f:facet>
+						<div class="div-table">
+							<div class="div-row">
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgEditar']}"
+										actionListener="#{correlMaeMBean.editar}"
+										update=":pnlDialogos"
+										oncomplete="dlgVarNuevoEditCorrel.show()"
+										icon="ui-icon-pencil" styleClass="button-icon-edit">
+										<f:setPropertyActionListener
+											target="#{correlMaeMBean.correlMae}" value="#{item}"></f:setPropertyActionListener>
+									</p:commandButton>
+								</div>
+								<div class="div-cell" style="padding-left: 2px;"></div>
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgEliminar']}" immediate="true"
+										oncomplete="dlgVarConfirmar.show()" icon="ui-icon-close"
+										styleClass="button-icon-edit">
+										<f:setPropertyActionListener
+											target="#{correlMaeMBean.correlMae}" value="#{item}"></f:setPropertyActionListener>
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:column>
+					<p:column headerText="#{msg['msgTabla']}" sortBy="#{item.nomTabla}">
+						<h:outputText value="#{item.nomTabla}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgValActual']}">
+						<h:outputText value="#{item.correlativo}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<p:dialog widgetVar="dlgVarNuevoEditCorrel"
+				header="#{correlMaeMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevoEditarCorrel">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<h:outputLabel value="#{msg['msgTabla']}"></h:outputLabel>
+							</div>
+							<div class="div-cell">
+								<p:inputText id="txtNomTabla"
+									value="#{correlMaeMBean.correlMae.nomTabla}" maxlength="100"
+									required="true"
+									requiredMessage="#{msg['errorCampoObligatorio']}"
+									style="width:200px;"></p:inputText>
+							</div>
+							<div class="div-cell">
+								<p:message for="txtNomTabla"></p:message>
+							</div>
+						</div>
+						<div class="div-row">
+							<div class="div-cell">
+								<h:outputLabel value="#{msg['msgValActual']}"></h:outputLabel>
+							</div>
+							<div class="div-cell">
+								<p:spinner id="spnValActual"
+									value="#{correlMaeMBean.correlMae.correlativo}" maxlength="9"
+									required="true"
+									requiredMessage="#{msg['errorCampoObligatorio']}"></p:spinner>
+							</div>
+							<div class="div-cell">
+								<p:message for="spnValActual"></p:message>
+							</div>
+						</div>
+						<div class="div-row">
+							<div class="div-cell"></div>
+							<div class="div-cell">
+								<p:commandButton widgetVar="btnVarGuardar"
+									value="#{msg['msgGuardar']}"
+									actionListener="#{correlMaeMBean.guardar}"
+									update=":frmNuevoEditarCorrel :listaMensajes :frmCorrelMae"
+									onclick="btnVarGuardar.disable()"
+									oncomplete="btnVarGuardar.enable(); dlgVarNuevoEditCorrel.hide()"
+									icon="ui-icon-disk"></p:commandButton>
+								<p:commandButton value="#{msg['msgCancelar']}" type="button"
+									onclick="dlgVarNuevoEditCorrel.hide();" icon="ui-icon-close"></p:commandButton>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			<h:form prependId="false">
+				<p:confirmDialog widgetVar="dlgVarConfirmar"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{correlMaeMBean.eliminar}"
+						update=":frmCorrelMae :listaMensajes"
+						oncomplete="dlgVarConfirmar.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmar.hide()" type="button" />
+				</p:confirmDialog>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

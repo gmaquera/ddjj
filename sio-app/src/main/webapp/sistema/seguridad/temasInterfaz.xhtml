@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-gear icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgTemas']}</span>
+		</div>
+		<div class="ui-widget-header contenido-menu"
+			style="padding-top: 4px; padding-left: 4px; border: none;">
+			<h:form id="frmMenuTemas">
+				<p:commandButton widgetVar="btnVarGuardarTema"
+					value="#{msg['msgGuardar']}"
+					actionListener="#{temaMBean.guardarTema}" update=":listaMensajes"
+					onclick="btnVarGuardarTema.disable()"
+					oncomplete="btnVarGuardarTema.enable()" icon="ui-icon-disk"></p:commandButton>
+			</h:form>
+		</div>
+		<div class="contenido-area-con-menu" style="padding: 1px;">
+			<h:form id="frmTemas">
+				<p:dataGrid value="#{temaMBean.listaTemas}" var="item" columns="6"
+					styleClass="temas-imagenes">
+					<div class="div-table" style="text-align: center;">
+						<div class="div-row">
+							<div class="div-cell">#{item.descripcion}</div>
+						</div>
+						<div class="div-row">
+							<div class="div-cell">
+								<p:commandLink actionListener="#{temaMBean.cambiarTema}"
+									ajax="false">
+									<f:param name="paramTema" value="#{item.codTema}"></f:param>
+									<p:graphicImage library="images/temas"
+										name="#{item.codTema}.png" width="80" height="70"></p:graphicImage>
+								</p:commandLink>
+							</div>
+						</div>
+					</div>
+				</p:dataGrid>
+			</h:form>
+		</div>
+		<h:outputStylesheet library="css/seguridad" name="temasinterfaz.css" />
+	</ui:define>
+</ui:composition>
+</html>

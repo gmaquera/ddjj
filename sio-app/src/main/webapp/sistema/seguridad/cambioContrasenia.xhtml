@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgCambiarContrasenia']}</span>
+		</div>
+		<div class="contenido-area-total">
+			<h:form id="frmCambiarContrasenia" style="padding: 10px;">
+				<div class="div-table" style="border-spacing: 5px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<h:outputLabel for="txtContraseActual"
+								value="#{msg['msgContraseActual']} : "></h:outputLabel>
+						</div>
+						<div class="div-cell">
+							<p:password id="txtContraseActual"
+								value="#{cambioContraseMBean.contraseActual}" required="true"
+								requiredMessage="#{msg['errorCampoObligatorio']}"
+								style="width: 200px;"></p:password>
+						</div>
+						<div class="div-cell">
+							<p:message for="txtContraseActual"></p:message>
+						</div>
+					</div>
+					<div class="div-row">
+						<div class="div-cell">
+							<h:outputLabel for="txtContraseNueva"
+								value="#{msg['msgcontraseNueva']} : "></h:outputLabel>
+						</div>
+						<div class="div-cell">
+							<p:password id="txtContraseNueva"
+								value="#{cambioContraseMBean.contraseNueva}"
+								match="txtConfirmContraseNueva" required="true"
+								requiredMessage="#{msg['errorCampoObligatorio']}"
+								validatorMessage="#{msg['errorPassNoEquivalentes']}"
+								style="width: 200px;"></p:password>
+						</div>
+						<div class="div-cell">
+							<p:message for="txtContraseNueva"></p:message>
+						</div>
+					</div>
+					<div class="div-row">
+						<div class="div-cell">
+							<h:outputLabel for="txtConfirmContraseNueva"
+								value="#{msg['msgConfirmContraseNueva']} : "></h:outputLabel>
+						</div>
+						<div class="div-cell">
+							<p:password id="txtConfirmContraseNueva"
+								value="#{cambioContraseMBean.contraseNueva}" required="true"
+								requiredMessage="#{msg['errorCampoObligatorio']}"
+								style="width: 200px;"></p:password>
+						</div>
+						<div class="div-cell">
+							<p:message for="txtConfirmContraseNueva"></p:message>
+						</div>
+					</div>
+					<div class="div-row">
+						<div class="div-cell"></div>
+						<div class="div-cell" style="padding-top: 10px;">
+							<p:commandButton value="#{msg['msgGuardar']}"
+								actionListener="#{cambioContraseMBean.guardarCambio}"
+								update="@form :listaMensajes" icon="ui-icon-disk"></p:commandButton>
+						</div>
+						<div class="div-cell"></div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

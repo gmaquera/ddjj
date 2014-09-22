@@ -1,0 +1,350 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.auditoria.enums.TipoBusqueda" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-gear icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgAuditGeneral']}</span>
+		</div>
+		<div
+			style="position: absolute; top: 28px; right: 0px; bottom: 0px; left: 10px; height: 98px;">
+			<h:form id="frmOpcBusqueda">
+				<h:panelGroup id="pnlOpcBusqueda">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table">
+									<div class="div-row">
+										<div class="div-cell" style="width: 100px;">
+											<h:outputLabel value="#{msg.msgLimiteTiempo}: *"></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<div class="div-table">
+												<div class="div-row">
+													<div class="div-cell">
+														#{msg.msgInicio}:
+														<p:calendar value="#{auditoriaGeneralMBean.fechaInicio}"
+															pattern="#{aplicacionMBean.formatoFecha}" required="true"></p:calendar>
+													</div>
+													<div class="div-cell">
+														#{msg.msgFin}:
+														<p:calendar value="#{auditoriaGeneralMBean.fechaFin}"
+															pattern="#{aplicacionMBean.formatoFecha}" required="true"></p:calendar>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">#{msg.msgTabla}:</div>
+										<div class="div-cell">
+											<div class="div-table">
+												<div class="div-row">
+													<div class="div-cell">
+														<p:inputText id="txtNomTabla"
+															value="#{auditoriaGeneralMBean.nomTabla}" disabled="true"
+															size="12"></p:inputText>
+													</div>
+													<div class="div-cell">
+														<p:inputText id="txtDesTabla"
+															value="#{auditoriaGeneralMBean.desTabla}" disabled="true"
+															style="width:228px;"></p:inputText>
+													</div>
+													<div class="div-cell">
+														<p:commandButton id="btnMostrarTablas"
+															widgetVar="btnVarMostrarTablas" value="..." type="button"
+															icon="ui-icon-search"></p:commandButton>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">#{msg.msgUsuarios}:</div>
+										<div class="div-cell">
+											<div class="div-table">
+												<div class="div-row">
+													<div class="div-cell">
+														<p:inputText id="txtDesUsuario"
+															value="#{auditoriaGeneralMBean.desUsuario}"
+															disabled="true" size="60"></p:inputText>
+													</div>
+													<div class="div-cell">
+														<p:commandButton id="btnMostrarUsuarios"
+															widgetVar="btnVarMostrarUsuarios" value="..."
+															type="button" icon="ui-icon-search"></p:commandButton>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="div-cell" style="padding-left: 30px;">
+								<div class="div-table">
+									<div class="div-row">
+										<div class="div-cell">
+											<p:commandButton value="#{msg.msgMostrarOperaciones}"
+												action="#{auditoriaGeneralMBean.buscarEntreFechas}"
+												update="pnlOpcBusqueda :frmAuditoria"
+												style="width: 110px; height: 40px;"></p:commandButton>
+										</div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">
+											<p:commandButton value="#{msg.msgNuevo}"
+												action="#{auditoriaGeneralMBean.nuevaBusqueda}"
+												update="pnlOpcBusqueda" style="width: 110px; height: 40px;"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+				<p:overlayPanel id="ovrPanelTablas" for="btnMostrarTablas">
+					<p:dataTable value="#{auditoriaGeneralMBean.lisTablas}" var="tbl"
+						paginator="true" rows="10" paginatorPosition="bottom">
+						<p:column>
+							<p:commandButton title="#{msg.msgSeleccionar}"
+								actionListener="#{auditoriaGeneralMBean.seleccionarTabla}"
+								update=":frmOpcBusqueda:txtNomTabla :frmOpcBusqueda:txtDesTabla"
+								oncomplete="btnVarMostrarTablas.jq.click()"
+								icon="ui-icon-arrowthick-1-w" styleClass="button-icon-edit"></p:commandButton>
+						</p:column>
+						<p:column headerText="#{msg.msgTabla}" filterBy="#{tbl.nomTabla}">
+							<h:outputText value="#{tbl.nomTabla}"></h:outputText>
+						</p:column>
+						<p:column headerText="#{msg.msgDescripcion}"
+							filterBy="#{tbl.descripcion}">
+							<h:outputText value="#{tbl.descripcion}"></h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:overlayPanel>
+				<p:overlayPanel id="ovrPanelUsuarios" for="btnMostrarUsuarios">
+					<p:dataTable value="#{auditoriaGeneralMBean.lazyDataUsuarios}"
+						var="usu" lazy="true" rowKey="#{item.codUsuario}" paginator="true"
+						rows="10" paginatorPosition="bottom"
+						emptyMessage="#{msg['msgNoExistenDatos']}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+						pageLinks="5">
+						<p:column>
+							<p:commandButton title="#{msg.msgSeleccionar}"
+								actionListener="#{auditoriaGeneralMBean.seleccionarUsuario}"
+								update=":frmOpcBusqueda:txtDesUsuario"
+								oncomplete="btnVarMostrarUsuarios.jq.click()"
+								icon="ui-icon-arrowthick-1-w" styleClass="button-icon-edit"></p:commandButton>
+						</p:column>
+						<p:column headerText="#{msg['msgApellidos']}"
+							filterBy="#{usu.petpernatu.apellido}">
+							<h:outputText value="#{usu.petpernatu.apellido}"></h:outputText>
+						</p:column>
+						<p:column headerText="#{msg['msgNombres']}"
+							filterBy="#{usu.petpernatu.nombre}">
+							<h:outputText value="#{usu.petpernatu.nombre}"></h:outputText>
+						</p:column>
+					</p:dataTable>
+				</p:overlayPanel>
+			</h:form>
+		</div>
+		<div
+			style="position: absolute; top: 130px; right: 0px; bottom: 0px; left: 0px; overflow: auto;">
+			<h:form id="frmAuditoria" style="padding: 1px;">
+				<h:panelGroup
+					rendered="#{auditoriaGeneralMBean.tipoBusqueda==TipoBusqueda.FECHAS}">
+					<p:dataTable value="#{auditoriaGeneralMBean.lazyDataAuditoria}"
+						var="item" lazy="true" rowKey="#{item.codTraza}" paginator="true"
+						rows="20" emptyMessage="#{msg['msgNoExistenDatos']}"
+						currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+						rowsPerPageTemplate="20,30,40,50,100">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgFecha}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.fecha}">
+								<f:convertDateTime
+									pattern="#{aplicacionMBean.formatoFechaTiempo}"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgTabla}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.nomTabla}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgOperacion}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.desOperacion}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgUsuario}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.usuario}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgPrimaryKey}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.clavePrimaria}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgDetalle}"></h:outputText>
+							</f:facet>
+							<div class="div-table">
+								<div class="div-row">
+									<ui:repeat value="#{item.cabecera}" var="col">
+										<div class="div-cell ui-widget-content ui-widget-header"
+											style="padding-right: 10px; padding-left: 5px">
+											<h:outputText value="#{col}"></h:outputText>
+										</div>
+									</ui:repeat>
+								</div>
+								<div class="div-row">
+									<ui:repeat value="#{item.detalle}" var="d">
+										<div class="div-cell ui-widget-content"
+											style="padding-right: 10px; padding-left: 5px">
+											<h:outputText value="#{d}"></h:outputText>
+										</div>
+									</ui:repeat>
+								</div>
+							</div>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{(auditoriaGeneralMBean.tipoBusqueda==TipoBusqueda.FECHAS_TABLA) or (auditoriaGeneralMBean.tipoBusqueda==TipoBusqueda.FECHAS_TABLA_USUARIO)}">
+					<h:panelGroup id="pnlAuditFechasTabla">
+						<div class="ui-datatable ui-widget">
+							<div
+								class="ui-paginator ui-paginator-top ui-widget-header ui-corner-top">
+								<p:commandButton action="#{auditoriaGeneralMBean.paginaInicial}"
+									update="pnlAuditFechasTabla" icon="ui-icon-seek-first"
+									style="width: 3.2em;"></p:commandButton>
+								<p:commandButton
+									action="#{auditoriaGeneralMBean.paginaAnterior}"
+									update="pnlAuditFechasTabla" icon="ui-icon-seek-prev"
+									style="width: 3.2em;"></p:commandButton>
+								<span class="ui-paginator-current">[ #{msg['msgTotal']}
+									#{auditoriaGeneralMBean.rowCount} - #{msg['msgPagina']}:
+									#{auditoriaGeneralMBean.page}/#{auditoriaGeneralMBean.pageCount}
+									]</span>
+								<p:commandButton
+									action="#{auditoriaGeneralMBean.paginaSiguiente}"
+									update="pnlAuditFechasTabla" icon="ui-icon-seek-next"
+									style="width: 3.2em;"></p:commandButton>
+								<p:commandButton action="#{auditoriaGeneralMBean.paginaFinal}"
+									update="pnlAuditFechasTabla" icon="ui-icon-seek-end"
+									style="width: 3.2em;"></p:commandButton>
+							</div>
+							<div class="ui-datatable-tablewrapper">
+								<table>
+									<thead>
+										<tr>
+											<ui:repeat value="#{auditoriaGeneralMBean.columnas}"
+												var="col">
+												<th class="ui-state-default">#{col}</th>
+											</ui:repeat>
+										</tr>
+									</thead>
+									<tbody class="ui-datatable-data ui-widget-content">
+										<ui:repeat
+											value="#{auditoriaGeneralMBean.lazyDataAuditoriaTabla}"
+											var="item">
+											<tr class="ui-widget-content ui-datatable-odd">
+												<td>#{item.fecha}</td>
+												<td>#{item.usuario}</td>
+												<td>#{item.desOperacion}</td>
+												<td>#{item.clavePrimaria}</td>
+												<ui:repeat value="#{item.datos}" var="d">
+													<td colspan="#{item.colspan}">#{d}</td>
+												</ui:repeat>
+											</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup
+					rendered="#{auditoriaGeneralMBean.tipoBusqueda==TipoBusqueda.FECHAS_USUARIO}">
+					<p:dataTable
+						value="#{auditoriaGeneralMBean.lazyDataAuditoriaUsuario}"
+						var="item" lazy="true" rowKey="#{item.codTraza}" paginator="true"
+						rows="20" emptyMessage="#{msg['msgNoExistenDatos']}"
+						currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+						rowsPerPageTemplate="20,30,40,50,100">
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgFecha}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.fecha}">
+								<f:convertDateTime
+									pattern="#{aplicacionMBean.formatoFechaTiempo}"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgTabla}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.nomTabla}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgOperacion}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.desOperacion}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgUsuario}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.usuario}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgPrimaryKey}"></h:outputText>
+							</f:facet>
+							<h:outputText value="#{item.clavePrimaria}"></h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{msg.msgDetalle}"></h:outputText>
+							</f:facet>
+							<div class="div-table">
+								<div class="div-row">
+									<ui:repeat value="#{item.cabecera}" var="col">
+										<div class="div-cell ui-widget-content ui-widget-header"
+											style="padding-right: 10px; padding-left: 5px">
+											<h:outputText value="#{col}"></h:outputText>
+										</div>
+									</ui:repeat>
+								</div>
+								<div class="div-row">
+									<ui:repeat value="#{item.detalle}" var="d">
+										<div class="div-cell ui-widget-content"
+											style="padding-right: 10px; padding-left: 5px">
+											<h:outputText value="#{d}"></h:outputText>
+										</div>
+									</ui:repeat>
+								</div>
+							</div>
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

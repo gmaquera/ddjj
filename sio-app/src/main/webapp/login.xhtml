@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html">
+	<pe:head title="#{msg['msgTituloSistema']}"
+		shortcutIcon="#{request.contextPath}/resources/images/ocma.ico">
+		<f:facet name="first">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="pragma" content="no-cache" />
+			<meta http-equiv="cache-control" content="no-cache" />
+			<meta http-equiv="expires" content="0" />
+			<h:outputStylesheet library="css" name="login.css" />
+		</f:facet>
+		<script type="text/javascript">
+			$(function() {
+				$('#j_username').val('USUARIO');
+				$('#j_username').addClass('default-text-username');
+				$('#j_password').val('........');
+				$('#j_password').addClass('default-text-password');
+			});
+
+			function focusUserName() {
+				var un = $('#j_username').val();
+				if (un.length > 0) {
+					if(un == 'USUARIO') {
+						$('#j_username').val('');
+						$('#j_username').removeClass('default-text-username');	
+					}
+				}
+			}
+
+			function focusPassword() {
+				var ps = $('#j_password').val();
+				if (ps.length > 0) {
+					if(ps == '........') {
+						$('#j_password').val('');
+						$('#j_password').removeClass('default-text-password');
+					}
+				}
+			}
+			
+			function blurUserName() {
+				var un = $('#j_username').val();
+				if (un.length == 0) {
+					$('#j_username').val('USUARIO');
+					$('#j_username').addClass('default-text-username');
+				}
+			}
+			
+			function blurPassword() {
+				var ps = $('#j_password').val();
+				if (ps.length == 0) {
+					$('#j_password').val('........');
+					$('#j_password').addClass('default-text-password');
+				}
+			}
+		</script>
+	</pe:head>
+	<h:body>
+		<h:form prependId="false">
+			<div class="logo-sistema" />
+			<div class="logo-ocma" />
+			<div class="div-login ui-corner-all">
+				<div class="div-table" style="border-spacing: 0px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<div class="div-table">
+								<div class="div-row">
+									<div class="div-cell derecha cell-input-username">
+										<h:inputText id="j_username" title="#{msg['msgUsuario']}"
+											maxlength="20" autocomplete="off" required="true"
+											requiredMessage="#{msg['errorUsuarioNulo']}"
+											onfocus="focusUserName()" onblur="blurUserName()"
+											styleClass="input-username" />
+									</div>
+								</div>
+								<div class="div-row">
+									<div class="div-cell derecha cell-input-password">
+										<h:inputSecret id="j_password"
+											title="#{msg['msgContrasenia']}" maxlength="16"
+											required="true"
+											requiredMessage="#{msg['errorConstraseniaNulo']}"
+											onfocus="focusPassword()" onblur="blurPassword()" 
+											styleClass="input-password"></h:inputSecret>
+									</div>
+								</div>
+							</div>
+							<h:panelGroup rendered="#{captchaMBean.contador > '7'}">
+								<div class="div-table" style="width: 100%; text-align: center;">
+									<div class="div-row">
+										<div class="div-cell">
+											<img src="jcaptcha.jpg" alt="captcha" width="240" height="70"
+												style="border: 1px solid #ccc;" />
+										</div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel value="Ingrese caracteres: "></h:outputLabel>
+											<p:inputText id="jcaptcha" required="true"
+												style="width: 122px;"></p:inputText>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+							<div class="div-table" style="width: 100%;">
+								<div class="div-row">
+									<div class="div-cell" style="text-align: center;">
+										<p:commandButton value="#{msg.msgIniciarSesion}"
+											action="#{loginMBean.hacerLogin}" ajax="false"
+											styleClass="boton-entrar" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="div-table-base" style="width: 100%;">
+					<div class="div-row">
+						<div class="div-cell">
+							<h:messages id="msgLogin" showDetail="true" showSummary="false"
+								style="color:#d10000;"></h:messages>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

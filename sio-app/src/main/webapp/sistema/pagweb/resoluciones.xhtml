@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-gear icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgTprensaRes']}</span>
+		</div>
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmlistres">
+				<p:dataTable value="#{controllerResoluciones.tabResList}" var="item"
+					selection="#{controllerResoluciones.selecres}"
+					selectionMode="single" rowKey="#{item.idNoticia}" paginator="true"
+					paginatorPosition="top" lazy="true" rows="20"
+					emptyMessage="#{msg['msgNoExistenDatos']}"
+					currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+					rowsPerPageTemplate="20,50,100,200">
+					<p:column width="60">
+						<f:facet name="header">
+							<p:commandButton value="#{msg['msgNuevo']}"
+								actionListener="#{controllerResoluciones.nuevo}"
+								immediate="true" update=":pnlDialogos"
+								oncomplete="dlgVarNuevoEditRes.show()" icon="ui-icon-document"></p:commandButton>
+						</f:facet>
+						<div class="div-table">
+							<div class="div-row">
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgEditar']}"
+										action="#{controllerResoluciones.editar}"
+										update=":pnlDialogos" oncomplete="dlgVarNuevoEditRes.show()"
+										icon="ui-icon-pencil" value="Editar"
+										styleClass="button-text-icon-edit">
+										<f:setPropertyActionListener
+											target="#{controllerResoluciones.selecres}" value="#{item}"></f:setPropertyActionListener>
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:column>
+					<p:column headerText="#{msg['msgNResolucion']}"
+						filterBy="#{item.titularNoticia}" width="120"
+						filterStyle="width: 300px;">
+						<h:outputText value="#{item.titularNoticia}" escape="false">
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgTipoRes']}"
+						sortBy="#{item.desTipNot.desTipo}">
+						<h:outputText value="#{item.desTipNot.desTipo}" escape="false">
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgFechaRes']}"
+						sortBy="#{item.fechaNoticia}">
+						<h:outputText value="#{item.fechaNoticia}">
+							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgEstado']}"
+						sortBy="#{item.desEstado.descrip}">
+						<h:outputText value="#{item.desEstado.descrip}"></h:outputText>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<p:dialog widgetVar="dlgVarNuevoEditRes"
+				header="#{controllerResoluciones.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+
+				<h:form id="frmNuevoEditarRes" enctype="multipart/form-data">
+					<p:panelGrid columns="2" style="margin-left:7px;">
+						<f:facet name="header">
+							<h:outputText value="Ingreso de Resoluciones"></h:outputText>
+						</f:facet>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="listTipExp" value="Tipo de Expediente: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:selectOneMenu id="listTipExp"
+									value="#{controllerResoluciones.selectedtipres}">
+									<f:selectItems value="#{controllerResoluciones.reslist}"
+										var="item" itemValue="#{item.idTipo}"
+										itemLabel="#{item.desTipo}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtexpe" value="Expediente Completo: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:inputText style="width: 250px;" id="txtexpe" required="true"
+									requiredMessage="Ingrese el Expediente"
+									value="#{controllerResoluciones.selecres.titularNoticia}"
+									label="Expediente"
+									 />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtsumilla" value="Resumen: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:editor id="txtsumilla"
+									value="#{controllerResoluciones.selecres.contenidoNoticia}"
+									width="500" />
+
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="uploadres" value="Subir Archivo: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:fileUpload id="uploadres" label="#{msg['msgAbrir']}"
+									uploadLabel="#{msg['msgSubirArchivo']}"
+									cancelLabel="#{msg['msgCancelar']}"
+									allowTypes="/(\.|\/)(pdf)$/" multiple="false" mode="advanced"
+									sizeLimit="65000000"
+									fileUploadListener="#{controllerResoluciones.filepdf}"
+									update="btnGuardar :listaMensajes" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtfec_res" value="Fecha Resolucion: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:calendar id="txtfec_res"
+									value="#{controllerResoluciones.fecres}"
+									requiredMessage="Ingrese Fecha de Resolucion"
+									pattern="#{aplicacionMBean.formatoFecha}" required="true"></p:calendar>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="listEstado" value="Estado: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:selectOneMenu id="listEstado"
+									value="#{controllerResoluciones.selectedestado}">
+									<f:selectItems value="#{controllerResoluciones.estlist}"
+										var="item" itemValue="#{item.codEst}"
+										itemLabel="#{item.descrip}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardar" widgetVar="btnVarGuardar"
+								value="#{msg['msgGuardar']}"
+								disabled="#{!controllerResoluciones.cargadoCorrecto}"
+								action="#{controllerResoluciones.guardar}"
+								update=":frmNuevoEditarRes :listaMensajes :frmlistres"
+								onclick="btnVarGuardar.disable()" icon="ui-icon-disk"				 				 								
+								
+								>								
+							</p:commandButton>
+							
+							<p:commandButton value="#{msg['msgCancelar']}" type="button"
+								onclick="dlgVarNuevoEditRes.hide();" icon="ui-icon-close"></p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

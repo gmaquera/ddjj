@@ -1,0 +1,363 @@
+@CHARSET "UTF-8";
+
+body>.ui-layout-north {
+	padding: 0px;
+	border: none;
+	border-radius: 0px;
+	z-index: 100 !important;
+	overflow: visible;
+}
+
+body>.ui-layout-north .ui-layout-unit-content {
+	overflow: visible;
+	background: #fff;
+	background-color: #fff;
+}
+
+body>.ui-layout-south {
+	padding: 0px;
+	overflow: hidden;
+	border-radius: 0px;
+	background: #fff;
+	background-color: #fff;
+}
+
+body>.ui-layout-west {
+	padding: 0px;
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+body>div>.ui-layout-unit-header {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+body>.ui-layout-west .ui-layout-unit-content {
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+body>.ui-layout-center {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 6px;
+	border-top-left-radius: 6px;
+}
+
+body>.ui-layout-center .ui-layout-unit-content {
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 6px;
+	border-top-left-radius: 6px;
+}
+
+.ui-growl {
+	top: 10px;
+	left: 40%;
+}
+
+.logo-ocma {
+	position: absolute;
+	top: 2px;
+	left: 14px;
+}
+
+.sistema-status {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1002;
+}
+
+.boton-cambiar-ofi {
+	position: absolute;
+	top: 0px;
+	left: 70px;
+	border-radius: 0px;
+	width: 100px;
+	border: none !important;
+	text-align: left;
+}
+
+.boton-cambiar-ofi span {
+	padding: 0px !important;
+}
+
+.titulo-ofi-descentralizada {
+	position: absolute;
+	top: 20px;
+	left: 70px;
+	color: #323232;
+	font-size: 12px;
+	font-weight: 800;
+}
+
+.menu-usuario {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: auto;
+	height: 34px;
+}
+
+.ui-tree {
+	width: 100%;
+	min-width: 200px;
+	border: none;
+}
+
+.contenido-cabecera {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	height: 26px;
+}
+
+.contenido-cabecera .icono-contenido {
+	position: absolute;
+	top: 4px;
+	left: 4px;
+}
+
+.contenido-cabecera .titulo-contenido {
+	position: absolute;
+	padding-left: 24px;
+	padding-top: 5px;
+}
+
+.contenido-area-total {
+	position: absolute;
+	top: 28px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	overflow: auto;
+	/*width: 1280px; tamaño para el marco principal*/
+}
+
+.contenido-menu {
+	position: absolute;
+	top: 28px;
+	right: 0px;
+	left: 0px;
+	height: 34px;
+	overflow: hidden;
+}
+
+.contenido-area-con-menu {
+	position: absolute;
+	top: 64px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	overflow: auto;
+}
+
+.coldj1 {
+	width: 180px;
+	height: auto;
+	text-align: right
+}
+
+.coldj2 {
+	width: 80px;
+	height: auto
+}
+
+.coldj3 {
+	width: 80px;
+	height: auto;
+	text-align: right
+}
+
+.coldj4 {
+	width: 80px;
+	height: auto;
+	text-align: right
+}
+
+.coldj5 {
+	width: 80px;
+	height: auto
+}
+
+.coldj6 {
+	width: 80px;
+	height: auto;
+	text-align: right
+}
+
+.coldjest1 {
+	width: 200px;
+	height: auto;
+	text-align: right
+}
+
+.coldjest2 {
+	width: 400px;
+	height: auto;
+	text-align: left
+}
+
+.column1 {
+	width: 85px;
+	height: 20px;
+	text-align: right
+}
+
+.column2 {
+	width: 100px;
+	height: auto
+}
+
+.column3 {
+	width: 55px;
+	height: auto;
+	text-align: right
+}
+
+.column4 {
+	width: 100px;
+	height: auto
+}
+
+
+
+.presentada {
+	background: #FFFFFF;
+	color: #000;
+}
+
+.enConstruccion {
+	background: #82C6E2;
+	color: #000;
+}
+
+.porVerificar {
+	/*background: #F4ED7C; */
+	background: #F4B27B;
+	color: #000;
+}
+
+.porPresentar {
+	background: #B5E8BF;
+	color: #000;
+}
+
+.observada {
+	background: #F9827F;
+	color: #000;
+}
+
+.noCorresponde {
+	background: #FFFFE5;
+	color: #000;
+}
+
+td.rightCol {
+	text-align: right;
+}
+
+td.centerCol {
+	text-align: center;
+}
+
+myFieldset .ui-fieldset, .ui-fieldset .ui-fieldset-legend{
+background: none;
+padding: 0.1em 0.1em 0.1em 0.1em;
+border:none;
+/*background-color: transparent;
+border-color: transparent;*/
+}
+
+.fieldset{
+width :1080px;
+/*padding : 0;
+margin : 0;
+display : inline-block;*/
+}
+
+myPanelGrid{
+background: none;
+padding: 0.1em 0.1em 0.1em 0.1em;
+border-style: dotted;
+/*background-color: transparent;
+border-color: transparent;*/
+}
+
+.ui-datatable.tablaFixed table {
+	table-layout: fixed !important;
+}
+
+.text-total {
+	border:solid 1px #e0e0e0;
+}
+
+
+
+/*
+.contenido-sin-filtro {
+    position: absolute;
+    top: 66px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    overflow: auto;
+    padding: 1px;
+}
+*/
+/*
+.ui-filter-page {
+    position: absolute;
+    top: 64px;
+    right: 0px;
+    left: 0px;
+    height: 88px;
+    overflow: hidden;
+    padding: 1px;
+}
+
+.ui-content-page-with-filter {
+    position: absolute;
+    top: 153px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    overflow: auto;
+    padding: 1px;
+}
+
+.ui-ovadel-content-only {
+    position: absolute;
+    top: 28px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: auto;
+    padding: 1px;
+}
+
+.ui-loading {
+    display: table;
+    width: 150px;
+}
+
+.ui-loading-row {
+    display: table-row;
+    clear: both;
+}
+
+.ui-loading-col {
+    display: table-cell;
+}*/

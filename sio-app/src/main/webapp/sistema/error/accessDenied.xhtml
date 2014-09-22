@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html">
+	<pe:head title="#{msg['msgTituloSistema']}"
+		shortcutIcon="#{request.contextPath}/resources/images/ocma.ico">
+		<f:facet name="first">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="pragma" content="no-cache" />
+			<meta http-equiv="cache-control" content="no-cache" />
+			<meta http-equiv="expires" content="0" />
+		</f:facet>
+	</pe:head>
+	<h:body>
+		<h:form prependId="false">
+			<div class="div-centrado ui-corner-all">
+				<div class="div-centrado-header ui-corner-all">
+					<span class="ui-icon header-key" /> <span class="titulo">Acceso
+						Denegado</span>
+				</div>
+				<span class="titulo-detalle">Detalle</span>
+				<ul class="detalle">
+					<li>Usuario no tiene roles o.</li>
+					<li>Rol no tiene permiso a la página.</li>
+				</ul>
+				<a href="#{request.contextPath}/login.xhtml" class="boton-salir"><span>Salir</span></a>
+			</div>
+		</h:form>
+		<h:outputStylesheet library="css" name="error.css" />
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,158 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgGruposUsuarios']}</span>
+		</div>
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmGrupos">
+				<p:dataTable value="#{grupoMBean.lisGrupos}" var="item"
+					selection="#{grupoMBean.grupo}" selectionMode="single"
+					rowKey="#{item.codGrupo}" paginator="true" rows="20"
+					emptyMessage="#{msg['msgNoExistenDatos']}"
+					currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+					rowsPerPageTemplate="20,50,100,200">
+					<p:column width="60">
+						<f:facet name="header">
+							<p:commandButton value="#{msg['msgNuevo']}"
+								actionListener="#{grupoMBean.nuevoGrupo}" update=":pnlDialogos"
+								oncomplete="dlgVarNuevoGrupo.show()" icon="ui-icon-document"></p:commandButton>
+						</f:facet>
+						<div class="div-table">
+							<div class="div-row">
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgEditar']}"
+										action="#{grupoMBean.editarGrupo}" update=":pnlDialogos"
+										oncomplete="dlgVarNuevoGrupo.show()" icon="ui-icon-pencil"
+										styleClass="button-icon-edit">
+										<f:setPropertyActionListener target="#{grupoMBean.grupo}"
+											value="#{item}"></f:setPropertyActionListener>
+									</p:commandButton>
+								</div>
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgEliminar']}"
+										oncomplete="dlgVarConfirmar.show()" immediate="true"
+										icon="ui-icon-close" styleClass="button-icon-edit">
+										<f:setPropertyActionListener target="#{grupoMBean.grupo}"
+											value="#{item}"></f:setPropertyActionListener>
+									</p:commandButton>
+								</div>
+								<div class="div-cell" style="width: 16px; text-align: center;">
+									<p:commandButton title="#{msg['msgPermisosGrupo']}"
+										actionListener="#{grupoMBean.irAPermisos}" immediate="true"
+										icon="ui-icon-key" styleClass="button-icon-edit">
+									</p:commandButton>
+								</div>
+							</div>
+						</div>
+					</p:column>
+					<p:column headerText="#{msg['msgGrupo']}">
+						<h:outputText
+							value="#{item.setaplica.descripcion} / #{item.desCorta}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgHabilitado']}" width="100">
+						<h:selectBooleanCheckbox value="#{item.habilitado}"
+							disabled="true"></h:selectBooleanCheckbox>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<p:dialog widgetVar="dlgVarNuevoGrupo"
+				header="#{grupoMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevoGrupo">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell" style="text-align: center;">
+								<p:outputLabel value="#{msg['msgAplicacion']}:" for="selAplica"></p:outputLabel>
+								<p:selectOneListbox id="selAplica"
+									value="#{grupoMBean.selectedAplicacion}" required="true"
+									requiredMessage="#{msg['errorCampoObligatorio']}"
+									style="height: 200px; text-align: left;">
+									<f:selectItems value="#{grupoMBean.lisAplicaciones}" var="item"
+										itemValue="#{item.codAplica}" itemLabel="#{item.descripcion}"></f:selectItems>
+								</p:selectOneListbox>
+							</div>
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+									<div class="div-row">
+										<div class="div-cell">
+											<p:outputLabel for="txtNomGrupo"
+												value="#{msg['msgNombre']}: "></p:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputText id="txtNomGrupo" required="true"
+												value="#{grupoMBean.grupo.desCorta}"
+												requiredMessage="#{msg['errorCampoObligatorio']}"
+												style="width: 200px;"></p:inputText>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesGrupo"
+												value="#{msg['msgDescripcion']}: "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesGrupo"
+												value="#{grupoMBean.grupo.descripcion}"
+												style="width: 300px;"></p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtHabGrupo"
+												value="#{msg['msgHabilitado']}: "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectBooleanCheckbox id="txtHabGrupo"
+												value="#{grupoMBean.grupo.habilitado}"></p:selectBooleanCheckbox>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div class="div-cell">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{grupoMBean.guardar}"
+												update="@form :frmGrupos :listaMensajes"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoGrupo)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoGrupo.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			<h:form prependId="false">
+				<p:confirmDialog widgetVar="dlgVarConfirmar"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{grupoMBean.eliminar}"
+						update=":frmGrupos :listaMensajes"
+						oncomplete="dlgVarConfirmar.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmar.hide()" type="button" />
+				</p:confirmDialog>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

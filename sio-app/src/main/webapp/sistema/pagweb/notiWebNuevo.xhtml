@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="head">
+		<style type="text/css">
+.subirFotos {
+	
+}
+
+.subirFotos .fileupload-content {
+	max-height: 150px;
+	overflow: auto;
+}
+</style>
+	</ui:define>
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-gear icono-contenido"></span> <span
+				class="titulo-contenido">#{noticiasManteMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}</span>
+		</div>
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmNuevoEditarNot" enctype="multipart/form-data">
+					<p:panelGrid columns="2" style="margin-left:7px;">
+						<f:facet name="header">
+							<h:outputText value="Ingreso de Noticias"></h:outputText>
+						</f:facet>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="listTipExp" value="Tipo de Noticia: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:selectOneMenu id="listTipNot"
+									value="#{noticiasManteMBean.selectedTipRes}">
+									<f:selectItems value="#{noticiasManteMBean.tipRes}"
+										var="item" itemValue="#{item.idTipo}"
+										itemLabel="#{item.desTipo}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtexpe" value="Titulo de Portada Web: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:inputText style="width: 350px;" id="txttit" required="true"
+									requiredMessage="Ingrese el Expediente"
+									value="#{noticiasManteMBean.selecTabNotList.titularNoticia}"
+									label="Expediente"
+									 />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txttitnot" value="Titulo de Noticia: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:editor id="txttitnot"
+									value="#{noticiasManteMBean.selecTabNotList.resumenNoticia}"
+									width="600" height="200" />
+
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtcuernot" value="Contenido de la Noticia: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:editor id="txtcuernot"
+									value="#{noticiasManteMBean.selecTabNotList.contenidoNoticia}"
+									width="600" height="400"  />
+							</p:column>
+						</p:row>
+						<p:row rendered="#{noticiasManteMBean.accion==Accion.NUEVO}">
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="uploadfotos" value="Subir Fotos: *" />
+							</p:column>
+						</p:row>
+						<p:row rendered="#{noticiasManteMBean.accion==Accion.NUEVO}">
+							<p:column style="font-weight: bold;">
+								<p:fileUpload id="uploadfotos" label="#{msg['msgAbrir']}"
+									uploadLabel="#{msg['msgSubirArchivo']}"
+									cancelLabel="#{msg['msgCancelar']}"
+									allowTypes="/(\.|\/)(jpg)$/" multiple="true" mode="advanced"
+									sizeLimit="1000000" styleClass="subirFotos"
+									fileUploadListener="#{noticiasManteMBean.filefoto}"
+									update="btnGuardar :listaMensajes" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="txtfec_not" value="Fecha Noticia: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:calendar id="txtfec_not"
+									value="#{noticiasManteMBean.fecNot}"
+									requiredMessage="Ingrese Fecha de la Noticia"
+									pattern="#{aplicacionMBean.formatoFecha}" required="true"></p:calendar>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<h:outputLabel for="listEstado" value="Estado: *" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="font-weight: bold;">
+								<p:selectOneMenu id="listEstado"
+									value="#{noticiasManteMBean.selectedListEstado}">
+									<f:selectItems value="#{noticiasManteMBean.listEstado}"
+										var="item" itemValue="#{item.codEst}"
+										itemLabel="#{item.descrip}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+						<f:facet name="footer">
+							<p:commandButton id="btnGuardar" widgetVar="btnVarGuardar"
+								value="#{msg['msgGuardar']}"
+								disabled="#{!noticiasManteMBean.cargadoCorrecto}"
+								action="#{noticiasManteMBean.guardar}"								
+								onclick="btnVarGuardar.disable()" icon="ui-icon-disk"
+								oncomplete="btnVarGuardar.enable(); dlgVarNuevoEditRes.hide()"></p:commandButton>
+							<p:commandButton value="#{msg['msgCancelar']}" process="@this"
+								 action="#{noticiasManteMBean.cancelar}" icon="ui-icon-close"></p:commandButton>
+						</f:facet>
+					</p:panelGrid>
+				</h:form>			
+			
+		</div>
+	</ui:define>
+
+				
+	
+</ui:composition>
+</html>

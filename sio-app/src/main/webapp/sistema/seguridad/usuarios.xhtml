@@ -1,0 +1,509 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<h:form>
+				<div class="div-table" style="margin-top: 3px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-key"></span>
+						</div>
+						<div class="div-cell">#{msg['msgUsuarioSistema']}</div>
+						<div class="div-cell">
+							(
+							<h:selectOneMenu value="#{usuarioMBean.selectedDisJudicial}"
+								disabled="#{sesionMBean.tipoUsuario eq 'N'}">
+								<f:selectItem itemValue="0" itemLabel="Todos"></f:selectItem>
+								<f:selectItems value="#{usuarioMBean.listaDisJudiciales}"
+									var="item" itemValue="#{item.codDisJud}"
+									itemLabel="#{item.descripcion}"></f:selectItems>
+								<p:ajax listener="#{usuarioMBean.cambiarDisJudicial}"
+									update=":frmUsuarios"></p:ajax>
+							</h:selectOneMenu>
+							)
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmUsuarios">
+				<p:dataTable value="#{usuarioMBean.lazyModel}" var="item"
+					lazy="true" selection="#{usuarioMBean.usuario}"
+					selectionMode="single" rowKey="#{item.codUsuario}" paginator="true"
+					rows="20" emptyMessage="#{msg['msgNoExistenDatos']}"
+					currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+					rowsPerPageTemplate="20,30,40,50,100">
+					<p:column width="60" style="text-align: center;">
+						<f:facet name="header">
+							<p:commandButton value="#{msg['msgNuevo']}"
+								actionListener="#{usuarioMBean.nuevo}" immediate="true"
+								update=":pnlDialogos" oncomplete="dlgVarNuevoEditUsuario.show()"
+								icon="ui-icon-document">
+								<p:resetInput target=":frmNuevoEditUsuario"></p:resetInput>
+							</p:commandButton>
+						</f:facet>
+						<p:commandButton value="#{msg['msgEditar']}"
+							actionListener="#{usuarioMBean.editar}" immediate="true"
+							update=":pnlDialogos" oncomplete="dlgVarEditarUsuario.show()"
+							icon="ui-icon-pencil" styleClass="button-text-icon-edit">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="#{msg['msgUsuario']}"
+						filterBy="#{item.codUsuario}" width="120"
+						filterStyle="width: 80px;">
+						<h:outputText value="#{item.codUsuario}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgApellidos']}"
+						filterBy="#{item.petpernatu.apellido}" filterStyle="width: 180px;">
+						<h:outputText value="#{item.petpernatu.apellido}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgNombres']}"
+						filterBy="#{item.petpernatu.nombre}" filterStyle="width: 180px;">
+						<h:outputText value="#{item.petpernatu.nombre}"></h:outputText>
+					</p:column>
+					<p:column width="80" headerText="#{msg['msgEstado']}"
+						filterBy="#{item.habilitado}"
+						filterOptions="#{usuarioMBean.estados}" filterMatchMode="exact">
+						<div style="width: 100%; text-align: center;">
+							<h:selectBooleanCheckbox value="#{item.habilitado}"
+								disabled="true"></h:selectBooleanCheckbox>
+						</div>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<h:panelGroup rendered="#{usuarioMBean.accion == Accion.NUEVO}">
+				<p:dialog widgetVar="dlgVarNuevoEditUsuario"
+					header="#{msg['msgCreacion']}" modal="true">
+					<h:form id="frmNuevoEditUsuario">
+						<fieldset class="ui-widget-content">
+							<legend>#{msg['msgDatosPersonales']}</legend>
+							<div class="div-table">
+								<div class="div-row">
+									<div class="div-cell">
+										<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel id="lblApellidos" for="txtApellidos"
+														value="#{msg['msgApellidos']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText id="txtApellidos"
+														value="#{usuarioMBean.perNatural.apellido}"
+														required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}"
+														style="width: 200px;">
+														<p:ajax listener="#{usuarioMBean.buscarPersona}"
+															update="lblApellidos @this tblPerExistentes"></p:ajax>
+													</p:inputText>
+												</div>
+												<div class="div-cell">
+													<p:message for="txtApellidos" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel id="lblNombres" for="txtNombres"
+														value="#{msg['msgNombres']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText id="txtNombres"
+														value="#{usuarioMBean.perNatural.nombre}" required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}"
+														style="width: 200px;">
+														<p:ajax listener="#{usuarioMBean.buscarPersona}"
+															update="lblNombres @this tblPerExistentes"></p:ajax>
+													</p:inputText>
+												</div>
+												<div class="div-cell">
+													<p:message for="txtNombres" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<h:outputLabel for="cboTipdocumento"
+														value="#{msg['msgTipDocumento']}:"></h:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:selectOneMenu id="cboTipdocumento"
+														value="#{usuarioMBean.selectedDocIden}">
+														<f:selectItems value="#{usuarioMBean.lisDocIden}"
+															var="item" itemValue="#{item.codTipDoc}"
+															itemLabel="#{item.desAbrev}"></f:selectItems>
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<h:outputLabel for="txtNumDoc"
+														value="#{msg['msgNDocumento']}:"></h:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText id="txtNumDoc"
+														value="#{usuarioMBean.numDocumento}"></p:inputText>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">#{msg['msgGenero']}</div>
+												<div class="div-cell">
+													<h:selectOneRadio value="#{usuarioMBean.generoPersona}">
+														<f:selectItem itemValue="M"
+															itemLabel="#{msg['msgGeneroM']}"></f:selectItem>
+														<f:selectItem itemValue="F"
+															itemLabel="#{msg['msgGeneroF']}"></f:selectItem>
+													</h:selectOneRadio>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="div-cell" style="padding-left: 20px;"></div>
+									<div class="div-cell" style="vertical-align: top;">
+										<p:dataTable id="tblPerExistentes"
+											value="#{usuarioMBean.lisPerNaturales}" var="item"
+											selection="#{usuarioMBean.selectedPerNatural}"
+											selectionMode="single" rowKey="#{item.codPerNatu}"
+											emptyMessage="#{msg['msgNoExistenDatos']}">
+											<p:column>
+												<p:commandButton icon="ui-icon-arrow-1-w"
+													action="#{usuarioMBean.seleccionarPerNatural}"
+													immediate="true" process="@this" update="@form">
+													<f:setPropertyActionListener
+														target="#{usuarioMBean.perNatural}" value="#{item}"></f:setPropertyActionListener>
+												</p:commandButton>
+											</p:column>
+											<p:column headerText="#{msg['msgApellidosNombres']}">
+												<h:outputText value="#{item.apellido} #{item.nombre}"></h:outputText>
+											</p:column>
+											<p:column headerText="#{msg['msgTipDocumento']}">
+												<h:outputText value="#{item.petpersona.pettipdoc.desAbrev}"></h:outputText>
+											</p:column>
+											<p:column headerText="#{msg['msgNDocumento']}">
+												<h:outputText value="#{item.petpersona.numDocumento}"></h:outputText>
+											</p:column>
+											<p:column headerText="#{msg['msgDistritoJudicial']}">
+												<h:outputText
+													value="#{item.setusuario.ujtdisjud.descripcion}"></h:outputText>
+											</p:column>
+										</p:dataTable>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="ui-widget-content" style="margin-top: 10px;">
+							<legend>#{msg['msgDatUsuario']}</legend>
+							<h:panelGroup id="pnlDatosUsuario">
+								<div class="div-row">
+									<div class="div-cell">
+										<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel for="txtNomUsu"
+														value="#{msg['msgNomUsuario']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText id="txtNomUsu"
+														value="#{usuarioMBean.usuario.codUsuario}" required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}"></p:inputText>
+												</div>
+												<div class="div-cell">
+													<p:message for="txtNomUsu" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel for="txtContraseUsu"
+														value="#{msg['msgContrasenia']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:password id="txtContraseUsu"
+														value="#{usuarioMBean.usuario.contrasenia}"
+														match="txtContraseUsuConf" required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}"
+														validatorMessage="#{msg['errorPassNoEquivalentes']}"></p:password>
+												</div>
+												<div class="div-cell">
+													<p:message for="txtContraseUsu" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel for="txtContraseUsuConf"
+														value="#{msg['msgConfirmContrase']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:password id="txtContraseUsuConf"
+														value="#{usuarioMBean.usuario.contrasenia}"
+														required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}"></p:password>
+												</div>
+												<div class="div-cell">
+													<p:message for="txtContraseUsuConf" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">#{msg['msgTipUsuario']}:</div>
+												<div class="div-cell">
+													<h:selectOneRadio id="rdTipUsuario"
+														value="#{usuarioMBean.tipoUsuario}" layout="pageDirection"
+														required="true"
+														requiredMessage="#{msg['errorCampoObligatorio']}">
+														<f:selectItem itemValue="S"
+															itemLabel="#{msg.msgSuperUsuario}"
+															itemDisabled="#{sesionMBean.tipoUsuario != 'S'}"></f:selectItem>
+														<f:selectItem itemValue="A"
+															itemLabel="#{msg.msgAdministrador}"></f:selectItem>
+														<f:selectItem itemValue="N"
+															itemLabel="#{msg.msgUsuNormal}"></f:selectItem>
+														<p:ajax process="@this" update="selMGrupo"></p:ajax>
+													</h:selectOneRadio>
+												</div>
+												<div class="div-cell">
+													<p:message for="rdTipUsuario" display="icon"></p:message>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell" style="padding-top: 10px;">
+													<p:selectBooleanCheckbox
+														value="#{usuarioMBean.usuario.habilitado}"
+														itemLabel="#{msg['msgHabilitado']}:"></p:selectBooleanCheckbox>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="div-cell" style="width: 30px;"></div>
+									<div class="div-cell" style="vertical-align: top;">
+										<h:outputLabel for="selMGrupo" value="#{msg['msgGrupoRol']}:"></h:outputLabel>
+										<p:selectManyMenu id="selMGrupo"
+											value="#{usuarioMBean.selectedGrupos}"
+											disabled="#{usuarioMBean.tipoUsuario == 'S'}"
+											showCheckbox="true" style="width: 250px; height: 180px;">
+											<f:selectItems value="#{usuarioMBean.lisGrupos}" var="item"
+												itemValue="#{item.codGrupo}"
+												itemLabel="#{item.setaplica.descripcion} / #{item.desCorta}"></f:selectItems>
+										</p:selectManyMenu>
+									</div>
+								</div>
+							</h:panelGroup>
+						</fieldset>
+						<div style="width: 100%; text-align: center; margin: 10px;">
+							<h:outputText value="EL USUARIO YA EXISTE"
+								rendered="#{usuarioMBean.existeUsuario}"
+								style="font-weight: bold; padding-right: 5px;"></h:outputText>
+							<p:commandButton value="#{msg['msgGuardar']}"
+								disabled="#{usuarioMBean.existeUsuario}"
+								actionListener="#{usuarioMBean.guardar}"
+								update="@form :frmUsuarios :listaMensajes"
+								oncomplete="guardarUsuarioComplete(xhr, status, args)"
+								icon="ui-icon-disk"></p:commandButton>
+							<p:commandButton value="#{msg['msgCancelar']}" type="button"
+								onclick="dlgVarNuevoEditUsuario.hide()" icon="ui-icon-close"></p:commandButton>
+						</div>
+					</h:form>
+				</p:dialog>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{usuarioMBean.accion == Accion.EDITAR}">
+				<p:dialog widgetVar="dlgVarEditarUsuario"
+					header="#{msg['msgEdicionDatos']}" modal="true">
+					<h:form id="frmEditarUsuario">
+						<fieldset class="ui-widget-content">
+							<legend>#{msg['msgDatosPersonales']}</legend>
+							<div class="div-table">
+								<div class="div-row">
+									<div class="div-cell">
+										<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel value="#{msg['msgApellidos']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText value="#{usuarioMBean.perNatural.apellido}"
+														readonly="true" style="width: 200px;">
+													</p:inputText>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<p:outputLabel value="#{msg['msgNombres']}:"></p:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText value="#{usuarioMBean.perNatural.nombre}"
+														readonly="true" style="width: 200px;">
+													</p:inputText>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<h:outputLabel for="cboEditarTipdocumento"
+														value="#{msg['msgTipDocumento']}:"></h:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:selectOneMenu id="cboEditarTipdocumento"
+														value="#{usuarioMBean.selectedDocIden}" disabled="true">
+														<f:selectItems value="#{usuarioMBean.lisDocIden}"
+															var="item" itemValue="#{item.codTipDoc}"
+															itemLabel="#{item.desAbrev}"></f:selectItems>
+													</p:selectOneMenu>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">
+													<h:outputLabel for="txtEditarNumDoc"
+														value="#{msg['msgNDocumento']}:"></h:outputLabel>
+												</div>
+												<div class="div-cell">
+													<p:inputText id="txtEditarNumDoc"
+														value="#{usuarioMBean.numDocumento}" readonly="true"></p:inputText>
+												</div>
+											</div>
+											<div class="div-row">
+												<div class="div-cell">#{msg['msgGenero']}</div>
+												<div class="div-cell">
+													<h:selectOneRadio value="#{usuarioMBean.generoPersona}"
+														disabled="true">
+														<f:selectItem itemValue="M"
+															itemLabel="#{msg['msgGeneroM']}"></f:selectItem>
+														<f:selectItem itemValue="F"
+															itemLabel="#{msg['msgGeneroF']}"></f:selectItem>
+													</h:selectOneRadio>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="ui-widget-content" style="margin-top: 10px;">
+							<legend>#{msg['msgDatUsuario']}</legend>
+							<h:panelGroup id="pnlDatosEditarUsuario">
+								<div class="div-table">
+									<div class="div-row">
+										<div class="div-cell">
+											<div class="div-table">
+												<div class="div-row">
+													<div class="div-cell">
+														<h:outputLabel value="#{msg['msgNomUsuario']}:"></h:outputLabel>
+													</div>
+													<div class="div-cell">
+														<p:inputText value="#{usuarioMBean.usuario.codUsuario}"
+															disabled="true"></p:inputText>
+													</div>
+												</div>
+												<div class="div-row">
+													<div class="div-cell"></div>
+													<div class="div-cell">
+														<p:selectBooleanCheckbox
+															value="#{usuarioMBean.editarContrase}"
+															itemLabel="#{msg['msgEditar']} : ">
+															<p:ajax event="change" process="@this"
+																update="pnlDatosEditarUsuario"></p:ajax>
+														</p:selectBooleanCheckbox>
+													</div>
+												</div>
+												<div class="div-row">
+													<div class="div-cell">
+														<h:outputLabel for="txtContraseUsuEditar"
+															value="#{msg['msgContrasenia']}:"></h:outputLabel>
+													</div>
+													<div class="div-cell">
+														<p:password id="txtContraseUsuEditar"
+															value="#{usuarioMBean.usuario.contrasenia}"
+															disabled="#{!usuarioMBean.editarContrase}"
+															match="txtContraseUsuConfEditar" required="true"
+															requiredMessage="#{msg['errorCampoObligatorio']}"
+															validatorMessage="#{msg['errorPassNoEquivalentes']}"></p:password>
+													</div>
+													<div class="div-cell">
+														<p:message for="txtContraseUsuEditar" display="icon"></p:message>
+													</div>
+												</div>
+												<div class="div-row">
+													<div class="div-cell">
+														<h:outputLabel for="txtContraseUsuConfEditar"
+															value="#{msg['msgConfirmContrase']}:"></h:outputLabel>
+													</div>
+													<div class="div-cell">
+														<p:password id="txtContraseUsuConfEditar"
+															value="#{usuarioMBean.usuario.contrasenia}"
+															disabled="#{!usuarioMBean.editarContrase}"
+															required="true"
+															requiredMessage="#{msg['errorCampoObligatorio']}"></p:password>
+													</div>
+													<div class="div-cell">
+														<p:message for="txtContraseUsuConfEditar" display="icon"></p:message>
+													</div>
+												</div>
+												<div class="div-row">
+													<div class="div-cell">#{msg['msgTipUsuario']}:</div>
+													<div class="div-cell">
+														<h:selectOneRadio id="rdEditarTipUsuario"
+															value="#{usuarioMBean.tipoUsuario}"
+															layout="pageDirection" required="true"
+															requiredMessage="#{msg['errorCampoObligatorio']}">
+															<f:selectItem itemValue="S"
+																itemLabel="#{msg.msgSuperUsuario}"
+																itemDisabled="#{sesionMBean.tipoUsuario != 'S'}"></f:selectItem>
+															<f:selectItem itemValue="A"
+																itemLabel="#{msg.msgAdministrador}"></f:selectItem>
+															<f:selectItem itemValue="N"
+																itemLabel="#{msg.msgUsuNormal}"></f:selectItem>
+															<p:ajax process="@this" update="selMEditarGrupo"></p:ajax>
+														</h:selectOneRadio>
+													</div>
+													<div class="div-cell">
+														<p:message for="rdEditarTipUsuario" display="icon"></p:message>
+													</div>
+												</div>
+												<div class="div-row">
+													<div class="div-cell" style="padding-top: 10px;">
+														<p:selectBooleanCheckbox
+															value="#{usuarioMBean.usuario.habilitado}"
+															itemLabel="#{msg['msgHabilitado']}:"></p:selectBooleanCheckbox>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="div-cell" style="width: 30px;"></div>
+										<div class="div-cell" style="vertical-align: top;">
+											<h:outputLabel for="selMEditarGrupo"
+												value="#{msg['msgGrupoRol']}:"></h:outputLabel>
+											<p:selectManyMenu id="selMEditarGrupo"
+												value="#{usuarioMBean.selectedGrupos}"
+												disabled="#{usuarioMBean.tipoUsuario == 'S'}"
+												showCheckbox="true" style="width: 250px; height: 180px;">
+												<f:selectItems value="#{usuarioMBean.lisGrupos}" var="item"
+													itemValue="#{item.codGrupo}"
+													itemLabel="#{item.setaplica.descripcion} / #{item.desCorta}"></f:selectItems>
+											</p:selectManyMenu>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+						</fieldset>
+						<div style="width: 100%; text-align: center; margin: 10px;">
+							<p:commandButton value="#{msg['msgGuardar']}"
+								actionListener="#{usuarioMBean.actualizar}"
+								update="pnlDatosEditarUsuario :frmUsuarios :listaMensajes"
+								oncomplete="actualizarUsuarioComplete(xhr, status, args)"
+								icon="ui-icon-disk"></p:commandButton>
+							<p:commandButton value="#{msg['msgCancelar']}" type="button"
+								onclick="dlgVarEditarUsuario.hide()" icon="ui-icon-close"></p:commandButton>
+						</div>
+					</h:form>
+				</p:dialog>
+			</h:panelGroup>
+		</h:panelGroup>
+		<h:outputScript library="js/seguridad" name="usuarios.js" />
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+.nestedUnitTop {
+	border-top: 0px none !important;
+	border-right: 0px none !important;
+	border-left: 0px none !important;
+	border-top-left-radius: 6px !important;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.nestedUnit {
+	border-right: 0px none !important;
+	border-bottom: 0px none !important;
+	border-left: 0px none !important;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+.nestedUnit .ui-layout-unit-content {
+	border-radius: 0px !important;
+}
+
+div>.ui-layout-resizer-north {
+	margin-top: -5px !important;
+	height: 26px !important;
+	background: url('../resources/images/splitter-h.gif') no-repeat top
+		!important;
+}

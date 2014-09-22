@@ -1,0 +1,133 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<h:form id="frmMenuPermisos">
+				<div class="div-table" style="margin-top: 4px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-key"></span>
+						</div>
+						<div class="div-cell">
+							<p:commandLink value="#{msg['msgGruposUsuarios']}"
+								action="/sistema/seguridad/grupUsuarios?faces-redirect=true"
+								immediate="true" ajax="true"></p:commandLink>
+						</div>
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-triangle-1-e"></span>
+						</div>
+						<div class="div-cell">#{msg['msgPermisosGrupos']}</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<div class="contenido-menu ui-widget-header">
+			<div class="div-table"
+				style="padding-left: 10px; padding-top: 10px; width: 100%;">
+				<div class="div-row">
+					<div class="div-cell" style="width: 10%;">#{msg['msgAplicacion']}:</div>
+					<div class="div-cell" style="width: 40%; font-weight: normal;">#{permisosGrupoMBean.aplicacion.descripcion}</div>
+					<div class="div-cell" style="width: 10%;">#{msg['msgGrupo']}:</div>
+					<div class="div-cell" style="width: 40%; font-weight: normal;">#{permisosGrupoMBean.grupo.desCorta}</div>
+				</div>
+			</div>
+		</div>
+		<div class="contenido-area-con-menu" style="padding: 1px;">
+			<p:tabView id="tabUsuGrupo" style="border: none;">
+				<p:tab title="#{msg['msgPermisosGrupo']}">
+					<h:form id="frmArbolPermisos">
+						<p:tree widgetVar="treeVar" value="#{permisosGrupoMBean.root}"
+							var="node" selectionMode="checkbox" propagateSelectionUp="true"
+							selection="#{permisosGrupoMBean.selectedNodes}">
+							<p:treeNode expandedIcon="ui-icon-folder-open"
+								collapsedIcon="ui-icon-folder-collapsed">
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+							<p:treeNode type="document" icon="ui-icon-document">
+								<h:outputText value="#{node}"></h:outputText>
+							</p:treeNode>
+							<p:treeNode type="button" icon="ui-icon-arrow-1-e">
+								<h:outputText value="#{node}"></h:outputText>
+							</p:treeNode>
+						</p:tree>
+						<p:commandButton value="#{msg['msgGuardar']}"
+							actionListener="#{permisosGrupoMBean.guardarPermisos}"
+							update=":listaMensajes" icon="ui-icon-disk"
+							style="margin-top: 20px;"></p:commandButton>
+					</h:form>
+				</p:tab>
+				<p:tab title="#{msg['msgUsuarios']}">
+					<h:form id="frmUsuGrupo">
+						<p:dataTable value="#{permisosGrupoMBean.lisUsuariosGrupo}"
+							var="item">
+							<p:column width="100">
+								<f:facet name="header">
+									<p:commandButton value="#{msg['msgAgregar']}" type="button"
+										onclick="dlgVarSelUsuario.show()" icon="ui-icon-document"></p:commandButton>
+								</f:facet>
+								<div style="width: 100%; text-align: center;">
+									<p:commandButton value="#{msg['msgEliminar']}"
+										actionListener="#{permisosGrupoMBean.eliminarUsuarioDeGrupo}"
+										update="@form" icon="ui-icon-close"
+										styleClass="button-text-icon-edit"></p:commandButton>
+								</div>
+							</p:column>
+							<p:column headerText="#{msg['msgUsuario']}">
+								<h:outputText
+									value="#{item.setusuario.petpernatu.apellido} #{item.setusuario.petpernatu.nombre}"></h:outputText>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+			</p:tabView>
+		</div>
+		<h:outputScript library="js/seguridad" name="permisos.js" />
+	</ui:define>
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlgVarSelUsuario" header="#{msg['msgUsuarios']}"
+			modal="true">
+			<h:form id="frmSelUsuario">
+				<p:dataTable value="#{permisosGrupoMBean.lazyModelUsuarios}"
+					var="item" lazy="true" paginator="true" rows="10"
+					emptyMessage="#{msg['msgNoExistenDatos']}"
+					currentPageReportTemplate="[ {startRecord} #{msg['msgAl']} {endRecord} #{msg['msgDe']} {totalRecords} - #{msg['msgPagina']}: {currentPage}/{totalPages} ]"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown}"
+					rowsPerPageTemplate="10,20">
+					<p:column width="60" style="text-align: center;">
+						<p:commandButton value="#{msg['msgAgregar']}"
+							actionListener="#{permisosGrupoMBean.agregarUsuarioAGrupo}"
+							update=":tabUsuGrupo:frmUsuGrupo"
+							oncomplete="dlgVarSelUsuario.hide()" icon="ui-icon-plus"
+							styleClass="button-text-icon-edit">
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="#{msg['msgUsuario']}"
+						filterBy="#{item.codUsuario}" width="120"
+						filterStyle="width: 80px;">
+						<h:outputText value="#{item.codUsuario}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgApellidos']}"
+						filterBy="#{item.petpernatu.apellido}" filterStyle="width: 180px;">
+						<h:outputText value="#{item.petpernatu.apellido}"></h:outputText>
+					</p:column>
+					<p:column headerText="#{msg['msgNombres']}"
+						filterBy="#{item.petpernatu.nombre}" filterStyle="width: 180px;">
+						<h:outputText value="#{item.petpernatu.nombre}"></h:outputText>
+					</p:column>
+					<p:column width="80" headerText="#{msg['msgHabilitado']}">
+						<div style="width: 100%; text-align: center;">
+							<h:selectBooleanCheckbox value="#{item.habilitado}"
+								disabled="true"></h:selectBooleanCheckbox>
+						</div>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+</html>

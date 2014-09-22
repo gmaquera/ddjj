@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html">
+	<pe:head title="#{msg['msgTituloSistema']}"
+		shortcutIcon="#{request.contextPath}/resources/images/ocma.ico">
+		<f:facet name="first">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta http-equiv="pragma" content="no-cache" />
+			<meta http-equiv="cache-control" content="no-cache" />
+			<meta http-equiv="expires" content="0" />
+		</f:facet>
+	</pe:head>
+	<h:body>
+		<ui:insert name="ajaxErrorHandler">
+			<pe:ajaxErrorHandler />
+		</ui:insert>
+
+		<p:layout fullPage="true" collapseTitle="#{msg['msgMinimizar']}"
+			expandTitle="#{msg['msgMaximizar']}">
+
+			<p:layoutUnit position="north" size="46" gutter="1"
+				collapsible="true">
+				<ui:include src="/WEB-INF/secciones/layout/cabePagina.xhtml" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="26" gutter="1"
+				collapsible="true">
+				<ui:include src="/WEB-INF/secciones/layout/piePagina.xhtml" />
+			</p:layoutUnit>
+<!--  
+			<p:layoutUnit position="west" size="250" header="#{msg['msgMenu']}"
+				resizable="true" gutter="1" collapsible="true">
+				<ui:include src="/WEB-INF/secciones/layout/menu.xhtml" />
+			</p:layoutUnit>
+-->	
+			<p:layoutUnit position="center">
+				<ui:insert name="contenido" />
+			</p:layoutUnit>
+		</p:layout>
+
+		<ui:insert name="messages">
+			<p:growl id="listaMensajes" showSummary="false" showDetail="true"
+				globalOnly="true" />
+		</ui:insert>
+
+		<ui:insert name="dialogos" />
+		
+		<p:ajaxStatus styleClass="sistema-status">
+			<f:facet name="start">
+				<div class="div-table" style="background-color: #fff;">
+					<div class="div-row">
+						<div class="div-cell">
+							<p:graphicImage library="images" name="loading.gif"></p:graphicImage>
+						</div>
+						<div class="div-cell"
+							style="padding-left: 8px; padding-right: 8px;">Cargando...</div>
+					</div>
+				</div>
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+
+		<h:outputStylesheet library="css" name="global.css" />
+		<h:outputStylesheet library="css" name="layout.css" />		
+		<h:outputScript library="js" name="global.js"></h:outputScript>
+		<ui:insert name="head"></ui:insert>
+
+		
+	</h:body>
+</f:view>
+</html>
