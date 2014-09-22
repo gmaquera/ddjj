@@ -1,0 +1,610 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		
+			<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+			<div class="ui-widget-header contenido-cabecera">
+			<h:form id="frmMenuConsultasDj">
+				<div class="div-table" style="margin-top: 4px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-circle-check"></span>
+						</div>
+						<div class="div-cell">
+							<p:commandLink value="Declaraciones juradas"
+								action="/sistema/ddjj/djConsultas?faces-redirect=true"
+								ajax="true"></p:commandLink>
+						</div>
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-triangle-1-e"></span>
+						</div>
+						<div class="div-cell">Consultas</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		
+		<div class="contenido-area-total" style="padding: 1px;">
+		
+		<h:form id="frmConsultasDdjj">
+		
+		<p:fieldset legend="Datos Generales de la Declaracion" style="width: 1000px" styleClass="myFieldset">
+		<p:panelGrid id="pnlDeclaracion" columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">
+							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblFechaEla"
+								value="Fecha de Elaboracion"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:calendar value="#{djConsultaMBean.fec_ini_elab}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}" 
+							id="popupElaIni" />        				
+        				
+        				<h:outputLabel id="lblDesdeEla"
+								value="   hasta   "></h:outputLabel>
+        				       				
+        				<p:calendar value="#{djConsultaMBean.fec_fin_elab}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}" 
+							id="popupElaFin" />        				
+        				</p:column>
+        				
+        				<p:column></p:column>        				    				       				
+        			
+        				<p:column>
+        				<h:outputLabel id="lblFechaCre"
+								value="Fecha de Creacion"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:calendar value="#{djConsultaMBean.fec_ini_creacion}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}" 
+							id="popupCreIni" />        				
+        				
+        				<h:outputLabel id="lblDesdeCre"
+								value="   hasta   "></h:outputLabel>
+        				        				
+        				<p:calendar value="#{djConsultaMBean.fec_fin_creacion}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}" 
+							id="popupCreFin" />  				
+        				</p:column>        				     				
+        			</p:row>        			
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblEjercicio"
+								value="Ejercicio"></h:outputLabel>
+        				</p:column>
+        				
+        				<p:column>
+        				<p:selectOneMenu id="cboEjercicio"
+								value="#{djConsultaMBean.des_ejercicio}"
+								style="width: 98px;">
+								<f:selectItems value="#{djConsultaMBean.listaYear}" var="item"
+									itemValue="#{item.year}" itemLabel="#{item.descripcion}"></f:selectItems>
+							</p:selectOneMenu>
+        				</p:column>
+        				<p:column>        				
+        				</p:column>
+        				<p:column>
+        				<h:outputLabel id="lblOportunidad"
+								value="Oportunidad"></h:outputLabel>
+        				</p:column>
+        				<p:column>
+        				  <p:selectOneMenu id="cboOportunidad"
+								value="#{djConsultaMBean.cod_present}"
+								style="width: 98px;">
+								<f:selectItems value="#{djConsultaMBean.listaOportunidad}" var="item"
+									itemValue="#{item.codPresentacion}" itemLabel="#{item.desNombre}"></f:selectItems>
+							</p:selectOneMenu>
+        				</p:column>
+        				
+        			</p:row>
+        			
+        			
+        			<p:row>
+        			<p:column>
+        				<h:outputLabel id="lblDistrito"
+								value="Distrito"></h:outputLabel>
+        				</p:column>
+        				
+        				<p:column>
+        				<p:selectOneMenu id="cboDistrito"
+								value="#{djConsultaMBean.cod_distrito}"
+								style="width: 180px;">
+								<f:selectItems value="#{djConsultaMBean.listaDist}" var="item"
+									itemValue="#{item.codDistri}" itemLabel="#{item.desDistri}"></f:selectItems>
+							</p:selectOneMenu>
+        				</p:column>
+        			
+        			<p:column></p:column>
+        			
+        			<p:column>
+        				<h:outputLabel id="lblEstado"
+								value="Estado"></h:outputLabel>
+        				</p:column>
+        				
+        				<p:column>
+        				<p:selectOneMenu id="cboEstado"
+								value="#{djConsultaMBean.fla_estado}"
+								style="width: 98px;">
+								<f:selectItems value="#{djConsultaMBean.listaEstados}" var="item"
+									itemValue="#{item.cod_estado_dj}" itemLabel="#{item.des_estado_dj}"></f:selectItems>
+							</p:selectOneMenu>
+        				</p:column>
+        			</p:row>        				
+        			
+        			
+        			           			
+        			
+        			</p:panelGrid>
+        	</p:fieldset>
+        	<p:fieldset legend="Datos Generales del Declarante" style="width: 1000px" styleClass="myFieldset">
+        		<p:panelGrid id="pnlDeclarante" columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPaterno"
+								value="Ap. Paterno"></h:outputLabel>
+        				</p:column>
+        				<p:column>
+							<p:inputText id="txtPaterno"
+								value="#{djConsultaMBean.des_apepaterno}" style="width: 200px;">
+							</p:inputText>
+						</p:column>
+						<p:column>
+        				</p:column>        				
+        				
+        				<p:column>
+        				<h:outputLabel id="lblMaterno"
+								value="Ap. Materno"></h:outputLabel>
+        				</p:column>
+        				        			
+	        			<p:column>
+							<p:inputText id="txtMaterno"
+								value="#{djConsultaMBean.des_apematerno}" style="width: 200px;">
+							</p:inputText>
+						</p:column>
+        			</p:row>
+        			
+        			<p:row>
+        			    <p:column>
+        					<h:outputLabel id="lblDNI" value="DNI"></h:outputLabel>
+        				</p:column>
+        				<p:column>
+							<!--  <p:inputText id="txtDNI" value="#{djConsultaMBean.num_dni}" style="width: 120px;"/>-->							
+							<p:inputMask id="txtDNI" value="#{djConsultaMBean.num_dni}" style="width: 120px;" 
+								mask="9?9999999"  maxlength="8" placeHolder=" "/>								
+						</p:column>
+						
+						<p:column></p:column>
+						
+						<p:column>
+        				<h:outputLabel id="lblCargo"
+								value="Cargo"></h:outputLabel>
+        				</p:column>
+        				
+        				<p:column colspan="3">
+        				<p:selectOneMenu id="cboCargo"
+								value="#{djConsultaMBean.cod_cargo}"
+								style="width: 250px;">
+								<f:selectItems value="#{djConsultaMBean.listaCargos}" var="item"
+									itemValue="#{item.codCargo}" itemLabel="#{item.desCargo}"></f:selectItems>
+							</p:selectOneMenu>
+        				</p:column>		
+        			</p:row>       			
+        					
+		</p:panelGrid>		
+		</p:fieldset>
+		
+		<p:fieldset legend="Estado de las Listas" style="width: 275px; display: inline-block; vertical-align:bottom" styleClass="myFieldset">		        			
+        				<h:selectOneRadio value="#{djConsultaMBean.fla_adjunta}">
+							<f:selectItem itemValue="0" itemLabel="No Adjunta a Lista"></f:selectItem>
+							<f:selectItem itemValue="1" itemLabel="Adjunta a Lista"></f:selectItem>
+							<f:selectItem itemValue="2" itemLabel="Todos"></f:selectItem>							
+						</h:selectOneRadio>        
+        </p:fieldset>
+		
+		<p:fieldset legend="Estado de la Declaracion" style="width: 460px; display: inline-block; vertical-align:bottom" styleClass="myFieldset">
+		      			<h:selectOneRadio value="#{djConsultaMBean.flag_contraloria}">
+							<f:selectItem itemValue="0" itemLabel="No Observado"></f:selectItem>
+							<f:selectItem itemValue="1" itemLabel="Observado"></f:selectItem>
+							<f:selectItem itemValue="2" itemLabel="Subsanacion"></f:selectItem>
+							<f:selectItem itemValue="3" itemLabel="Variacion Patrimonial"></f:selectItem>							
+							<f:selectItem itemValue="%" itemLabel="Todos"></f:selectItem>
+						</h:selectOneRadio>        				
+		</p:fieldset>
+		
+		<p:fieldset legend="Opciones de Busqueda" style="width: 205px; display: inline-block; vertical-align:bottom" styleClass="myFieldset">	       		        						
+					<p:commandButton value="Buscar DDJJ"
+					actionListener="#{djConsultaMBean.consulta}"
+					update=":frmTablaDdjj" />
+									
+					<p:commandButton value="Mesa de Partes"
+					actionListener="#{djConsultaMBean.consultaMesaPartes}"
+					update=":frmTablaDdjj :listaMensajes " />
+				</p:fieldset>
+			
+		</h:form>
+		
+		<h:form id="frmTablaDdjj">
+			
+			<h:panelGroup id="pnltabla" rendered="#{djConsultaMBean.consulta == 'true'}">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djConsultaMBean.lisDdjj}" rows="50" paginator="true" styleClass="tablaFixed" emptyMessage="No se encuentra Informacion"
+						  			rowStyleClass="#{item.cod_estado_dj eq 0 ? 'observada'  :(item.cod_estado_dj eq 1 ? 'presentada' : 
+						  			(item.cod_estado_dj eq 2 ? 'enConstruccion' : (item.cod_estado_dj eq 3 ? 'porPresentar' : 
+						  			(item.cod_estado_dj eq 4 ? 'porVerificar' : (item.cod_estado_dj eq 5 ? 'noCorresponde' : '')))))}"
+									id="dataDdjj">									
+									<p:column headerText="Codigo" width="30" sortBy="#{item.cod_dj}" >
+										<h:outputText value="#{item.cod_dj}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="DNI" width="40" sortBy="#{item.num_dni}" >
+										<h:outputText value="#{item.num_dni}"></h:outputText>
+									</p:column>									
+									
+									<p:column headerText="Declarante" width="200" sortBy="#{item.declarante}" >
+										<h:commandLink actionListener="#{djConsultaMBean.irVerificar}" style="text-decoration: none;">									
+										<h:outputText value="#{item.declarante}"></h:outputText>
+										</h:commandLink>	
+									</p:column>
+									
+									<p:column headerText="Distrito" width="60" sortBy="#{item.des_distri}" >
+										<h:outputText value="#{item.des_distri}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fec Elab" width="50" sortBy="#{item.fec_elab}" >
+										<h:outputText value="#{item.fec_elab}">
+											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+										</h:outputText>
+									</p:column>
+									
+									<p:column headerText="Ejercicio" width="35" sortBy="#{item.des_ejercicio}">
+										<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Oportunidad" width="100" sortBy="#{item.nombre_oportunidad}">
+										<h:outputText value="#{item.nombre_oportunidad}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Cargo" width="120" sortBy="#{item.des_cargo}">
+										<h:outputText value="#{item.des_cargo}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="PDF" width="15">
+										<!-- <p:graphicImage value="/resources/images/#{item.des_icono}" title="Ver PDF" /> -->
+										<h:commandLink actionListener="#{djConsultaMBean.download}">	
+										<p:graphicImage value="/resources/images/ico_pdf.jpg" title="Ver PDF" rendered="#{item.cod_estado_dj eq 1}"/>										
+										</h:commandLink>		
+									</p:column>									
+									
+									<p:column headerText="Estado" width="30">
+									<!-- 
+										<h:outputText value="#{item.des_estado_dj}"></h:outputText> -->										
+										<p:commandLink actionListener="#{djConsultaMBean.NuevoEstado}" process="@this"  
+											oncomplete="dlgVarEstados.show()" type="button" update=":pnlDialogos">
+										<p:graphicImage value="/resources/images/#{item.des_icono}" title="#{item.des_estado_dj} #{item.NOMBRE_LISTA}" />										
+										</p:commandLink>
+																				
+									</p:column>
+									
+									<p:column headerText="Origen" width="30" sortBy="#{item.fla_tipo_origen}" >										
+										<h:outputText value="#{item.fla_tipo_origen}"></h:outputText>										
+									</p:column>									
+									 
+									<p:column headerText="Lista" width="20">
+										<h:outputText value="#{item.NOMBRE_LISTA}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fec Mod" width="50" sortBy="#{item.fec_mod}">
+										<h:outputText value="#{item.fec_mod}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Encargado" width="60" sortBy="#{item.cod_usuario_observa}">
+										<h:outputText value="#{item.cod_usuario_observa}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usu Obs" width="60" sortBy="#{item.cod_usuario_encargado}">
+										<h:outputText value="#{item.cod_usuario_encargado}"></h:outputText>
+									</p:column>
+									
+								</p:dataTable>						  
+						 </td>
+						 						
+					</tr>
+					<tr>
+						<td>
+						 	<h:outputText value="TOTAL DECLARACIONES: #{djConsultaMBean.totalDeclaraciones}"></h:outputText>
+						 </td>
+					</tr>
+					<tr>	 
+						 <td>
+						 	<h:outputText value="TOTAL DECLARANTES: #{djConsultaMBean.totalDeclarantes}"></h:outputText>
+						 </td>
+					</tr>					
+				</table>			
+							
+			</h:panelGroup>
+			
+			<h:panelGroup id="pnltablaMesapartes" rendered="#{djConsultaMBean.mesaPartes == 'true'}">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djConsultaMBean.listaMesaPartes}" rows="50" paginator="true"
+									id="dataMesaPartes">									
+									<p:column headerText="N° de Registro" width="30">
+										<h:outputText value="#{item.num_registro}"></h:outputText>
+									</p:column>
+									<p:column headerText="Años" width="20">
+										<h:outputText value="#{item.num_anios}"></h:outputText>
+									</p:column>									
+									
+									<p:column headerText="Fecha Recep." width="40">
+										<h:outputText value="#{item.fec_rec}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha Doc." width="40">
+										<h:outputText value="#{item.fec_documento}"></h:outputText>
+									</p:column>								
+									
+									
+									<p:column headerText="Descripcion">										
+										<!-- <h:outputText value="#{item.des_nrodoc}"></h:outputText> -->
+										<p:inputTextarea value="#{item.des_nrodoc}" readonly="true" cols="70" rows="2"
+										style="border: none; box-shadow: 0 0; border-radius: 0; background-color: inherit;
+										 color: inherit; ">
+										</p:inputTextarea>										
+									</p:column>
+									
+									<p:column headerText="N° Fojas" width="50">
+										<h:outputText value="#{item.num_fjini}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Remitente">
+										<!-- h:outputText value="#{item.remitente}"></h:outputText> -->
+										<p:inputTextarea value="#{item.remitente}" readonly="true" cols="70" rows="2"
+										style="border: none; box-shadow: 0 0; border-radius: 0; background-color: inherit;
+										 color: inherit; ">
+										</p:inputTextarea>										
+									</p:column>									
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>			
+		</h:form>
+		</div>
+	</ui:define>
+	
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+		<p:dialog widgetVar="dlgVarEstados"
+				header="ESTADO DE LA DECLARACION JURADA"
+				modal="true">
+			<h:form id="frmEditarEstado">
+				
+				<p:fieldset legend="Datos Generales de la Declaracion Jurada" style="width: 700px" styleClass="myFieldset">
+				<p:panelGrid id="pnlDeclaracion" >
+							
+					<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDeclaranteEstado"
+								value="Declarante"></h:outputLabel>
+        				</p:column>
+        				<p:column style="width:400px">        				
+        				  <p:outputLabel>: #{djConsultaMBean.declaranteDj.des_apepaterno} #{djConsultaMBean.declaranteDj.des_apematerno}, #{djConsultaMBean.declaranteDj.des_nombre}</p:outputLabel>        				
+        				</p:column>        				     				
+        			</p:row>        			
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDniEstado"
+								value="DNI"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.num_dni}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDistrito"
+								value="Distrito"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djConsultaMBean.entidadDj.des_distri}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>     				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblCargo"
+								value="Cargo"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.des_cargo}</p:outputLabel>        				
+        				</p:column>
+        				
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblEjercicio"
+								value="Ejercicio"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djConsultaMBean.entidadDj.des_ejercicio}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblCondicion"
+								value="Condicion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.des_estado}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblOportunidad"
+								value="Oportunidad"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.oportunidad}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblFechaElab"
+								value="Fecha Elaboracion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.fec_elab}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblFechaPre"
+								value="Fecha Presentacion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djConsultaMBean.declaranteDj.fec_present}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>        			
+        			</p:panelGrid>
+        		</p:fieldset>
+        		
+        		<p:fieldset legend="Cambio de Estado de Declaracion Jurada" style="width: 700px" styleClass="myFieldset">
+				<p:panelGrid id="pnlCambioDeclaracion">			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:140px">
+        				<h:outputLabel id="lblTipoEstado" style="float: left"
+								value="Tipo"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px;" >
+        				<p:selectOneMenu id="cboTipoMovimiento"
+								value="#{djConsultaMBean.selectedTipoMov}"
+								style="width: 200px;float: left">
+								<f:selectItems value="#{djConsultaMBean.listaTipoMovDj}" var="item"
+									itemValue="#{item.cod_tipo_mov}" itemLabel="#{item.des_tipo_mov_dj}"></f:selectItems>
+									<p:ajax update="estadoRadio" />	
+							</p:selectOneMenu>
+        				</p:column>
+        			</p:row>
+        			 </f:facet>       			
+        		</p:panelGrid>
+        		
+        		<p:panelGrid id="pnlCambioEstadoDeclaracion">			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:140px">
+        				<h:outputLabel id="lblEstadoActual" style="float: left"
+								value="Estado Actual"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px;">
+        					<p:outputLabel style="float: left" >: #{djConsultaMBean.estadoActual}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			 </f:facet>
+        			<p:row>
+        				<p:column style="width:140px">	
+        				<h:outputLabel id="lblEstadoSelecccion" style="float: left"
+								value="Estado"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px">        				  
+        					<p:selectOneRadio id="estadoRadio" value="#{djConsultaMBean.selectedEstado}" layout="grid" columns="4" disabled="#{djConsultaMBean.selectedTipoMov ne 'E'}">
+ 					            <f:selectItems value="#{djConsultaMBean.listaEstadoDj}" var="item" itemLabel="#{item.des_estado_dj}" 
+ 					            itemValue="#{item.cod_estado_dj}"/>
+ 					            <p:ajax event="change" update="lblAsocLista cboAsocLista "/>	
+        					</p:selectOneRadio>         				
+        				</p:column>        				
+        			</p:row>       			        			       			
+        		</p:panelGrid>
+        		
+        		<p:panelGrid id="pnlDetalleMovimiento" >			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:240px">
+        				     <h:outputLabel id="lblMovimiento" style="float: left"
+								value="Movimiento"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        					        				
+        				</p:column>        				
+        			</p:row>
+        			 </f:facet>
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblFechaPres" 
+								value="Fecha Presentacion en Bienes y Rentas (*)"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        					<p:calendar value="#{djConsultaMBean.fechaTemp}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}"/>        				
+        						
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblNumReg" 
+								value="Numero de Registro de Mesa de Partes (*)"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        					<p:inputText id="txtNumeroRegistro"
+								value="#{djConsultaMBean.numRegistro}" style="width: 100px;">
+							</p:inputText>
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblMovObservacion" 
+								value="Observacion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        						<p:inputTextarea id="txtObservacionEstado"
+        							value="#{djConsultaMBean.observacionEst}" style="width: 350px;">
+        						</p:inputTextarea>
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblAsocLista" 
+								value="Asociar a Lista"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">
+        					<p:selectOneMenu id="cboAsocLista"	disabled="#{djConsultaMBean.selectedEstado ne 1}" value="#{djConsultaMBean.selectedLista}"	 					
+								style="width: 200px;float: left">
+								<f:selectItems value="#{djConsultaMBean.listasDisponibles}" var="item"
+									itemValue="#{item.codLista}" itemLabel="#{item.desNombre}"></f:selectItems>									
+							</p:selectOneMenu>        				  
+        						
+        				</p:column>        				
+        			</p:row>
+        			
+        			       			        			       			
+        		</p:panelGrid>
+        		
+        		</p:fieldset>
+        		
+        		<div style="position: relative; margin-left: 270px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djConsultaMBean.guardarMovimiento}"
+												update=":listaMensajes"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarEstados)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarEstados.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+        				
+			</h:form>
+		</p:dialog>
+		</h:panelGroup>
+	</ui:define>
+	
+</ui:composition>
+</html>

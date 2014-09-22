@@ -1,0 +1,396 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<script type="text/javascript">
+			var orden=1;
+			function exportChart() {
+				//export image  
+				//$('#output').empty().append(PF('chart').exportAsImage()); 
+				$('#output').empty().append(pieCanObs.exportAsImage());
+				$('#output_1').empty().append(pieCanTarEstados.exportAsImage());
+				//show the dialog  
+				
+				var id=document.getElementById("enlaces");
+			    var nuevos=id.cloneNode(true);
+			    nuevos.style.id='enlaces'+orden;
+			    orden++;
+			    id=document.getElementById("enlacesnuevos");
+			    id.appendChild(nuevos);
+				PF('dlg');  
+				//dlg.show();
+				//UI=document.getElementById('entrada1').value;
+				//document.getElementById('ejemplo2').innerHTML=' '+UI;
+				//<![CDATA[
+				//if(navigator.appName.indexOf("Firefox") != -1){
+				//document.write('<a href=\"http://norfipc.com\">Solo para Firefox y Google Chrome</a>');} 
+				//]]> 
+			}
+		</script>
+		<br></br>
+		<br></br>
+		<h:form id="frmObs">
+
+			<fieldset class="ui-widget-content" style="margin-top: 10px;">
+				<legend>Reporte - Consolidado de Observaciones </legend>
+				<h:panelGroup id="pnldj">
+
+					<div class="div-table">
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lbldjObs" value="#{msg['msgYear']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboAnios" style="width:180px"
+									value="#{djConsolidadoDjObsMBean.anio}">
+									<f:selectItems value="#{djConsolidadoDjObsMBean.lisAnio}"
+										var="item" itemValue="#{item.anio}" itemLabel="#{item.des}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrardjs" value="#{msg['msgMes']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+								<p:selectOneMenu id="cboMeses" style="width:180px"
+									value="#{djConsolidadoDjObsMBean.mes}">
+									<f:selectItems value="#{djConsolidadoDjObsMBean.lisMes}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+
+							<div class="div-cell">
+								<p:commandButton value="#{djConsolidadoDjObsMBean.mes}"
+									actionListener="#{djConsolidadoDjObsMBean.seleccionarAnioxMes}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+							</div>
+							<div class="div-cell">
+								<p:commandButton value="Exportar a Excel" id="btntoExcel"
+									ajax="false"
+									actionListener="#{djConsolidadoDjObsMBean.createExcel}">
+									<p:fileDownload value="#{djConsolidadoDjObsMBean.archivo}"></p:fileDownload>
+								</p:commandButton>
+							</div>
+							<div class="div-cell">
+								<p:commandButton type="button" value="Imprimir"
+									icon="ui-icon-extlink" onclick="exportChart()"
+									update="conAnualSC" >
+									<p:printer target=":totprin" />	
+								</p:commandButton>
+							</div>
+
+						</div>
+					</div>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+					
+					<!--  -->
+					<br />
+					<table width="1000px" border="0">
+
+						<tr align="Center">			<th colspan="2">
+								<table border="0" width="1000px">
+									  <tr>
+									    <th colspan="9"></th>
+									  </tr>
+									  <tr>
+									    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+									    <td colspan="5" align="Center"><div id="enlaces"  style="font-weight: Arial; font-size: 20px; font-weight: bold;" >Consolidado
+										de #{djConsolidadoDjObsMBean.desmes} del
+										#{djConsolidadoDjObsMBean.anio}</div></td>
+									    <td style="font-weight: bold;" align="right">Fecha :</td>
+									    <td><h:outputLabel id="lblfecha1" value="#{djConsolidadoDjObsMBean.fecha}" style="font-weight: normal;">
+									     <f:convertDateTime pattern="dd/MM/yyyy" />
+									    </h:outputLabel></td>
+									  </tr>
+									  <tr>
+									    <td colspan="5"></td>
+									    <td style="font-weight: bold;" align="right">Hora :</td>
+									    <td><h:outputLabel id="lbltiempo1" value="#{djConsolidadoDjObsMBean.tiempo}" style="font-weight: normal;"><f:convertDateTime pattern="HH:mm:ss" />
+									    </h:outputLabel></td>
+									  </tr>
+									  <tr >
+									    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+									    <td colspan="5"></td>
+									    <td style="font-weight: bold;" align="right">Usuario :</td>
+									    <td><h:outputLabel id="lblOportunidad1" value="#{djConsolidadoDjObsMBean.usuario}" style="font-weight: normal;"></h:outputLabel></td>
+									  </tr>
+									  <tr>
+									    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+									    <td colspan="5"></td>
+									    <td colspan="2"></td>
+									  </tr>
+								</table></th>
+						</tr>
+						<tr></tr>
+						<tr>
+						</tr>
+					</table>
+
+				<!--  -->
+				
+				<table width="1000px" border="0">
+					<br />
+					<tr align="Center">
+						<th colspan="2">
+						<!-- <font size="3" face="verdana">Consolidado
+								de #{djConsolidadoDjObsMBean.desmes} del
+								#{djConsolidadoDjObsMBean.anio}</font> -->
+						</th>
+					</tr>
+					<tr></tr>
+					<tr></tr>
+					<tr></tr>
+					<tr></tr>
+					<tr></tr>
+					<tr>
+						<td width="350px"><h:panelGroup
+								rendered="#{djConsolidadoDjObsMBean.flag}">
+								<p:pieChart widgetVar="pieCanObs"
+									value="#{djConsolidadoDjObsMBean.pieModel}" legendPosition="e"
+									seriesColors="FFCC00,00FF7F,00BFFF,E6E6FA ,FFA07A, C71585,ADFF2F"
+									sliceMargin="1" showDataLabels="true" dataFormat="value"
+									styleClass="ui-widget-content"
+									style="width:350px; height:300px; margin-top: 6px; margin-left: 9px; font-size: 12px !important; color: inherit;"></p:pieChart>
+							</h:panelGroup></td>
+
+						<td width="600px"><h:panelGroup
+								rendered="#{djConsolidadoDjObsMBean.flag}">
+								<p:pieChart widgetVar="pieCanTarEstados"
+									value="#{djConsolidadoDjObsMBean.pieModelObsBlo}"
+									legendPosition="e"
+									seriesColors="FFCC00,00FF7F,00BFFF,E6E6FA ,FFA07A, C71585,ADFF2F"
+									sliceMargin="1" showDataLabels="true" dataFormat="value"
+									styleClass="ui-widget-content"
+									style="width:600px; height:300px; margin-top: 6px; margin-left: 9px; font-size: 12px !important; color: inherit;"></p:pieChart>
+							</h:panelGroup></td>
+					</tr>
+
+				</table>
+				<table width="1000px" border="0">
+					<tr>
+						<td valign="top" width="350px"><p:dataTable var="item"
+								style="align:center"
+								value="#{djConsolidadoDjObsMBean.listaconsolidadoObs}">
+								<f:facet name="header">
+
+								</f:facet>
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column style="align:center" headerText="Tipo Obs." />
+										<p:column style="align:center" headerText="Total" />
+										<p:column style="align:center" headerText="total General" />
+										<p:column style="align:center" headerText="%" />
+									</p:row>
+								</p:columnGroup>
+
+								<p:column style="text-align: center">  
+            					#{item.des_tipo_obs}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.totalGeneral}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.porcentaje}  
+      			  				</p:column>
+
+							</p:dataTable></td>
+
+
+						<td valign="top" width="600px"><p:dataTable var="itemres"
+								style="align:center"
+								value="#{djConsolidadoDjObsMBean.listaconsolidadoObsBlo}">
+								<f:facet name="header">
+
+								</f:facet>
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column style="align:center" headerText="Bloque" />
+										<p:column style="align:center" headerText="Total" />
+										<p:column style="align:center" headerText="total General" />
+										<p:column style="align:center" headerText="%" />
+									</p:row>
+								</p:columnGroup>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.abrev_bloque}  
+		      			  			</p:column>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.total}  
+		      			  			</p:column>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.totalGeneral}  
+		      			  		</p:column>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.porcentaje}  
+		      			  	     </p:column>
+
+							</p:dataTable></td>
+					</tr>
+				</table>
+			</h:panelGroup>
+
+		</h:form>
+	</ui:define>
+
+
+	<!--  -->
+
+
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlg" header="Consolidado Observaciones" modal="true">
+			<h:panelGroup id="totprin">
+
+			   <!--  -->
+				<br/>
+				<table border="0" width="1000px">
+					  <tr>
+					    <th colspan="9"></th>
+					  </tr>
+					  <tr>
+					    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+					    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 14px; font-weight: bold;"><div id="enlacesnuevos"></div></td>
+					    <td style="font-weight: bold;" align="right">Fecha :</td>
+					    <td><h:outputLabel id="lblfecha1" value="#{djConsolidadoDjObsMBean.fecha}" style="font-weight: normal;">
+					     <f:convertDateTime pattern="dd/MM/yyyy" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold;" align="right">Hora :</td>
+					    <td><h:outputLabel id="lbltiempo1" value="#{djConsolidadoDjObsMBean.tiempo}" style="font-weight: normal;"><f:convertDateTime pattern="HH:mm:ss" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr >
+					    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold;" align="right">Usuario :</td>
+					    <td><h:outputLabel id="lblOportunidad1" value="#{djConsolidadoDjObsMBean.usuario}" style="font-weight: normal;"></h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+					    <td colspan="5"></td>
+					    <td colspan="2"></td>
+					  </tr>
+				</table>
+				<br/>
+				<!--  -->
+
+				<table width="1000px" border="0">
+					<tr align="Center">
+						<th colspan="2"></th>
+					</tr>
+					<tr>
+						<td align="justify"><p:outputPanel id="output" layout="block"
+								style="width:190px;height:300px;" /></td>
+						<td align="justify"><p:outputPanel id="output_1" layout="block"
+								style="width:300px;height:300px;" /></td>
+					</tr>
+				</table>
+			
+				<h:form id="conAnualSC">
+					<table width="1000px" border="0">
+						<tr>
+							<td valign="top" width="350px"><p:dataTable var="item"
+									style="align:center"
+									value="#{djConsolidadoDjObsMBean.listaconsolidadoObs}">
+									<f:facet name="header">
+
+									</f:facet>
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column style="align:center" headerText="Tipo Obs." />
+											<p:column style="align:center" headerText="Total" />
+											<p:column style="align:center" headerText="total General" />
+											<p:column style="align:center" headerText="%" />
+										</p:row>
+									</p:columnGroup>
+
+									<p:column style="text-align: center">  
+            					#{item.des_tipo_obs}  
+      			  				</p:column>
+
+									<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+									<p:column style="text-align: center">  
+            					#{item.totalGeneral}  
+      			  				</p:column>
+
+									<p:column style="text-align: center">  
+            					#{item.porcentaje}  
+      			  				</p:column>
+
+								</p:dataTable></td>
+
+
+							<td valign="top" width="600px"><p:dataTable var="itemres"
+									style="align:center"
+									value="#{djConsolidadoDjObsMBean.listaconsolidadoObsBlo}">
+									<f:facet name="header">
+
+									</f:facet>
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column style="align:center" headerText="Bloque" />
+											<p:column style="align:center" headerText="Total" />
+											<p:column style="align:center" headerText="total General" />
+											<p:column style="align:center" headerText="%" />
+										</p:row>
+									</p:columnGroup>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.abrev_bloque}  
+		      			  			</p:column>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.total}  
+		      			  			</p:column>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.totalGeneral}  
+		      			  		</p:column>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.porcentaje}  
+		      			  	     </p:column>
+
+
+								</p:dataTable></td>
+						</tr>
+					</table>
+
+				</h:form>
+			</h:panelGroup>
+		</p:dialog>
+	</ui:define>
+
+
+</ui:composition>
+</html>

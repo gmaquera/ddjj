@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmDDJJLista">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - Listado General de DDJJ </legend>
+				<table border="0" style="align: center; width: 100%">
+					<tr align="Right">
+						<td><p:commandButton value="Export a PDF"
+								id="exportToPdfButton" onclick="this.form.target='_self'"
+								actionListener="#{djListaDdjjMBean.exportarToPDF}"
+								ajax="false" /> <p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+								actionListener="#{djListaDdjjMBean.Imprimir}"
+								ajax="false">
+							</p:commandButton></td>
+					</tr>
+				</table>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 1000px" >
+					<tr>
+						<td valign="top"><p:dataTable var="item" style="width: 1000px"
+								value="#{djListaDdjjMBean.listaGeneralDj}" rows="20"
+								paginator="true" id="dataQuejasGeneral">
+								
+								<p:column headerText="Fec. Recepcion" sortBy="#{item.fechaRecepcion}">
+									<h:outputText value="#{item.fechaRecepcion}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Ejercicio"  sortBy="#{item.ejercicio}">
+									<h:outputText value="#{item.ejercicio}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Ap. Paterno" sortBy="#{item.paterno}" >
+									<h:outputText value="#{item.paterno}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Ap. Materno" sortBy="#{item.materno}" >
+									<h:outputText value="#{item.materno}"></h:outputText>
+								</p:column>
+
+
+								<p:column headerText="Nombres"  sortBy="#{item.nombres}">
+									<h:outputText value="#{item.nombres}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Dni" sortBy="#{item.dni}" >
+									<h:outputText value="#{item.dni}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Cargo" sortBy="#{item.cargo}" >
+									<h:outputText value="#{item.cargo}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Estado" sortBy="#{item.estadi}" >
+									<h:outputText value="#{item.estadi}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Distrito" sortBy="#{itemdistrito}">
+									<h:outputText value="#{itemdistrito}"></h:outputText>
+								</p:column>
+								<p:column headerText="Oportunidad" sortBy="#{item.oportunidad}">
+									<h:outputText value="#{item.oportunidad}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Fec. Asume"  sortBy="#{item.fechaAsume}">
+									<h:outputText value="#{item.fechaAsume}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Fec. Cese" sortBy="#{item.fechaCese}">
+									<h:outputText value="#{item.fechaCese}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Fec. Elaboracion" sortBy="#{item.fechaElaboracion}">
+									<h:outputText value="#{item.fechaElaboracion}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Año" sortBy="#{item.annio}">
+									<h:outputText value="#{item.annio}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Mes" sortBy="#{item.mes}">
+									<h:outputText value="#{item.mes}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Dia" sortBy="#{item.dia}">
+									<h:outputText value="#{item.dia}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Est. Civil" sortBy="#{item.estadoCivil}">
+									<h:outputText value="#{item.estadoCivil}"></h:outputText>
+								</p:column>
+								
+								<p:column headerText="Pers. Depen." sortBy="#{item.dependientes}">
+									<h:outputText value="#{item.dependientes}"></h:outputText>
+								</p:column>																																																												
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

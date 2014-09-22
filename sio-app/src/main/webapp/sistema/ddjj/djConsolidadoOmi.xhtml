@@ -1,0 +1,288 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<script type="text/javascript">
+			function exportChart() {
+				//export image  
+				//$('#output').empty().append(PF('chart').exportAsImage()); 
+				$('#output').empty().append(pieCanOmi.exportAsImage());
+				//show the dialog  
+				PF('dlg');  
+				//dlg.show();
+			}
+		</script>
+		<br></br>
+		<br></br>
+
+		<h:form id="frmOmisos">
+		
+			<table border="0" width="1000px">
+			  <tr>
+			    <th colspan="9"></th>
+			  </tr>
+			  <tr>
+			    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+			    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 20px; font-weight: bold;" width="500px">Consolidado  Omisos</td>
+			    <td style="font-weight: bold; font-size: 12px;" align="right">Fecha :</td>
+			    <td style="font-size: 10px;"><h:outputLabel id="lblfecha" value="#{djConsolidadoOmiMBean.fecha}" >
+			     <f:convertDateTime pattern="dd/MM/yyyy" />
+			    </h:outputLabel></td>
+			  </tr>
+			  <tr>
+			    <td colspan="5"></td>
+			    <td style="font-weight: bold; font-size: 12px;" align="right">Hora :</td>
+			    <td style="font-size: 10px;"><h:outputLabel id="lbltiempo" value="#{djConsolidadoOmiMBean.tiempo}"><f:convertDateTime pattern="HH:mm:ss" />
+			    </h:outputLabel></td>
+			  </tr>
+			  <tr >
+			    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+			    <td colspan="5"></td>
+			    <td style="font-weight: bold; font-size: 12px;" align="right">Usuario :</td>
+			    <td style="font-size: 10px;"><h:outputLabel id="lblOportunidad" value="#{djConsolidadoOmiMBean.usuario}"></h:outputLabel></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+			    <td colspan="5"></td>
+			    <td colspan="2"></td>
+			  </tr>
+			</table>
+			
+			
+			<h:panelGroup id="pnltabla">
+				<table width="1000px" border="0" align="center">
+					<br />
+					<tr align="Center">
+						<th colspan="2"></th>
+					</tr>
+					<br />
+
+					<tr align="center">
+						<td><h:panelGroup rendered="#{djConsolidadoOmiMBean.flag}">
+								<p:pieChart widgetVar="pieCanOmi"
+									value="#{djConsolidadoOmiMBean.pieModel}" legendPosition="e"
+									seriesColors="FFCC00,00FF7F,00BFFF,E6E6FA ,FFA07A, C71585,ADFF2F"
+									sliceMargin="1" showDataLabels="true" dataFormat="value"
+									styleClass="ui-widget-content"
+									style="width:480px; height:280px; margin-top: 6px; margin-left: 9px; font-size: 12px !important; color: inherit;"></p:pieChart>
+							</h:panelGroup></td>
+
+					</tr>
+					<tr align="center">
+						<td><p:commandButton value="Exportar a Excel" id="btntoExcel"
+								ajax="false"
+								actionListener="#{djConsolidadoOmiMBean.createExcel}">
+								<p:fileDownload value="#{djConsolidadoOmiMBean.archivo}"></p:fileDownload>
+							</p:commandButton> <p:commandButton type="button" value="Imprimir"
+								icon="ui-icon-extlink" onclick="exportChart()"
+								update="conAnualSC" >
+									<p:printer target=":totprin" />	
+							</p:commandButton>	
+							</td>
+
+					</tr>
+				</table>
+				<br />
+				<br />
+				<table width="1000px" border="0">
+					<tr>
+						<td valign="top"><p:dataTable var="item" style="align:center"
+								value="#{djConsolidadoOmiMBean.listaconsolidadoOmi}">
+								<f:facet name="header">
+
+								</f:facet>
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column style="align:center" headerText="Distrito" />
+										<p:column style="align:center" headerText="Total" />
+										<p:column style="align:center" headerText="Inicio" />
+										<p:column style="align:center" headerText="Primera" />
+										<p:column style="align:center" headerText="Segunda" />
+									</p:row>
+								</p:columnGroup>
+
+								<p:column style="text-align: center">  
+            					#{item.des_distri}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.no_inicio}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.no_primera}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.no_siguiente}  
+      			  				</p:column>
+
+							</p:dataTable></td>
+
+
+						<td valign="top"><p:dataTable var="itemres"
+								style="align:center"
+								value="#{djConsolidadoOmiMBean.listaconsolidadoOmiTip}">
+								<f:facet name="header">
+
+								</f:facet>
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column style="align:center" headerText="Tipo de Omiso" />
+										<p:column style="align:center" headerText="Total" />
+
+									</p:row>
+								</p:columnGroup>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.tipo_omiso}  
+		      			  			</p:column>
+
+								<p:column style="text-align: center">  
+		            				#{itemres.total}  
+		      			  			</p:column>
+
+							</p:dataTable></td>
+
+					</tr>
+
+				</table>
+			</h:panelGroup>
+
+		</h:form>
+	</ui:define>
+
+	<!--  -->
+
+
+
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlg" header="Consolidado Omisos" modal="true"
+			resizable="false">
+			<div class="a.before">
+				<h:panelGroup id="totprin">
+					<table border="0" width="1000px">
+					  <tr>
+					    <th colspan="9"></th>
+					  </tr>
+					  <tr>
+					    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+					    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 20px; font-weight: bold;" width="500px">Consolidado  Omisos</td>
+					    <td style="font-weight: bold; font-size: 12px;" align="right">Fecha :</td>
+					    <td style="font-size: 10px;"><h:outputLabel id="lblfecha" value="#{djConsolidadoOmiMBean.fecha}" >
+					     <f:convertDateTime pattern="dd/MM/yyyy" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold; font-size: 12px;" align="right">Hora :</td>
+					    <td style="font-size: 10px;"><h:outputLabel id="lbltiempo" value="#{djConsolidadoOmiMBean.tiempo}"><f:convertDateTime pattern="HH:mm:ss" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr >
+					    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold; font-size: 12px;" align="right">Usuario :</td>
+					    <td style="font-size: 10px;"><h:outputLabel id="lblOportunidad" value="#{djConsolidadoOmiMBean.usuario}"></h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+					    <td colspan="5"></td>
+					    <td colspan="2"></td>
+					  </tr>
+					</table>
+					<br/>
+					<br/>
+					<br/>
+					<table width="1000px" border="0">
+						<tr align="center">
+							<td><p:outputPanel id="output" layout="block"
+									style="width:480px;height:290px;" /></td>
+						</tr>
+					</table>
+
+					<h:form id="conAnualSC">
+						<table width="1000px" border="0">
+							<tr>
+								<td valign="top"><p:dataTable var="item"
+										style="align:center"
+										value="#{djConsolidadoOmiMBean.listaconsolidadoOmi}">
+
+										<p:columnGroup type="header">
+											<p:row>
+												<p:column style="align:center" headerText="Distrito" />
+												<p:column style="align:center" headerText="Total" />
+												<p:column style="align:center" headerText="Inicio" />
+												<p:column style="align:center" headerText="Primera" />
+												<p:column style="align:center" headerText="Segunda" />
+											</p:row>
+										</p:columnGroup>
+
+								<p:column style="text-align: center">  
+            					#{item.des_distri}  
+      			  				</p:column>
+
+										<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+										<p:column style="text-align: center">  
+            					#{item.no_inicio}  
+      			  				</p:column>
+
+										<p:column style="text-align: center">  
+            					#{item.no_primera}  
+      			  				</p:column>
+
+										<p:column style="text-align: center">  
+            					#{item.no_siguiente}  
+      			  				</p:column>
+
+									</p:dataTable></td>
+
+
+								<td valign="top"><p:dataTable var="itemres"
+										style="align:center"
+										value="#{djConsolidadoOmiMBean.listaconsolidadoOmiTip}">
+										<f:facet name="header">
+
+										</f:facet>
+										<p:columnGroup type="header">
+											<p:row>
+												<p:column style="align:center" headerText="Tipo de Omiso" />
+												<p:column style="align:center" headerText="Total" />
+
+											</p:row>
+										</p:columnGroup>
+
+										<p:column style="text-align: center">  
+		            				#{itemres.tipo_omiso}  
+		      			  			</p:column>
+
+										<p:column style="text-align: center">  
+		            				#{itemres.total}  
+		      			  			</p:column>
+									</p:dataTable></td>
+							</tr>
+						</table>
+					</h:form>
+				</h:panelGroup>
+			</div>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>
+</html>

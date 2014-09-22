@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+
+		<h:form id="frmAtenderQueja">
+
+			<fieldset class="ui-widget-content" style="margin-top: 10px;">
+				<legend>#{msg['msgQuejaInformes']}</legend>
+				<h:panelGroup id="pnlQuejaWeb">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja"
+									value="#{msg['msgYear']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboAnio" style="width:180px"
+									value="2014">
+									<f:selectItems value="#{quejaInfConsolQuejasResfinal.lisAnio}"
+										var="item" itemValue="#{item.anio}" itemLabel="#{item.anio}">
+									</f:selectItems>
+									<p:ajax listener="#{djMasterMBean.seleccionar}"
+										update="pnltabla" />
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 50%">
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djMasterMBean.lisObservadasAnual}" rows="20"
+                         paginator="true"
+									id="dataQuejas">									
+									<p:column headerText="Apellido Paterno" width="80">
+										<h:outputText value="#{item.paterno}"></h:outputText>
+									</p:column>
+									<p:column headerText="Apellido Materno" width="80">
+										<h:outputText value="#{item.materno}"></h:outputText>
+									</p:column>
+									<p:column headerText="Nombres" width="80">
+										<h:outputText value="#{item.nombres}"></h:outputText>
+									</p:column>
+									<p:column headerText="Usuario" width="40">
+										<h:outputText value="#{item.usuario}"></h:outputText>
+									</p:column>
+									<p:column headerText="Distrito" width="70">
+										<h:outputText value="#{item.distrito}"></h:outputText>
+									</p:column>
+									<p:column headerText="Cargo" width="70">
+										<h:outputText value="#{item.cargo}"></h:outputText>
+									</p:column>
+
+								</p:dataTable>
+						  
+						 </td>						
+					</tr>
+					
+				</table>
+			</h:panelGroup>
+			<p:commandButton value="Exportar a Excel" id="btntoExcel" ajax="false"
+            		 actionListener="#{djMasterMBean.createExcel}">
+                    <p:fileDownload value="#{djMasterMBean.archivo}"></p:fileDownload>        
+			</p:commandButton>
+			
+			<p:commandButton value="Export To Excel" id="exportToXlsxButton" actionListener="#{djMasterMBean.exportToXlsx}" ajax="false" /> 
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

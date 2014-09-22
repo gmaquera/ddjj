@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmAtenderQueja">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - Declarantes con más de una DDJJ Periódica</legend>
+				<h:panelGroup id="pnlQuejaWeb">
+					<table border="0" style="width: 1000px">
+						<tr align="Right">
+
+							<td><p:commandButton value="Export a PDF"
+									id="exportToPdfButton" onclick="this.form.target='_self'"
+									actionListener="#{djDeclarantesddjjPerMBean.exportarToPDF}"
+									ajax="false" /> <p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+									actionListener="#{djDeclarantesddjjPerMBean.Imprimir}"
+									ajax="false">
+								</p:commandButton></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item"
+								value="#{djDeclarantesddjjPerMBean.listaDeclarantePer}"
+								rows="30" paginator="true" id="dataDDJJPer">
+
+								<p:column headerText="Dni" width="80" sortBy="#{item.num_dni}">
+									<h:outputText value="#{item.num_dni}"></h:outputText>
+								</p:column>
+								<p:column headerText="Declarante" width="80" sortBy="#{item.declarante}">
+									<h:outputText value="#{item.declarante}"></h:outputText>
+								</p:column>
+								<p:column headerText="Ejercicio" width="80" sortBy="#{item.des_ejercicio}">
+									<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+								</p:column>
+								<p:column headerText="Total" width="80" sortBy="#{item.total}">
+									<h:outputText value="#{item.total}"></h:outputText>
+								</p:column>
+
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

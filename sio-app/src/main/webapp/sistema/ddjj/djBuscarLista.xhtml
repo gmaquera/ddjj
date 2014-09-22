@@ -1,0 +1,194 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmBuscaLista">
+			<p:growl id="messages" />
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<h:panelGroup id="pnlQuejaWeb">
+
+
+					<table width="1000px">
+						<tr align="Center">
+							<td><div
+									style="font-weight: Arial; font-size: 14px; font-weight: bold;">
+									Buscar de Lista</div></td>
+						</tr>
+						<tr height="20px"></tr>
+						<tr align="center">
+							<td>
+								<table width="400px">
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lbltipLista" value="Tipo de Lista:"
+												style="width: 100px;"></p:outputLabel></td>
+										<td width="200px" align="left"><p:selectOneMenu
+												id="cbotiplista" style="width: 150px;"
+												value="#{djBuscarListaMBean.codtipolista}">
+												<f:selectItems value="#{djBuscarListaMBean.listatipoLista}"
+													var="item" itemValue="#{item.cod_tipo_lista}"
+													itemLabel="#{item.des_tipo_lista}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lblEjercicio" value="Ejercicio:" style="width: 100px;"></p:outputLabel></td>
+										<td width="200px" align="left"><p:selectOneMenu
+												id="cboEjercicio" value="#{djBuscarListaMBean.desejercicio}"
+												style="width: 98px;">
+												<f:selectItems value="#{djBuscarListaMBean.listaYear}"
+													var="item" itemValue="#{item.year}"
+													itemLabel="#{item.descripcion}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lblnumFisico" value="Numero Fisico:"
+												style="width: 100px;"></p:outputLabel></td>
+										<td width="200px" align="left"><p:inputText
+												id="txtnumfisico"
+												value="#{djBuscarListaMBean.desnumerooficio}"
+												style="width: 120px;">
+											</p:inputText> <p:message for="txtnumfisico" /></td>
+									</tr>
+
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lblnomlista" value="Nombre de Lista"
+												style="width: 100px;"></p:outputLabel></td>
+										<td width="200px" align="left"><p:inputText
+												id="txtnomlista" value="#{djBuscarListaMBean.desnombre}"
+												style="width: 120px;">
+
+											</p:inputText> <p:message for="txtnomlista" /></td>
+									</tr>
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lblFiltraremitente" value="Remitente:"
+												style="width: 100px;">
+											</p:outputLabel></td>
+										<td><p:inputText id="txtremitente"
+												value="#{djBuscarListaMBean.desremitente}"
+												style="width: 200px;">
+											</p:inputText> <p:message for="lblFiltraremitente" /></td>
+									</tr>
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="lblfecenvio" value="Fecha de Envio: "
+												style="width: 100px;"></p:outputLabel></td>
+										<td width="200px" align="left"><p:calendar
+												value="#{djBuscarListaMBean.fecenviolistaini}" size="10"
+												pattern="#{aplicacionMBean.formatoFecha}" id="popupElaIni" />
+											<h:outputText value="hasta"></h:outputText> <p:calendar
+												value="#{djBuscarListaMBean.fecenviolistafin}" size="10"
+												pattern="#{aplicacionMBean.formatoFecha}" id="popupElaFin" /></td>
+										<td></td>
+
+										<!-- 
+								<p:commandButton value="ver"
+								actionListener="#{djBuscarListaMBean.selec}"
+								update="pnltabla">
+								</p:commandButton>
+ 								-->
+									</tr>
+									<tr height="30px"></tr>
+									<tr>
+										<td></td>
+										<td align="right"><p:commandButton
+												value="#{msg.msgBuscar}" id="btnbuscar"
+												actionListener="#{djBuscarListaMBean.seleccionarBuscarTipoLista}"
+												update=":frmBuscaLista:pnltabla" icon="ui-icon-search"
+												style="margin-left: 20px; height: 25px;">
+											</p:commandButton> <p:commandButton value="Nuevo" id="new" icon="ui-icon-document"
+												actionListener="#{djBuscarListaMBean.irNuevo}" /></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+
+					</table>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 1000px">
+					<tr>
+						<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+								value="#{djBuscarListaMBean.listaBuscaLista}" rows="30"
+								paginator="true" id="dataDDerrr">
+								<p:column headerText="Tipo" width="120" sortBy="#{item.des_tipo_lista}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										 style="text-decoration: none;">
+										<h:outputText value="#{item.des_tipo_lista}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+								<p:column headerText="Nombre" width="80"
+									sortBy="#{item.des_nombre}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.des_nombre}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+								<p:column headerText="Oficio" width="80" sortBy="#{item.des_numero_oficio}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.des_numero_oficio}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+								<p:column headerText="Remitente" width="200" sortBy="#{item.des_remitente}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.des_remitente}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+
+								<p:column headerText="Fec. Envio" width="80" sortBy="#{item.fecha_envio_lista}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.fecha_envio_lista}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+								<p:column headerText="Ejercicio" width="80"  sortBy="#{item.des_ejercicio}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+								<p:column headerText="Total DJ" width="80" sortBy="#{item.total}">
+									<h:commandLink actionListener="#{djBuscarListaMBean.irAEditar}"
+										style="text-decoration: none;">
+										<h:outputText value="#{item.total}"></h:outputText>
+									</h:commandLink>
+								</p:column>
+
+								<p:column headerText="Estado" width="30" sortBy="#{item.fla_estado_lista}">
+									<p:graphicImage library="images" name="i_lista_cerrada.gif"
+										rendered="#{item.fla_estado_lista eq '0'}"></p:graphicImage>
+									<p:graphicImage library="images" name="i_lista_abierta.gif"
+										rendered="#{item.fla_estado_lista eq '1'}"></p:graphicImage>
+								</p:column>
+							</p:dataTable></td>
+					</tr>
+				</table>
+				<!-- <h:outputText value="#{djBuscarListaMBean.id_nom}"></h:outputText> -->
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

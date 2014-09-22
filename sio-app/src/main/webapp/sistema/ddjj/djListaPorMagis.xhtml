@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmAtenderQueja">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - DDJJ por Magistrados</legend>
+				<table border="0" style="align: center; width: 100%">
+					<tr align="Right">
+						<td><p:commandButton value="Export a PDF"
+								id="exportToPdfButton" onclick="this.form.target='_self'"
+								actionListener="#{djListaPorMagisMBean.exportarToPDF}"
+								ajax="false" /> <p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+								actionListener="#{djListaPorMagisMBean.Imprimir}"
+								ajax="false">
+							</p:commandButton></td>
+					</tr>
+				</table>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item"
+								value="#{djListaPorMagisMBean.listaDjMagis}" rows="20"
+								paginator="true" id="dataQuejas">
+								<p:column headerText="Dni" width="80" sortBy="#{item.dni}">
+									<h:outputText value="#{item.dni}"></h:outputText>
+								</p:column>
+								<p:column headerText="Declarante" width="80" sortBy="#{item.declarante}">
+									<h:outputText value="#{item.declarante}"></h:outputText>
+								</p:column>
+								<p:column headerText="Total" width="80" sortBy="#{item.total}">
+									<h:outputText value="#{item.total}"></h:outputText>
+								</p:column>
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+			<table border="0" style="width: 100%">
+				<tr align="center">
+					<td align="right" width="50%"><p:outputLabel id="lbl1"
+							value="Total de Declaracions"></p:outputLabel></td>
+					<td align="left"><p:outputLabel id="lbltotadeclaraciones"
+							value="#{djListaPorMagisMBean.totdj}"></p:outputLabel></td>
+				</tr>
+
+				<tr align="center">
+					<td align="right" width="50%"><p:outputLabel id="lbl41"
+							value="Total Distrito Declarantes"></p:outputLabel></td>
+					<td align="left"><p:outputLabel id="lbltotadeclara"
+							value="#{djListaPorMagisMBean.totdecla}"></p:outputLabel></td>
+				</tr>
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

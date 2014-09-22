@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmDjConyuje">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - Conyuges en el Poder Judicial</legend>
+				<table border="0" style="align: center; width: 100%">
+					<tr align="Right">
+						<td><p:commandButton value="Export a PDF"
+								id="exportToPdfButton" onclick="this.form.target='_self'"
+								actionListener="#{djConyugesPjMBean.exportarToPDF}"
+								ajax="false" /> <p:commandButton value="Imprimir" 
+								actionListener="#{djConyugesPjMBean.Imprimir}" onclick="this.form.target='_blank'"
+								ajax="false">
+							</p:commandButton></td>
+					</tr>
+				</table>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item"
+								value="#{djConyugesPjMBean.listaConyuge}" rows="20"
+								paginator="true" id="datadj">
+								<p:column headerText="Declarante" width="80">
+									<h:outputText value="#{item.declarante}"></h:outputText>
+								</p:column>
+								<p:column headerText="Cónyugue" width="80">
+									<h:outputText value="#{item.conyuge}"></h:outputText>
+								</p:column>
+							</p:dataTable></td>
+					</tr>
+				</table>
+			</h:panelGroup>
+			<table border="0" style="width: 100%">
+				<tr align="center">
+					<td align="right" width="50%"><p:outputLabel id="lbl81"
+							value="Total de Registros encontrado :"></p:outputLabel></td>
+					<td align="left"><p:outputLabel id="lbltotadecra"
+									value="#{djConyugesPjMBean.total}"></p:outputLabel></td>
+				</tr>
+
+				<tr>
+					<td></td>
+				</tr>
+			</table>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

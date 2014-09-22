@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmdeclaracion">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - DDJJ Distrito Judicial</legend>
+				<h:panelGroup id="pnlDj">
+					<table border="0" style="width: 1000px">
+						<tr>
+							<td align="justify" width="30px"><p:outputLabel id="lblddjjdistri" value="Año:"></p:outputLabel>
+							</td>
+							<td width="180px"><p:selectOneMenu id="cboAnio" style="width:180px"
+									value="#{djDistritoJudMBean.anio}">
+									<f:selectItems value="#{djDistritoJudMBean.listaYear}"
+										var="item" itemValue="#{item.year}"
+										itemLabel="#{item.descripcion}">
+									</f:selectItems>
+									<p:ajax listener="#{djDistritoJudMBean.seleccionarAnioDistJud}"
+										update="pnltabla" />
+								</p:selectOneMenu></td>
+								<td align="left"> 
+								<p:commandButton value="#{djDistritoJudMBean.anio}" 
+									actionListener="#{djDistritoJudMBean.seleccionarAnioDistJud}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton></td>
+
+							<td align="Right"><p:commandButton value="Exportar a PDF"  
+									id="exportToPdfButton" onclick="this.form.target='_self'"
+									actionListener="#{djDistritoJudMBean.exportarToPDF}"
+									ajax="false" /> <p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+									actionListener="#{djDistritoJudMBean.Imprimir}" ajax="false">
+								</p:commandButton></td>
+						</tr>
+
+					</table>
+				</h:panelGroup>
+
+				<h:panelGroup id="pnltabla">
+					<table border="0" style="align: center; width: 100%">
+						<tr>
+							<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+									value="#{djDistritoJudMBean.listadjDistriJud}" rows="30"
+									paginator="true" id="dajee">
+
+									<p:column headerText="Distrito" width="80">
+										<h:outputText value="#{item.des_distri}"></h:outputText>
+									</p:column>
+									<p:column headerText="Total" width="80">
+										<h:outputText value="#{item.total}"></h:outputText>
+									</p:column>
+
+								</p:dataTable></td>
+						</tr>
+
+
+
+					</table>
+					<table border="0" style="width: 100%">
+						<tr align="center">
+							<td align="right" width="50%"><p:outputLabel id="lbl1"
+									value="Total de Declaracions"></p:outputLabel></td>
+							<td align="left"><p:outputLabel id="lbltotadeclaraciones"
+									value="#{djDistritoJudMBean.totalDDJJ}"></p:outputLabel></td>
+						</tr>
+
+						<tr align="center">
+							<td align="right" width="50%"><p:outputLabel id="lbl41"
+									value="Total Distrito Declarantes"></p:outputLabel></td>
+							<td align="left"><p:outputLabel id="lbltotadeclara"
+									value="#{djDistritoJudMBean.totalDecla}"></p:outputLabel></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,505 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmLss">
+			<!-- <p:growl id="messages" />  -->
+
+			<table width="1000px">
+
+				<tr>
+					<td align="right"><h:panelGroup id="pnlopciones" >
+							<p:commandButton value="Buscar" icon="ui-icon-search"
+								disabled="#{djMantDeclaracionJuMBean.flaBuscarLis == false}"
+								actionListener="#{djMantDeclaracionJuMBean.buscarLista}">
+							</p:commandButton>
+							<p:commandButton value="Guardar"
+								disabled="#{djMantDeclaracionJuMBean.flaGuardar == false}"
+								update=":listaMensajes :frmLss:dataDDJJDetalle  :frmLss:pnlEditar  :frmLss:pnlopciones"
+								actionListener="#{djMantDeclaracionJuMBean.grabarDjListaDJ}"
+								icon="ui-icon-disk">
+								<p:commandButton value="Cancelar" icon="ui-icon-close"
+									disabled="#{djMantDeclaracionJuMBean.flaCancelar == false}"
+									actionListener="#{djMantDeclaracionJuMBean.buscarLista}">
+								</p:commandButton>
+							</p:commandButton>
+							<p:commandButton value="Editar" oncomplete="dlg1.show()"
+								disabled="#{djMantDeclaracionJuMBean.flaEditar == false}"
+								update=":pnlDialogos" icon="ui-icon-arrowrefresh-1-w">
+							</p:commandButton>
+							<p:commandButton value="Eliminar"
+								oncomplete="confirmacion.show()"
+								update=":listaMensajes :pnlDialogos"
+								disabled="#{djMantDeclaracionJuMBean.flaAsignadj == false}"
+								icon="ui-icon-close">
+							</p:commandButton>
+							<p:commandButton value="Nuevo"
+								disabled="#{djMantDeclaracionJuMBean.flaNuevo == false}"
+								actionListener="#{djMantDeclaracionJuMBean.nuevo}" ajax="false"
+								icon="ui-icon-document">
+							</p:commandButton>
+							<!-- <p:commandButton id="bnt" value="Editar" oncomplete="dlg1.show()"
+								update=":listaMensajes :frmLss:pnlestado" icon="ui-icon-arrowrefresh-1-w">
+							</p:commandButton> -->
+						</h:panelGroup></td>
+
+				</tr>
+
+			</table>
+			<br></br>
+			<br></br>
+
+
+
+			<h:panelGroup id="pnlEditar">
+				<table width="1000px">
+					<tr align="Center">
+						<td><div
+								style="font-weight: Arial; font-size: 14px; font-weight: bold;">
+								Detalle de Lista</div></td>
+					</tr>
+
+					<tr align="Center">
+						<td><p:outputLabel id="ofilistatitulo"
+								value="#{djMantDeclaracionJuMBean.listOficio}"
+								style="width: 100px;" /> - <p:outputLabel id="nomlistatitulo"
+								value="#{djMantDeclaracionJuMBean.listNombre}"
+								style="width: 100px;" /></td>
+					</tr>
+					<tr align="Center" height="20px"></tr>
+					<tr align="center">
+						<td>
+							<table width="400px">
+								<tr>
+
+									<td width="80px" align="left"><p:outputLabel
+											id="tipListab" value="Tipo de Lista:" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><p:selectOneMenu
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											id="tipListab1" style="width: 150px;"
+											value="#{djMantDeclaracionJuMBean.codTipoLista}">
+											<f:selectItems
+												value="#{djMantDeclaracionJuMBean.listatipoLista}"
+												var="item" itemValue="#{item.cod_tipo_lista}"
+												itemLabel="#{item.des_tipo_lista}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="ejerciciob" value="Ejercicio:" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><p:selectOneMenu
+											id="ejerciciob1"
+											value="#{djMantDeclaracionJuMBean.desEjercicio}"
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											validatorMessage="Seleccione un Año" style="width: 98px;">
+											<f:selectItems value="#{djMantDeclaracionJuMBean.listaYear}"
+												var="item" itemValue="#{item.year}"
+												itemLabel="#{item.descripcion}"></f:selectItems>
+										</p:selectOneMenu></td>
+								</tr>
+
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="numfisico1" value="Numero Fisico:" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><p:inputMask
+											id="numfisicob1"
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											style="width: 120px;" mask="999-9999"
+											validatorMessage="Ingrese Nª Fisico (Solo Nùmeros)"
+											value="#{djMantDeclaracionJuMBean.djlista.desNumeroOficio}">
+										</p:inputMask> <p:message for="numfisicob1" redisplay="" /></td>
+								</tr>
+
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="nomlista1" value="Nombre de Lista" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><p:inputMask
+											id="nomlistab1"
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											style="width: 120px;" mask="9999-999"
+											validatorMessage="Ingrese Nombre de Lista (Solo Letras)"
+											value="#{djMantDeclaracionJuMBean.djlista.desNombre}">
+										</p:inputMask> <p:message for="nomlistab1" redisplay="" /></td>
+								</tr>
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="remitenteb" value="Remitente:" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><p:inputText
+											id="remitenteb1" style="width: 220px;"
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											validatorMessage="Ingrese Remitente (Solo Letras)"
+											value="#{djMantDeclaracionJuMBean.djlista.desRemitente}">
+
+										</p:inputText> <p:message for="remitenteb" redisplay="" /></td>
+								</tr>
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="fecenviob1" value="Fecha de Envio: "
+											style="width: 100px;"></p:outputLabel></td>
+									<td width="200px" align="left"><p:calendar
+											value="#{djMantDeclaracionJuMBean.djlista.fecEnvioLista}"
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											size="10" pattern="#{aplicacionMBean.formatoFecha}"
+											validatorMessage="Seleccionar Fecha" id="popupFecEnvib" /></td>
+								</tr>
+								<tr>
+									<td width="80px" align="left"><p:outputLabel
+											id="flaestadolistab" value="Estado: " style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left"><h:selectOneRadio
+											disabled="#{djMantDeclaracionJuMBean.flapnl == false}"
+											value="#{djMantDeclaracionJuMBean.djlista.flaEstadoLista}">
+											<f:selectItem itemValue="0" itemLabel="Cerrado"></f:selectItem>
+											<f:selectItem itemValue="1" itemLabel="Abierto"></f:selectItem>
+										</h:selectOneRadio></td>
+
+								</tr>
+							</table>
+
+						</td>
+					</tr>
+					<tr align="Center">
+						<td><div
+								style="font-weight: Arial; font-size: 10px; font-weight: bold;">
+								Listado DDJJ : (
+								<p:outputLabel id="nomlitot"
+									value="#{djMantDeclaracionJuMBean.total}" style="width: 100px;" />
+								Asignados )
+							</div></td>
+					</tr>
+					<tr height="30px"></tr>
+
+					<tr>
+						<td align="right"><h:panelGroup id="pnlestado">
+								<p:commandButton value="Exportar Declarantes"
+									icon="ui-icon-extlink" id="bntExpDecla"
+									disabled="#{djMantDeclaracionJuMBean.flaExpDecla == false}"
+									actionListener="#{djMantDeclaracionJuMBean.createExcel}"
+									ajax="false" style="margin-left: 20px; height: 25px;">
+									<p:fileDownload value="#{djMantDeclaracionJuMBean.archivo}"></p:fileDownload>
+				 				</p:commandButton>
+								<p:commandButton value="Exportar al Peruano" id="bntExpPer"
+									disabled="#{djMantDeclaracionJuMBean.flaExpPeru == false}"
+									actionListener="#{djMantDeclaracionJuMBean.exportarToXLSx}"
+									ajax="false" icon="ui-icon-newwin"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+								<p:commandButton value="Asignar DDJJ" id="bntAsigDj"
+									icon="ui-icon-plus"
+									disabled="#{djMantDeclaracionJuMBean.flaAsignadj == false}"
+									actionListener="#{djMantDeclaracionJuMBean.declarante}"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+								<p:commandButton id="bntQuitar" value="Quitar Declarantes"
+									icon="ui-icon-minus"
+									disabled="#{djMantDeclaracionJuMBean.flaQuitdj == false}"
+									actionListener="#{djMantDeclaracionJuMBean.deleteItem}"
+									update=":listaMensajes :frmLss:dataDDJJDetalle  :frmLss:nomlitot"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+								<!-- <p:commandButton id="bnt" value="Editar" oncomplete="dlg1.show()"
+								update=":listaMensajes :frmLss:pnlestado" icon="ui-icon-arrowrefresh-1-w">
+							</p:commandButton> -->
+
+
+							</h:panelGroup></td>
+
+					</tr>
+				</table>
+
+			</h:panelGroup>
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 1000px">
+					<tr>
+						<td valign="top"><p:dataTable var="item"
+								emptyMessage="#{msg['msgTablaVacia']}"
+								selection="#{djMantDeclaracionJuMBean.selectedDecla_quit}"
+								rowKey="#{item.numdni}"
+								value="#{djMantDeclaracionJuMBean.listaDDJJAdjuntas}" rows="30"
+								paginator="true" id="dataDDJJDetalle">
+
+								<p:column selectionMode="multiple"
+									style="width:16px;text-align:center" />
+
+								<p:column headerText="Dni" width="80" sortBy="#{item.numdni}">
+									<h:outputText value="#{item.numdni}"></h:outputText>
+								</p:column>
+								<p:column headerText="Declarante" width="120"
+									sortBy="#{item.declarante}">
+									<h:outputText value="#{item.declarante}"></h:outputText>
+								</p:column>
+								<p:column headerText="Distrito" width="80"
+									sortBy="#{item.desdistri}">
+									<h:outputText value="#{item.desdistri}"></h:outputText>
+								</p:column>
+								<p:column headerText="Fec. Elaboracion" width="80"
+									sortBy="#{item.fecelab}">
+									<h:outputText value="#{item.fecelab}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Ejercicio" width="80"
+									sortBy="#{item.desejercicio}">
+									<h:outputText value="#{item.desejercicio}"></h:outputText>
+								</p:column>
+								<p:column headerText="Oportunidad" width="120"
+									sortBy="#{item.nombreoportunidad}">
+									<h:outputText value="#{item.nombreoportunidad}"></h:outputText>
+								</p:column>
+								<p:column headerText="Estado" width="80"
+									sortBy="#{item.desestadodj}">
+									<h:outputText value="#{item.desestadodj}"></h:outputText>
+								</p:column>
+								<p:column headerText="" width="10">
+									<p:commandButton title="ir a DDJJ"
+										actionListener="#{djMantDeclaracionJuMBean.irVerificar}"
+										icon="ui-icon-pencil" styleClass="button-icon-edit">
+									</p:commandButton>
+								</p:column>
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+
+
+
+
+
+			<!-- 
+ 		<h:form id="pnlDelList">
+			<p:dialog header="Eliminar Lista" widgetVar="dlgdelLis" modal="true">
+				<table width="400px">
+					<tr align="Center">
+						<td><div
+								style="font-weight: Arial; font-size: 10px; font-weight: bold;">
+								¿Esta Seguro que Desea Eliminar esta lista?</div></td>
+					</tr>
+					<tr align="Center">
+						<td><p:commandButton value="Si" icon="ui-icon-check"
+								update=":frmLss:pnlEditar"
+								oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgdelLis)"
+								actionListener="#{djMantDeclaracionJuMBean.eliminarDjLista}"
+								style="margin-left: 20px; height: 25px;">
+							</p:commandButton> <p:commandButton value="No" icon="ui-icon-close" type="button"
+								onclick="dlgdelLis.hide()"
+								style="margin-left: 20px; height: 25px;">
+							</p:commandButton></td>
+					</tr>
+				</table>
+			</p:dialog>
+		</h:form>
+  -->
+
+			<!-- 
+			<p:dialog widgetVar="dlgconfirmacion" header="Confirmacion"
+				modal="true" showEffect="bounce" hideEffect="explode">
+				<table>
+					<tr align="Center">
+						<td align="Center"><div
+								style="font-weight: Arial; font-size: 10px; font-weight: bold;">
+								¿Esta Seguro que Desea Eliminar esta lista?</div></td>
+					</tr>
+					<tr align="Center">
+						<td><p:commandButton value="Si" icon="ui-icon-check"
+								update=":listaMensajes  :frmLss"
+								oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgconfirmacion)"
+								actionListener="#{djMantDeclaracionJuMBean.eliminarDjLista}"
+								style="margin-left: 20px; height: 25px;">
+							</p:commandButton> <p:commandButton value="No" icon="ui-icon-close" type="button"
+								onclick="dlgconfirmacion.hide()"
+								style="margin-left: 20px; height: 25px;">
+							</p:commandButton></td>
+					</tr>
+				</table>
+
+			</p:dialog>
+ -->
+
+		</h:form>
+
+	</ui:define>
+
+	<!-- 
+	<ui:define name="di">
+		<h:form id="pnldel">
+			<p:confirmDialog widgetVar="confirmacion" showEffect="bounce"
+				modal="true" hideEffect="explode" header="#{msg['msgConfirmacion']}"
+				message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+				<p:commandButton value="#{msg['msgSi']}"
+					actionListener="#{djMantDeclaracionJuMBean.eliminarDjLista}"
+					oncomplete="confirmacion.hide()" />
+
+				<p:commandButton value="#{msg['msgNo']}"
+					onclick="confirmacion.hide()" type="button" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+ -->
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<p:dialog header="Buscar Lista" widgetVar="dlg1" modal="true">
+				<h:form id="pnlDial">
+					<table width="400px">
+						<tr align="Center">
+							<td><div
+									style="font-weight: Arial; font-size: 14px; font-weight: bold;">
+									Detalle de Lista</div></td>
+						</tr>
+
+						<tr align="Center">
+							<td><p:outputLabel id="ofilistatitulo"
+									value="#{djMantDeclaracionJuMBean.listOficio}"
+									style="width: 100px;" /> - <p:outputLabel id="nomlistatitulo"
+									value="#{djMantDeclaracionJuMBean.listNombre}"
+									style="width: 100px;" /></td>
+						</tr>
+						<tr align="Center" height="20px"></tr>
+						<tr align="center">
+							<td>
+								<table width="400px">
+									<tr>
+
+										<td width="80px" align="left"><p:outputLabel
+												id="tipLista1" value="Tipo de Lista:" style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:selectOneMenu
+												id="tipLista" style="width: 150px;"
+												value="#{djMantDeclaracionJuMBean.codTipoLista}">
+												<f:selectItems
+													value="#{djMantDeclaracionJuMBean.listatipoLista}"
+													var="item" itemValue="#{item.cod_tipo_lista}"
+													itemLabel="#{item.des_tipo_lista}"></f:selectItems>
+											</p:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="ejercicio1" value="Ejercicio:" style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:selectOneMenu
+												id="ejerciciob2"
+												value="#{djMantDeclaracionJuMBean.desEjercicio}"
+												validatorMessage="Seleccione un Año" style="width: 98px;">
+												<f:selectItems value="#{djMantDeclaracionJuMBean.listaYear}"
+													var="item" itemValue="#{item.year}"
+													itemLabel="#{item.descripcion}"></f:selectItems>
+											</p:selectOneMenu> <p:message for="ejerciciob2" redisplay="" /></td>
+									</tr>
+
+
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="numfisico1" value="Numero Fisico:" style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:inputMask
+												id="numfisicob2" style="width: 120px;" mask="999-9999"
+												validatorMessage="Ingrese Nª Fisico (Solo Nùmeros)"
+												value="#{djMantDeclaracionJuMBean.djlista.desNumeroOficio}">
+											</p:inputMask> <p:message for="numfisicob2" redisplay="" /></td>
+									</tr>
+
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="nomlista1" value="Nombre de Lista" style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:inputMask id="nomlista"
+												style="width: 120px;" mask="9999-999"
+												validatorMessage="Ingrese Nombre de Lista (Solo Letras)"
+												value="#{djMantDeclaracionJuMBean.djlista.desNombre}">
+											</p:inputMask> <p:message for="nomlista" redisplay="" /></td>
+									</tr>
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="remitente1" value="Remitente:" style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:inputText
+												id="remitente" style="width: 220px;"
+												validatorMessage="Ingrese Remitente (Solo Letras)"
+												value="#{djMantDeclaracionJuMBean.djlista.desRemitente}">
+												<!--    <f:validateRegex pattern="[A-Za-z]*"></f:validateRegex> -->
+											</p:inputText> <p:message for="remitente" redisplay="" /></td>
+									</tr>
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="fecenvio" value="Fecha de Envio: " style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><p:calendar
+												value="#{djMantDeclaracionJuMBean.djlista.fecEnvioLista}"
+												size="10" pattern="#{aplicacionMBean.formatoFecha}"
+												validatorMessage="Seleccionar Fecha" id="popupFecEnvi" /></td>
+									</tr>
+									<tr>
+										<td width="80px" align="left"><p:outputLabel
+												id="flaestadolista1" value="Estado: " style="width: 100px;"></p:outputLabel>
+										</td>
+										<td width="200px" align="left"><h:selectOneRadio
+												value="#{djMantDeclaracionJuMBean.djlista.flaEstadoLista}">
+												<f:selectItem itemValue="0" itemLabel="Cerrado"></f:selectItem>
+												<f:selectItem itemValue="1" itemLabel="Abierto"></f:selectItem>
+											</h:selectOneRadio></td>
+
+									</tr>
+								</table>
+
+							</td>
+						</tr>
+						<tr align="Center">
+							<td><div
+									style="font-weight: Arial; font-size: 10px; font-weight: bold;">
+									Listado DDJJ : (
+									<p:outputLabel id="nomlitot"
+										value="#{djMantDeclaracionJuMBean.total}"
+										style="width: 100px;" />
+									Asignados )
+								</div></td>
+						</tr>
+						<tr height="30px"></tr>
+
+						<tr>
+							<td align="right"><p:commandButton value="Guardar"
+									icon="ui-icon-disk"
+									actionListener="#{djMantDeclaracionJuMBean.grabarDjListaDJ}"
+									update=":listaMensajes :frmLss:pnlEditar :frmLss:pnlestado :frmLss"
+									oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlg1)"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton> <p:commandButton value="#{msg['msgCancelar']}" type="button"
+									onclick="dlg1.hide()" icon="ui-icon-close"></p:commandButton></td>
+
+						</tr>
+					</table>
+				</h:form>
+			</p:dialog>
+
+
+			<h:form prependId="false">
+				<p:confirmDialog widgetVar="confirmacion" showEffect="bounce"
+					modal="true" hideEffect="explode"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djMantDeclaracionJuMBean.eliminarDjLista}"
+						oncomplete="confirmacion.hide()" />
+
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="confirmacion.hide()" type="button" />
+				</p:confirmDialog>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+
+</ui:composition>
+</html>

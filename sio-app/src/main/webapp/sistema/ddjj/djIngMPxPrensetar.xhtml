@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmAtenderQueja">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - Ingreso a Mesa de Partes con Estado por
+					Presentar</legend>
+				<h:panelGroup id="pnlQuejaWeb">
+					<table border="0" style="width: 1000px">
+						<tr>
+							<td align="justify" width="30px"><p:outputLabel
+									id="lblFiltrardjanio" value="#{msg['msgYear']}:"></p:outputLabel></td>
+							<td width="180px"><p:selectOneMenu id="cboAnio"
+									style="width:180px" value="#{djIngMPEstaMBean.anio}">
+									<f:selectItems value="#{djIngMPEstaMBean.listaYear}" var="item"
+										itemValue="#{item.year}" itemLabel="#{item.descripcion}">
+									</f:selectItems>
+									<p:ajax listener="#{djIngMPEstaMBean.seleccionarAnio}"
+										update="pnltabla" />
+								</p:selectOneMenu></td>
+							<td align="left"><p:commandButton
+									value="#{djIngMPEstaMBean.anio}"
+									actionListener="#{djIngMPEstaMBean.seleccionarAnio}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton></td>
+
+							<td align="Right"><p:commandButton value="Export a PDF"
+									id="exportToPdfButton"
+									actionListener="#{djIngMPEstaMBean.exportarToPDF}" ajax="false" />
+
+								<p:commandButton value="Imprimir"  onclick="this.form.target='_blank'"
+									actionListener="#{djIngMPEstaMBean.Imprimir}" ajax="false">
+								</p:commandButton></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+								value="#{djIngMPEstaMBean.listaIngMPxPresentar}" rows="25"
+								paginator="true" id="dataDJ">
+
+								<p:column headerText="Fec. de Elab." width="80"
+									sortBy="#{item.fec_elab}">
+									<h:outputText value="#{item.fec_elab}"></h:outputText>
+								</p:column>
+								<p:column headerText="Fec. de Recep." width="80"
+									sortBy="#{item.fecha_recepcion}">
+									<h:outputText value="#{item.fecha_recepcion}"></h:outputText>
+								</p:column>
+								<p:column headerText="Nº Registro" width="80"
+									sortBy="#{item.num_registro}">
+									<h:outputText value="#{item.num_registro}"></h:outputText>
+								</p:column>
+								<p:column headerText="Nombre" width="80" sortBy="#{item.nombre}">
+									<h:outputText value="#{item.nombre}"></h:outputText>
+								</p:column>
+								<p:column headerText="Descripcion" width="80"
+									sortBy="#{item.des_nrodoc}">
+									<h:outputText value="#{item.des_nrodoc}"></h:outputText>
+								</p:column>
+
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,476 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<script type="text/javascript">
+			var orden=1;
+			function exportChart() {
+				//export image  
+				//$('#output').empty().append(PF('chart').exportAsImage()); 
+				$('#output').empty().append(pieCanDjEstados.exportAsImage());
+				$('#output_1').empty().append(barCantDJEstados.exportAsImage());
+				//show the dialog  
+				//PF('dlg').show();
+			    var id=document.getElementById("enlaces");
+			    var nuevos=id.cloneNode(true);
+			    nuevos.style.id='enlaces'+orden;
+			    orden++;
+			    id=document.getElementById("enlacesnuevos");
+			    id.appendChild(nuevos);
+				
+				PF('dlg');
+
+				//dlg.show();					
+			}
+		</script>
+		<br></br>
+		<br></br>
+
+		<h:form id="frmAtenderdj">
+			<fieldset class="ui-widget-content" style="margin-top: 10px;">
+				<legend>Reporte - Consolidado de DDJJ por Año </legend>
+				<h:panelGroup id="pnldj">
+
+					<div class="div-table">
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lbldj" value="#{msg['msgYear']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboAnio" style="width:180px"
+									value="#{djConsolidadoDjAnioMBean.anio}">
+									<f:selectItems value="#{djConsolidadoDjAnioMBean.lisDjAnio}"
+										var="item" itemValue="#{item.anio}" itemLabel="#{item.des}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrardj" value="#{msg['msgMes']}:"></p:outputLabel>
+							</div>
+
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboMes" style="width:180px"
+									value="#{djConsolidadoDjAnioMBean.mes}">
+									<f:selectItems value="#{djConsolidadoDjAnioMBean.listaMeses}"
+										var="item" itemValue="#{item.anio}" itemLabel="#{item.des}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+
+							<div class="div-cell">
+								<p:commandButton value="#{djConsolidadoDjAnioMBean.mes}"  
+									actionListener="#{djConsolidadoDjAnioMBean.seleccionarAnioxMes}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+							</div>
+
+							<div class="div-cell">
+								<p:commandButton value="Exportar a Excel" id="btntoExcel"
+									ajax="false"
+									actionListener="#{djConsolidadoDjAnioMBean.createExcel}">
+									<p:fileDownload value="#{djConsolidadoDjAnioMBean.archivo}"></p:fileDownload>
+								</p:commandButton>
+							</div>
+
+							<div class="div-cell">
+								<p:commandButton type="button" value="Imprimir"
+									icon="ui-icon-extlink" onclick="exportChart()"
+									update="conAnualSC">
+									<p:printer target=":totprin" />	
+								</p:commandButton>
+							</div>
+
+						</div>
+					</div>
+				</h:panelGroup>
+			</fieldset>
+			<br/>
+	<!-- 	<br/>
+			<table border="0" width="1000px">
+				  <tr>
+				    <th colspan="9"></th>
+				  </tr>
+				  <tr>
+				    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+				    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 14px; font-weight: bold;">Consolidado
+									de #{djConsolidadoDjAnioMBean.desmes} del
+									#{djConsolidadoDjAnioMBean.anio}</td>
+				    <td style="font-weight: bold;" align="right">Fecha :</td>
+				    <td><h:outputLabel id="lblfecha" value="#{djConsolidadoDjAnioMBean.fecha}" >
+				     <f:convertDateTime pattern="dd/MM/yyyy" />
+				    </h:outputLabel></td>
+				  </tr>
+				  <tr>
+				    <td colspan="5"></td>
+				    <td style="font-weight: bold;" align="right">Hora :</td>
+				    <td><h:outputLabel id="lbltiempo" value="#{djConsolidadoDjAnioMBean.tiempo}"><f:convertDateTime pattern="HH:mm:ss" />
+				    </h:outputLabel></td>
+				  </tr>
+				  <tr >
+				    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+				    <td colspan="5"></td>
+				    <td style="font-weight: bold;" align="right">Usuario :</td>
+				    <td><h:outputLabel id="lblOportunidad" value="#{djConsolidadoDjAnioMBean.usuario}"></h:outputLabel></td>
+				  </tr>
+				  <tr>
+				    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+				    <td colspan="5"></td>
+				    <td colspan="2"></td>
+				  </tr>
+			</table>
+			<br/>  -->
+			<div class="div-table">
+				<h:panelGroup id="pnltabla">
+					<br />
+					<table width="1000px" border="0">
+
+						<tr align="Center">			<th colspan="2">
+								<table border="0" width="1000px">
+									  <tr>
+									    <th colspan="9"></th>
+									  </tr>
+									  <tr>
+									    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+									    <td colspan="5" align="Center"><div id="enlaces"  style="font-weight: Arial; font-size: 20px; font-weight: bold;" >Consolidado DDJJ por Año
+														de #{djConsolidadoDjAnioMBean.desmes} del
+														#{djConsolidadoDjAnioMBean.anio}</div></td>
+									    <td style="font-weight: bold;" align="right">Fecha :</td>
+									    <td><h:outputLabel id="lblfecha1" value="#{djConsolidadoDjAnioMBean.fecha}" style="font-weight: normal;">
+									     <f:convertDateTime pattern="dd/MM/yyyy" />
+									    </h:outputLabel></td>
+									  </tr>
+									  <tr>
+									    <td colspan="5"></td>
+									    <td style="font-weight: bold;" align="right">Hora :</td>
+									    <td><h:outputLabel id="lbltiempo1" value="#{djConsolidadoDjAnioMBean.tiempo}" style="font-weight: normal;"><f:convertDateTime pattern="HH:mm:ss" />
+									    </h:outputLabel></td>
+									  </tr>
+									  <tr >
+									    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+									    <td colspan="5"></td>
+									    <td style="font-weight: bold;" align="right">Usuario :</td>
+									    <td><h:outputLabel id="lblOportunidad1" value="#{djConsolidadoDjAnioMBean.usuario}" style="font-weight: normal;"></h:outputLabel></td>
+									  </tr>
+									  <tr>
+									    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+									    <td colspan="5"></td>
+									    <td colspan="2"></td>
+									  </tr>
+								</table></th>
+						</tr>
+						<tr></tr>
+						<tr>
+							<td><h:panelGroup
+									rendered="#{djConsolidadoDjAnioMBean.flag}">
+									<p:barChart widgetVar="barCantDJEstados" 
+										value="#{djConsolidadoDjAnioMBean.categoryModelConAnual}"
+										xaxisLabel="" yaxisLabel="Cantidad" datatipFormat="%2$d" showDatatip="true"
+										styleClass="ui-widget-content" animate="true" barMargin="1"
+										style="Height:350px;width:600px" seriesColors="008B8B"
+										title="" />
+								</h:panelGroup></td>
+							<td><h:panelGroup
+									rendered="#{djConsolidadoDjAnioMBean.flag}">
+									<p:pieChart widgetVar="pieCanDjEstados"
+										value="#{djConsolidadoDjAnioMBean.pieModel}"
+										legendPosition="e"
+										seriesColors="FFCC00,00FF7F,00BFFF,E6E6FA ,FFA07A, C71585,ADFF2F"
+										sliceMargin="1" showDataLabels="true" dataFormat="value"
+										styleClass="ui-widget-content"
+										style="width:380px; height:350px; margin-top: 6px; margin-left: 9px; font-size: 12px !important; color: inherit;"></p:pieChart>
+								</h:panelGroup></td>
+						</tr>
+
+					</table>
+					<br />
+					<br />
+					<table width="1000px" border="0">
+
+						<tr align="Center">
+							<th colspan="2"></th>
+						</tr>
+
+						<tr>
+							<td valign="top"><p:dataTable var="item"
+									style="align:center"
+									value="#{djConsolidadoDjAnioMBean.listaconsolidadoDj}">
+									<f:facet name="header">
+
+									</f:facet>
+									<p:columnGroup type="header">
+										<p:row>
+											<!--  	<p:column style="align:center" headerText="Nro" /> -->
+											<p:column style="align:center" headerText="Distrito Jud." />
+											<p:column style="align:center" headerText="Total" />
+											<p:column style="align:center" headerText="Construccion" />
+											<p:column style="align:center" headerText="Por Verificar" />
+											<p:column style="align:center" headerText="Observada" />
+											<p:column style="align:center" headerText="Por Presentar" />
+											<p:column style="align:center" headerText="Presentada" />
+											<p:column style="align:center" headerText="Pendiente" />
+										</p:row>
+									</p:columnGroup>
+
+									<!--  	<p:column style="text-align: center">
+            					#{item.codigo}  
+      			  				</p:column>-->
+
+								<p:column style="text-align: center">  
+            					#{item.des_distri}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.en_construccion}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.por_Verificar}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.observada}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.por_presentar}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.presentada}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.pendiente}  
+      			  				</p:column>
+
+									<p:columnGroup type="footer">
+										<p:row>
+											<p:column footerText="Totales:" />
+											<p:column footerText="#{djConsolidadoDjAnioMBean.totbarra}" />
+										</p:row>
+									</p:columnGroup>
+
+								</p:dataTable></td>
+
+							<td valign="top"><p:dataTable var="itemres"
+									style="align:center"
+									value="#{djConsolidadoDjAnioMBean.listaconsolidadoPorcDj}">
+									<f:facet name="header">
+
+									</f:facet>
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column style="align:center" headerText="Estadps DDJ" />
+											<p:column style="align:center" headerText="Total" />
+											<p:column style="align:center" headerText="Porcentaje %" />>
+									</p:row>
+									</p:columnGroup>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.estado}  
+		      			  			</p:column>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.total}  
+		      			  			</p:column>
+
+									<p:column style="text-align: center">  
+		            				#{itemres.porcentaje}  
+		      			  			</p:column>
+								</p:dataTable></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+			</div>
+		</h:form>
+
+	</ui:define>
+
+
+	<!--  -->
+
+
+
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlg"
+			header="Consolidado de Declaraciones Juradas" modal="true"
+			resizable="false">
+			<div class="a.before">
+				<h:panelGroup id="totprin">
+					<br/>
+						 <table border="0" width="1000px">
+								  <tr>
+								    <th colspan="9"></th>
+								  </tr>
+								  <tr>
+								    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+								    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 14px; font-weight: bold;"><div id="enlacesnuevos"></div></td>
+								    <td style="font-weight: bold;" align="right">Fecha :</td>
+								    <td><h:outputLabel id="lblfecha1" value="#{djConsolidadoDjAnioMBean.fecha}" style="font-weight: normal;">
+								     <f:convertDateTime pattern="dd/MM/yyyy" />
+								    </h:outputLabel></td>
+								  </tr>
+								  <tr>
+								    <td colspan="5"></td>
+								    <td style="font-weight: bold;" align="right">Hora :</td>
+								    <td><h:outputLabel id="lbltiempo1" value="#{djConsolidadoDjAnioMBean.tiempo}" style="font-weight: normal;"><f:convertDateTime pattern="HH:mm:ss" />
+								    </h:outputLabel></td>
+								  </tr>
+								  <tr >
+								    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+								    <td colspan="5"></td>
+								    <td style="font-weight: bold;" align="right">Usuario :</td>
+								    <td><h:outputLabel id="lblOportunidad1" value="#{djConsolidadoDjAnioMBean.usuario}" style="font-weight: normal;"></h:outputLabel></td>
+								  </tr>
+								  <tr>
+								    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+								    <td colspan="5"></td>
+								    <td colspan="2"></td>
+								  </tr>
+							</table>
+					<br/>
+					<table width="1000px" border="0">
+						<tr>
+							<th colspan="2"></th>
+						</tr>
+						<tr>
+							<td><p:outputPanel id="output_1" layout="block"
+									style="width:500px;height:350px;" /></td>
+							<td><p:outputPanel id="output" layout="block"
+									style="width:300px;height:350px;" /></td>
+						</tr>
+
+					</table>
+					<br />
+					<br />
+					<h:form id="conAnualSC">
+						<table width="1000px" border="0">
+
+							<tr align="Center">
+								<th colspan="2"></th>
+							</tr>
+
+							<tr>
+								<td valign="top"><p:dataTable var="item"
+										style="align:center"
+										value="#{djConsolidadoDjAnioMBean.listaconsolidadoDj}">
+										<f:facet name="header">
+
+										</f:facet>
+										<p:columnGroup type="header">
+											<p:row>
+												<!--  	<p:column style="align:center" headerText="Nro" /> -->
+												<p:column style="align:center" headerText="Distrito Jud." />
+												<p:column style="align:center" headerText="Total" />
+												<p:column style="align:center" headerText="Construccion" />
+												<p:column style="align:center" headerText="Por Verificar" />
+												<p:column style="align:center" headerText="Observada" />
+												<p:column style="align:center" headerText="Por Presentar" />
+												<p:column style="align:center" headerText="Presentada" />
+												<p:column style="align:center" headerText="Pendiente" />
+											</p:row>
+										</p:columnGroup>
+
+										<!--  	<p:column style="text-align: center">
+            					#{item.codigo}  
+      			  				</p:column>-->
+
+								<p:column style="text-align: center">  
+            					#{item.des_distri}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.en_construccion}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.por_Verificar}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.observada}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.por_presentar}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.presentada}  
+      			  				</p:column>
+
+								<p:column style="text-align: center">  
+            					#{item.pendiente}  
+      			  				</p:column>
+
+								<p:columnGroup type="footer">
+											<p:row>
+												<p:column footerText="Totales:" />
+												<p:column footerText="#{djConsolidadoDjAnioMBean.totbarra}" />
+											</p:row>
+								</p:columnGroup>
+
+								</p:dataTable></td>
+
+
+								<td valign="top">
+									   <p:dataTable var="itemres"
+											style="align:center"
+											value="#{djConsolidadoDjAnioMBean.listaconsolidadoPorcDj}">
+											<f:facet name="header">
+	
+											</f:facet>
+											<p:columnGroup type="header">
+												<p:row>
+													<p:column style="align:center" headerText="Estadps DDJ" />
+													<p:column style="align:center" headerText="Total" />
+													<p:column style="align:center" headerText="Porcentaje %" />>
+												</p:row>
+											</p:columnGroup>
+	
+										<p:column style="text-align: center">  
+			            				#{itemres.estado}  
+			      			  			</p:column>
+	
+										<p:column style="text-align: center">  
+			            				#{itemres.total}  
+			      			  			</p:column>
+	
+										<p:column style="text-align: center">  
+			            				#{itemres.porcentaje}  
+			      			  			</p:column>
+										</p:dataTable>
+								</td>
+							</tr>
+
+						</table>
+					</h:form>
+				</h:panelGroup>
+			</div>
+		</p:dialog>
+	</ui:define>
+
+</ui:composition>
+</html>

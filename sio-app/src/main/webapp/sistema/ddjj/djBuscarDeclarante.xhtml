@@ -1,0 +1,364 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+
+		<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+		<div class="ui-widget-header contenido-cabecera">
+			<h:form id="frmMenuConsultasDj">
+				<div class="div-table" style="margin-top: 4px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-circle-check"></span>
+						</div>
+						<div class="div-cell">
+							<p:commandLink value="Declaraciones juradas"
+								action="/sistema/ddjj/djBuscarListaDeta?faces-redirect=true"
+								ajax="true"></p:commandLink>
+						</div>
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-triangle-1-e"></span>
+						</div>
+						<div class="div-cell">Consultas</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+
+		<div class="contenido-area-total" style="padding: 1px;">
+
+			<h:form id="frmConsultasDdjj">
+				<p:growl id="growl" showDetail="true" sticky="false" />
+				<p:fieldset legend="Datos Generales de la Declaracion"
+					style="width: 1000px" styleClass="myFieldset">
+					<p:panelGrid id="pnlDeclaracion"
+						columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">
+
+						<p:row>
+							<p:column>
+								<h:outputLabel id="lblFechaEla" value="Fecha de Elaboracion"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<p:calendar value="#{djBuscarDeclaranteMBean.fec_ini_elab}"
+									size="10" pattern="#{aplicacionMBean.formatoFecha}"
+									id="popupElaIni" />
+
+								<h:outputLabel id="lblDesdeEla" value="   hasta   "></h:outputLabel>
+
+								<p:calendar value="#{djBuscarDeclaranteMBean.fec_fin_elab}"
+									size="10" pattern="#{aplicacionMBean.formatoFecha}"
+									id="popupElaFin" />
+							</p:column>
+
+							<p:column></p:column>
+
+							<p:column>
+								<h:outputLabel id="lblFechaCre" value="Fecha de Creacion"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<p:calendar value="#{djBuscarDeclaranteMBean.fec_ini_creacion}"
+									size="10" pattern="#{aplicacionMBean.formatoFecha}"
+									id="popupCreIni" />
+
+								<h:outputLabel id="lblDesdeCre" value="   hasta   "></h:outputLabel>
+
+								<p:calendar value="#{djBuscarDeclaranteMBean.fec_fin_creacion}"
+									size="10" pattern="#{aplicacionMBean.formatoFecha}"
+									id="popupCreFin" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel id="lblEjercicio" value="Ejercicio"></h:outputLabel>
+							</p:column>
+
+							<p:column>
+								<p:selectOneMenu id="cboEjercicio"
+									value="#{djBuscarDeclaranteMBean.des_ejercicio}"
+									style="width: 98px;">
+									<f:selectItems value="#{djBuscarDeclaranteMBean.listaYear}"
+										var="item" itemValue="#{item.year}"
+										itemLabel="#{item.descripcion}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+							<p:column>
+							</p:column>
+							<p:column>
+								<h:outputLabel id="lblOportunidad" value="Oportunidad"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<p:selectOneMenu id="cboOportunidad"
+									value="#{djBuscarDeclaranteMBean.cod_present}"
+									style="width: 98px;">
+									<f:selectItems
+										value="#{djBuscarDeclaranteMBean.listaOportunidad}" var="item"
+										itemValue="#{item.codPresentacion}"
+										itemLabel="#{item.desNombre}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+
+						</p:row>
+
+
+						<p:row>
+							<p:column>
+								<h:outputLabel id="lblDistrito" value="Distrito"></h:outputLabel>
+							</p:column>
+
+							<p:column>
+								<p:selectOneMenu id="cboDistrito"
+									value="#{djBuscarDeclaranteMBean.cod_distrito}"
+									style="width: 98px;">
+									<f:selectItems value="#{djBuscarDeclaranteMBean.listaDist}"
+										var="item" itemValue="#{item.codDistri}"
+										itemLabel="#{item.desDistri}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+
+							<p:column></p:column>
+
+							<p:column>
+								<h:outputLabel id="lblEstado" value="Estado"></h:outputLabel>
+							</p:column>
+
+							<p:column>
+								<p:selectOneMenu id="cboEstado"
+									value="#{djBuscarDeclaranteMBean.fla_estado}"
+									style="width: 98px;">
+									<f:selectItems value="#{djBuscarDeclaranteMBean.listaEstados}"
+										var="item" itemValue="#{item.cod_estado_dj}"
+										itemLabel="#{item.des_estado_dj}"></f:selectItems>
+								</p:selectOneMenu>
+							</p:column>
+						</p:row>
+
+
+
+
+					</p:panelGrid>
+				</p:fieldset>
+				<p:fieldset legend="Datos Generales del Declarante"
+					style="width: 1000px" styleClass="myFieldset">
+					<p:panelGrid id="pnlDeclarante"
+						columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">
+						<p:row>
+							<p:column>
+								<h:outputLabel id="lblPaterno" value="Ap. Paterno"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="txtPaterno"
+									value="#{djBuscarDeclaranteMBean.des_apepaterno}"
+									style="width: 200px;">
+								</p:inputText>
+							</p:column>
+							<p:column>
+							</p:column>
+
+							<p:column>
+								<h:outputLabel id="lblMaterno" value="Ap. Materno"></h:outputLabel>
+							</p:column>
+
+							<p:column>
+								<p:inputText id="txtMaterno"
+									value="#{djBuscarDeclaranteMBean.des_apematerno}"
+									style="width: 200px;">
+								</p:inputText>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel id="lblDNI" value="DNI"></h:outputLabel>
+							</p:column>
+							<p:column>
+								<!--  <p:inputText id="txtDNI" value="#{djBuscarDeclaranteMBean.num_dni}" style="width: 120px;"/>-->
+								<p:inputMask id="txtDNI"
+									value="#{djBuscarDeclaranteMBean.num_dni}"
+									style="width: 120px;" mask="9?9999999" maxlength="8"
+									placeHolder=" " />
+							</p:column>
+
+							<p:column></p:column>
+
+							<p:column>
+
+							</p:column>
+
+							<p:column colspan="3">
+
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+				</p:fieldset>
+
+				<p:fieldset legend="Estado de las Listas"
+					style="width: 280px; display: inline-block; vertical-align:bottom"
+					styleClass="myFieldset">
+					<h:selectOneRadio value="#{djBuscarDeclaranteMBean.fla_adjunta}">
+						<f:selectItem itemValue="0" itemLabel="No Adjunta a Lista"></f:selectItem>
+						<f:selectItem itemValue="1" itemLabel="Adjunta a Lista"></f:selectItem>
+						<f:selectItem itemValue="2" itemLabel="Todos"></f:selectItem>
+					</h:selectOneRadio>
+				</p:fieldset>
+
+
+
+				<p:fieldset legend="Opciones de Busqueda"
+					style="width: 300px; display: inline-block; vertical-align:bottom"
+					styleClass="myFieldset">
+					<p:commandButton value="Buscar DDJJ"
+						actionListener="#{djBuscarDeclaranteMBean.consulta}"
+						update="pnlta" />
+
+					<p:commandButton update=":frmConsultasDdjj:dataDdjj :frmConsultasDdjj:tableDe :listaMensajes"
+						actionListener="#{djBuscarDeclaranteMBean.insertItem}"
+						icon="ui-icon-plus" value="Agregar">
+					</p:commandButton>
+
+					<p:commandButton 
+						actionListener="#{djBuscarDeclaranteMBean.irRetornar}" 
+						icon="ui-icon-close" value="Cerrar">
+					</p:commandButton>
+					<!-- <h:outputText value="#{djBuscarDeclaranteMBean.codigo_Lista}"></h:outputText> -->
+				</p:fieldset>
+
+				<h:panelGroup id="pnlta">
+
+
+					<table border="0" style="align: center; width: 1000px">
+						<tr>
+							<td valign="top"><p:dataTable var="item"
+									selection="#{djBuscarDeclaranteMBean.selectedDecla}"
+									rowKey="#{item.num_dni}"
+									value="#{djBuscarDeclaranteMBean.lisDdjj}" rows="10"
+									paginator="true" id="dataDdjj">
+									<p:column selectionMode="multiple"
+										style="width:16px;text-align:center" />
+									<p:column headerText="Dni" width="80">
+										<h:outputText value="#{item.num_dni}"></h:outputText>
+									</p:column>
+
+									<p:column headerText="Declarante" width="350px">
+										<!--  <h:commandLink actionListener="#{djBuscarDeclaranteMBean.irVerificar}">-->
+										<h:outputText value="#{item.declarante}"></h:outputText>
+										<!-- </h:commandLink> -->
+									</p:column>
+
+									<p:column headerText="Distrito" width="100">
+										<h:outputText value="#{item.des_distri}"></h:outputText>
+									</p:column>
+
+									<p:column headerText="Fec Elab" width="80">
+										<h:outputText value="#{item.fec_elab}">
+											<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="Ejercicio" width="80">
+										<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+									</p:column>
+
+									<p:column headerText="Oportunidad" width="120">
+										<h:outputText value="#{item.nombre_oportunidad}"></h:outputText>
+									</p:column>
+
+									<p:column headerText="Estado" width="120">
+
+										<h:outputText value="#{item.des_estado_dj}"></h:outputText>
+										<!-- <p:graphicImage value="/resources/images/#{item.des_icono}" title="#{item.des_estado_dj} #{item.NOMBRE_LISTA}" />	-->
+									</p:column>
+
+									<p:column headerText="Lista" width="100">
+										<h:outputText value="#{item.NOMBRE_LISTA}"></h:outputText>
+									</p:column>
+
+								</p:dataTable></td>
+						</tr>
+					</table>
+
+				</h:panelGroup>
+
+				<!-- <p:dialog header="Declarantes Seleccionados" showEffect="fade"
+					hideEffect="scale" resizable="false" widgetVar="multiCarDialog"
+					width="900px"> -->
+				<br />
+				<br />
+				<div style="font-weight: Arial; font-size: 20px; font-weight: bold;">
+					Declarantes Asignados</div>
+				<br />
+				<p:dataTable id="tableDe" paginator="true" rows="10"
+					value="#{djBuscarDeclaranteMBean.selectedDecla_tmp}" var="item">
+
+					<p:column headerText="Dni" width="80">
+						<h:outputText value="#{item.num_dni}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Declarante" width="350px">
+						<!--  <h:commandLink actionListener="#{djBuscarDeclaranteMBean.irVerificar}">-->
+						<h:outputText value="#{item.declarante}"></h:outputText>
+						<!-- </h:commandLink> -->
+					</p:column>
+
+					<p:column headerText="Distrito" width="100">
+						<h:outputText value="#{item.des_distri}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Fec Elab" width="80">
+						<h:outputText value="#{item.fec_elab}">
+							<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Ejercicio" width="80">
+						<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Oportunidad" width="120">
+						<h:outputText value="#{item.nombre_oportunidad}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="Estado" width="120">
+
+						<h:outputText value="#{item.des_estado_dj}"></h:outputText>
+						<!-- <p:graphicImage value="/resources/images/#{item.des_icono}" title="#{item.des_estado_dj} #{item.NOMBRE_LISTA}" />	-->
+					</p:column>
+
+					<p:column headerText="Lista" width="100">
+						<h:outputText value="#{item.NOMBRE_LISTA}"></h:outputText>
+					</p:column>
+
+					<p:column headerText="" width="20">
+						<f:facet name="header">
+							<p:commandButton icon="ui-icon-disk" value="Guardar"
+								update=":listaMensajes :frmConsultasDdjj:tableDe"
+								actionListener="#{djBuscarDeclaranteMBean.grabarDjListaxDJLista}">
+							</p:commandButton>
+						</f:facet>
+						<p:commandButton title="#{msg['msgEliminar']}"
+							actionListener="#{djBuscarDeclaranteMBean.removeItem(item)}"
+							update="tableDe" icon="ui-icon-close"
+							styleClass="button-icon-edit" process="@this">
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+
+
+				<!-- </p:dialog>  -->
+
+
+
+			</h:form>
+
+			<!--  -->
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

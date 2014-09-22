@@ -1,0 +1,262 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+
+		<script type="text/javascript">
+			function exportChart() {
+				//export image  
+				//$('#output').empty().append(PF('chart').exportAsImage()); 
+				$('#output').empty().append(barEjercicioPre.exportAsImage());
+				//show the dialog  
+				PF('dlg');
+				//dlg.show();
+			}
+		</script>
+
+	<!-- 	<style type="text/css">
+				td-titulo
+				{
+					 font-weight: Arial;
+					 font-size: 14px;
+					 font-weight: bold";
+					
+				}
+				
+				td-logo-titulo
+				{
+					font-size: 8px";
+				}
+	  		</style> -->
+		<br></br>
+		<br></br>
+
+		<h:form id="frmEjercicioPres">
+
+			<!--  -->
+			<table border="0" width="800px">
+			  <tr>
+			    <th colspan="9"></th>
+			  </tr>
+			  <tr>
+			    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+			    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 14px; font-weight: bold;">Declaraciones Juradas por Ejercicio Presupuestado</td>
+			    <td style="font-weight: bold;" align="right">Fecha :</td>
+			    <td><h:outputLabel id="lblfecha" value="#{djEjercicioPresuMBean.fecha}" >
+			     <f:convertDateTime pattern="dd/MM/yyyy" />
+			    </h:outputLabel></td>
+			  </tr>
+			  <tr>
+			    <td colspan="5"></td>
+			    <td style="font-weight: bold;" align="right">Hora :</td>
+			    <td><h:outputLabel id="lbltiempo" value="#{djEjercicioPresuMBean.tiempo}"><f:convertDateTime pattern="HH:mm:ss" />
+			    </h:outputLabel></td>
+			  </tr>
+			  <tr >
+			    <td colspan="2" align="Center" style="font-size: 8px; font-weight: bold;">Oficina  de Control de  la Magistratura</td>
+			    <td colspan="5"></td>
+			    <td style="font-weight: bold;" align="right">Usuario :</td>
+			    <td><h:outputLabel id="lblOportunidad" value="#{djEjercicioPresuMBean.usuario}"></h:outputLabel></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2"  align="Center" style="font-size: 8px; font-weight: bold;">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+			    <td colspan="5"></td>
+			    <td colspan="2"></td>
+			  </tr>
+			</table>
+			<!--  -->
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<h:panelGroup id="pnltabla">
+
+
+					<table border="0"  width="800px">
+						<tr align="Center">
+							<th></th>
+						</tr>
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+						<tr></tr>
+						<tr align="Right">
+							<td><p:commandButton type="button" value="Imprimir"
+									icon="ui-icon-extlink" onclick="exportChart()"
+									update="conAnualSC" >
+										<p:printer target=":totprin" />						
+								</p:commandButton>
+															
+								
+								 <p:commandButton value="Exportar a Excel" id="btntoExcel"
+									ajax="false"
+									actionListener="#{djEjercicioPresuMBean.createExcel}">
+									<p:fileDownload value="#{djEjercicioPresuMBean.archivo}"></p:fileDownload>
+								</p:commandButton></td>
+						</tr>
+						<tr align="center">
+							<td><p:dataTable var="item" 
+									value="#{djEjercicioPresuMBean.lisConsolidadoDjEjerPresu}">
+									<!-- <f:facet name="header">  
+          			  			DECLARACIONES  JURADAS POR EJERCICIO PRESUPUESTADO
+        					</f:facet> -->
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column style="align:center"
+												headerText="Ejercicio Presupuestado" />
+											<p:column style="align:center" headerText="Total" />
+										</p:row>
+									</p:columnGroup>
+
+									<p:column style="text-align: center; width:400px">
+            					#{item.des_ejercicio}  
+      			  				</p:column>
+
+									<p:column style="text-align: center; width:400px">  
+            					#{item.total}  
+      			  				</p:column>
+
+									<p:columnGroup type="footer">
+										<p:row>
+											<p:column footerText="Totales:" />
+											<p:column footerText="#{djEjercicioPresuMBean.tot}" />
+										</p:row>
+									</p:columnGroup>
+								</p:dataTable></td>
+						</tr>
+						<tr align="center">
+							<td><h:panelGroup rendered="#{djEjercicioPresuMBean.flag}">
+									<p:barChart widgetVar="barEjercicioPre" 
+										value="#{djEjercicioPresuMBean.categoryModelEjerPresu}"
+										styleClass="ui-widget-content" animate="true" barMargin="1"
+										style="Height:350px;width:800px" datatipFormat="%2$d" showDatatip="true"
+										seriesColors="008B8B, 25B53B, EE940E, 11B0EA, FFD700, DC143C, 008B8B, 2F4F4F, EEE8AA, FFA500, 00008B, 6495ED, 66CDAA"
+										title="" />
+								</h:panelGroup></td>
+						</tr>
+
+
+						<tr align="center">
+
+							<td><p:outputLabel id="lbl1"
+									value="Total de Declaracions : "></p:outputLabel> <p:outputLabel
+									id="lbltotadeclaraciones" value="#{djEjercicioPresuMBean.tot}"></p:outputLabel></td>
+
+
+						</tr>
+
+					</table>
+				</h:panelGroup>
+
+			</fieldset>
+		</h:form>
+
+	</ui:define>
+
+	<!--  -->
+
+
+
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlg"
+			header="Declaraciones Juradas por Ejercicio Presupuestado"
+			modal="true" resizable="false">
+			<div class="a.before">
+				<h:panelGroup id="totprin">
+					<!--  -->
+					<br />
+					<br />
+					<table border="0" width="900px">
+					  <tr>
+					    <th colspan="9"></th>
+					  </tr>
+					  <tr>
+					    <td colspan="2" rowspan="2" align="Center"><h:graphicImage width="60px"   height="60px" url="/resources/images/logo111.png"/></td>
+					    <td colspan="5" align="Center" style="font-weight: Arial; font-size: 15px; font-weight: bold;" width="500px">Declaraciones Juradas por Ejercicio Presupuestado</td>
+					    <td style="font-weight: bold; font-size: 12px;" align="right">Fecha :</td>
+					    <td style="font-size: 10px;" align="left"><h:outputLabel id="lblfecha" value="#{djEjercicioPresuMBean.fecha}" >
+					     <f:convertDateTime pattern="dd/MM/yyyy" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold; font-size: 12px;" align="right">Hora :</td>
+					    <td style="font-size: 10px;" align="left"><h:outputLabel id="lbltiempo" value="#{djEjercicioPresuMBean.tiempo}"><f:convertDateTime pattern="HH:mm:ss" />
+					    </h:outputLabel></td>
+					  </tr>
+					  <tr >
+					    <td colspan="2" align="Center" style="font-weight: Arial; font-size: 8px; font-weight: bold;" width="300px">Oficina  de Control de  la Magistratura</td>
+					    <td colspan="5"></td>
+					    <td style="font-weight: bold; font-size: 12px; width:80px;" align="right">Usuario :</td>
+					    <td style="font-size: 10px;  width:150px;" align="left"><h:outputLabel id="lblOportunidad" value="#{djEjercicioPresuMBean.usuario}"></h:outputLabel></td>
+					  </tr>
+					  <tr>
+					    <td colspan="2"  align="Center" style="font-weight: Arial; font-size: 8px; font-weight: bold;" width="300px" valign="top">Oficina de  Declaraciones Juradas de Bienes y Servicios</td>
+					    <td colspan="5"></td>
+					    <td colspan="2"></td>
+					  </tr>
+					</table>
+					<br />
+					<br />
+					<br />
+					<br />
+					<!--  -->
+					<table width="800px" border="0">
+						<tr align="center">
+							<td><p:outputPanel id="output" layout="block"
+									style="width:680px;height:350px;" /></td>
+						</tr>
+					</table>
+					<br />
+					<br />
+					<br />
+					<br />
+					<h:form id="conAnualSC">
+						<p:dataTable var="item"
+							value="#{djEjercicioPresuMBean.lisConsolidadoDjEjerPresu}">
+
+							<p:columnGroup type="header">
+								<p:row>
+									<p:column style="align:center"
+										headerText="Ejerciocio Presupuestado" />
+									<p:column style="align:center" headerText="Total" />
+								</p:row>
+							</p:columnGroup>
+
+							<p:column style="text-align: center; width:400px">
+            					#{item.des_ejercicio}  
+      			  				</p:column>
+
+							<p:column style="text-align: center; width:400px">  
+            					#{item.total}  
+      			  				</p:column>
+
+							<p:columnGroup type="footer">
+								<p:row>
+									<p:column footerText="Totales:" />
+									<p:column footerText="#{djEjercicioPresuMBean.tot}" />
+								</p:row>
+							</p:columnGroup>
+						</p:dataTable>
+						<br/>
+						<br/>
+						<table border="0"  width="800px">
+							<tr align="center">
+								<td><p:outputLabel id="lbl1" value="Total de Declaracions : "></p:outputLabel> 
+								<p:outputLabel id="lbltotadeclaraciones" value="#{djEjercicioPresuMBean.tot}"></p:outputLabel></td>
+							</tr>
+						</table>
+					</h:form>
+  
+				</h:panelGroup>
+			</div>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+</html>

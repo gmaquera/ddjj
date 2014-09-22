@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmAtenderQueja">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - DDJJ Observadas que han sido Actualizadas
+				</legend>
+				<h:panelGroup id="pnlQuejaWeb">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja" value="#{msg['msgYear']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboAnio" style="width:180px"
+									value="#{djObservadasUpdaMBean.anio}">
+									<f:selectItems value="#{djObservadasUpdaMBean.lisAnio}"
+										var="item" itemValue="#{item.anio}" itemLabel="#{item.des}">
+									</f:selectItems>
+									<p:ajax listener="#{djObservadasUpdaMBean.seleccionarAnio}"
+										update="pnltabla" />
+								</p:selectOneMenu>
+
+							</div>
+							<div class="div-cell">
+
+								<p:commandButton value="#{djObservadasUpdaMBean.anio}"
+									actionListener="#{djObservadasUpdaMBean.seleccionarAnio}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+								
+								<p:commandButton value="Export a PDF" id="exportToPdfButton" onclick="this.form.target='_self'"
+									actionListener="#{djObservadasUpdaMBean.exportarToPDF}"
+									ajax="false" />
+
+								<p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+									actionListener="#{djObservadasUpdaMBean.Imprimir}"
+									ajax="false">
+								</p:commandButton>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+								value="#{djObservadasUpdaMBean.listaObsUpdate}" rows="25"
+								paginator="true" id="dataDDJJ">
+								<p:column headerText="Fecha de Observacion" width="80" sortBy="#{item.fec_observacion}">
+									<h:outputText value="#{item.fec_observacion}"></h:outputText>
+								</p:column>
+								<p:column headerText="Fecha de Modificacion" width="80" sortBy="#{item.fec_mod}">
+									<h:outputText value="#{item.fec_mod}"></h:outputText>
+								</p:column>
+								<p:column headerText="Ejercicio" width="80" sortBy="#{item.des_ejercicio}">
+									<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+								</p:column>
+								<p:column headerText="Nombre" width="80" sortBy="#{item.des_nombre}">
+									<h:outputText value="#{item.des_nombre}"></h:outputText>
+								</p:column>
+								<p:column headerText="Dni" width="80" sortBy="#{item.num_dni}">
+									<h:outputText value="#{item.num_dni}"></h:outputText>
+								</p:column>
+								<p:column headerText="Distrito" width="80" sortBy="#{item.des_distri}">
+									<h:outputText value="#{item.des_distri}"></h:outputText>
+								</p:column>
+								<p:column headerText="Cargo" width="80" sortBy="#{item.des_cargo}">
+									<h:outputText value="#{item.des_cargo}"></h:outputText>
+								</p:column>
+								<p:column headerText="Usu. Mod" width="80" sortBy="#{item.cod_usuario_observa}">
+									<h:outputText value="#{item.cod_usuario_observa}"></h:outputText>
+								</p:column>
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmdeclaracion">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>#{msg['msgRepListaMagDjPend']}</legend>
+				<h:panelGroup id="pnlDj">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja"
+									value="#{msg['msgDistritoJudicial']}:"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+								<p:selectOneMenu id="cboA" style="width:180px"
+									value="#{djListadjPendienteMBean.codDistri}">
+									<f:selectItems
+										value="#{djListadjPendienteMBean.lisDistritoJud}" var="item"
+										itemValue="#{item.coddistri}" itemLabel="#{item.desdistri}">
+									</f:selectItems>
+									<p:ajax
+										listener="#{djListadjPendienteMBean.seleccionarDistrito}"
+										update="pnltabla" />
+								</p:selectOneMenu>
+							</div>
+
+							<div class="div-cell">
+
+								<p:commandButton value="#{djListadjPendienteMBean.codDistri}"
+									actionListener="#{djListadjPendienteMBean.seleccionarDistrito}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+								
+								<p:commandButton value="Export a Excel" id="exportToXlsxButton" onclick="this.form.target='_self'"
+									actionListener="#{djListadjPendienteMBean.exportarToXLSx}"
+									ajax="false" />
+								<p:commandButton value="Export a PDF" id="exportToPdfButton"  onclick="this.form.target='_self'"
+									actionListener="#{djListadjPendienteMBean.exportarToPDF}"
+									ajax="false" />
+								<p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+									actionListener="#{djListadjPendienteMBean.Imprimir}"
+									ajax="false">
+								</p:commandButton>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</fieldset>
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 1000px">
+					<tr>
+						<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+								value="#{djListadjPendienteMBean.listaMagisDjPen}" rows="30"
+								paginator="true" id="dajee">
+
+								<p:column headerText="Apellido Paterno" width="80" sortBy="#{item.des_ap_paterno}">
+									<h:outputText value="#{item.des_ap_paterno}"></h:outputText>
+								</p:column>
+								<p:column headerText="Apellido Materno" width="80" sortBy="#{item.des_ap_materno}">
+									<h:outputText value="#{item.des_ap_materno}"></h:outputText>
+								</p:column>
+								<p:column headerText="Nombres" width="80" sortBy="#{item.des_nombre}">
+									<h:outputText value="#{item.des_nombre}"></h:outputText>
+								</p:column>
+								<p:column headerText="Dni" width="60" sortBy="#{item.des_numiden}">
+									<h:outputText value="#{item.des_numiden}"></h:outputText>
+								</p:column>
+								<p:column headerText="Cargo" width="120" sortBy="#{item.des_cargo}">
+									<h:outputText value="#{item.des_cargo}"></h:outputText>
+								</p:column>
+								<p:column headerText="Distrito Judicial	" width="70" sortBy="#{item.des_distritojudicial}">
+									<h:outputText value="#{item.des_distritojudicial}"></h:outputText>
+								</p:column>
+								<p:column headerText="Total" width="20"  sortBy="#{item.total}">
+									<h:outputText value="#{item.total}"></h:outputText>
+								</p:column>
+								<p:column headerText="Lista de Ejercicios Pendientes" sortBy="#{item.lista_ejericicios}"
+									width="150">
+									<h:outputText value="#{item.lista_ejericicios}"></h:outputText>
+								</p:column>
+
+							</p:dataTable></td>
+					</tr>
+				</table>
+			</h:panelGroup>
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

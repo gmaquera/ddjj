@@ -1,0 +1,187 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<br></br>
+		<br></br>
+		<h:form id="frmDDJJEstado">
+
+			<fieldset class="ui-widget-content-margin" style="margin-top: 10px;">
+				<legend>Reporte - Declaraciones Juradas por Estado</legend>
+				<h:panelGroup id="pnlQuejaWeb">
+					<div class="div-table">
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja" value="Estado:"
+									style="width: 100px;"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboEstado"
+									value="#{dJReportexEstadoMBean.fla_estado}"
+									style="width: 98px;">
+									<f:selectItems value="#{dJReportexEstadoMBean.listaEstados}"
+										var="item" itemValue="#{item.cod_estado_dj}"
+										itemLabel="#{item.des_estado_dj}"></f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja1" value="Distrito:"
+									style="width: 100px;"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboDistrito"
+									value="#{dJReportexEstadoMBean.cod_distrito}"
+									style="width: 98px;">
+									<f:selectItems value="#{dJReportexEstadoMBean.listaDist}"
+										var="item" itemValue="#{item.codDistri}"
+										itemLabel="#{item.desDistri}"></f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja2" value="#{msg['msgYear']}:"
+									style="width: 100px;"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboEjercicio"
+									value="#{dJReportexEstadoMBean.des_ejercicio}"
+									style="width: 98px;">
+									<f:selectItems value="#{dJReportexEstadoMBean.listaYear}"
+										var="item" itemValue="#{item.year}"
+										itemLabel="#{item.descripcion}"></f:selectItems>
+								</p:selectOneMenu>
+
+
+							</div>
+						</div>
+
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja3" value="Cargo:"
+									style="width: 100px;"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboCargo"
+									value="#{dJReportexEstadoMBean.cod_cargo}"
+									style="width: 250px;">
+									<f:selectItems value="#{dJReportexEstadoMBean.listaCargos}"
+										var="item" itemValue="#{item.codCargo}"
+										itemLabel="#{item.desCargo}"></f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+
+						<div class="div-row">
+
+							<div class="div-cell">
+								<p:outputLabel id="lblFiltrarQueja4" value="Condicion:"
+									style="width: 100px;"></p:outputLabel>
+							</div>
+							<div class="div-cell">
+
+								<p:selectOneMenu id="cboCondicion"
+									value="#{dJReportexEstadoMBean.cod_estaper}"
+									style="width: 250px;">
+									<f:selectItems value="#{dJReportexEstadoMBean.listaCondicion}"
+										var="item" itemValue="#{item.cod_estaper}"
+										itemLabel="#{item.des_estaper}"></f:selectItems>
+								</p:selectOneMenu>
+
+							</div>
+							<div class="div-cell">
+								<p:commandButton value="#{msg.msgBuscar}"
+									actionListener="#{dJReportexEstadoMBean.seleccionarReporxEstado}"
+									process="@all" update="pnltabla" icon="ui-icon-search"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton>
+
+								<p:commandButton value="Export a PDF" id="exportToPdfButton" onclick="this.form.target='_self'"
+									actionListener="#{dJReportexEstadoMBean.exportarToPDF}"
+									ajax="false" />
+
+								<p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+									actionListener="#{dJReportexEstadoMBean.Imprimir}" ajax="false">
+								</p:commandButton>
+							</div>
+						</div>
+
+					</div>
+				</h:panelGroup>
+			</fieldset>
+
+			<h:panelGroup id="pnltabla">
+				<table border="0" style="align: center; width: 100%">
+					<tr>
+						<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+								value="#{dJReportexEstadoMBean.listaReportexEstados}" rows="30"
+								paginator="true" id="dataDDer">
+
+								<p:column headerText="Dni" width="80" sortBy="#{item.num_dni}">
+									<h:outputText value="#{item.num_dni}"></h:outputText>
+								</p:column>
+								<p:column headerText="Declarante" width="80"  sortBy="#{item.declarante}">
+									<h:outputText value="#{item.declarante}"></h:outputText>
+								</p:column>
+								<p:column headerText="Dist. Jud" width="80" sortBy="#{item.des_distri}">
+									<h:outputText value="#{item.des_distri}"></h:outputText>
+								</p:column>
+								<p:column headerText="Fec. Elaboracion" width="80" sortBy="#{item.fec_elab}">
+									<h:outputText value="#{item.fec_elab}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Ejercicio" width="80" sortBy="#{item.des_ejercicio}">
+									<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+								</p:column>
+								<p:column headerText="Oportunidad" width="80" sortBy="#{item.nombre_oportunidad}">
+									<h:outputText value="#{item.nombre_oportunidad}"></h:outputText>
+								</p:column>
+								<p:column headerText="Cargo" width="80" sortBy="#{item.des_cargo}">
+									<h:outputText value="#{item.des_cargo}"></h:outputText>
+								</p:column>
+								<p:column headerText="Est. Per" width="80" sortBy="#{item.des_estado}">
+									<h:outputText value="#{item.des_estado}"></h:outputText>
+								</p:column>
+
+								<p:column headerText="Encargado" width="80" sortBy="#{item.cod_usuario_observa}">
+									<h:outputText value="#{item.cod_usuario_observa}"></h:outputText>
+								</p:column>
+								<p:column headerText="Est. DDJJ" width="80" sortBy="#{item.des_estado_dj}">
+									<h:outputText value="#{item.des_estado_dj}"></h:outputText>
+								</p:column>
+
+							</p:dataTable></td>
+					</tr>
+
+				</table>
+			</h:panelGroup>
+
+
+
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

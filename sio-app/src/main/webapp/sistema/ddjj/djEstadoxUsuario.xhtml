@@ -1,0 +1,341 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		<o:importConstants type="pe.gob.ocma.ddjj.enums.OpcionBusquedaDj" />
+		<div class="ui-widget-header contenido-cabecera">
+			<span class="ui-icon ui-icon-key icono-contenido"></span> <span
+				class="titulo-contenido">#{msg['msgDeclaraciones']}</span>
+		</div>
+		<script type="text/javascript">
+			var orden = 1;
+			function exportChart() {
+				//export image  }
+				//$('#output').empty().append(PF('chart').exportAsImage()); 
+				$('#output').empty().append(barEStadoxDj.exportAsImage());
+				//show the dialog  
+				var id = document.getElementById("enlaces");
+				var idtitulo = document.getElementById("titulo");
+				var nuevos = id.cloneNode(true);
+				var nuevotitulo = idtitulo.cloneNode(true);
+				nuevos.style.id = 'enlaces' + orden;
+				nuevotitulo.style.idtitulo = 'titulo' + orden;
+				orden++;
+				id = document.getElementById("enlacesnuevos");
+				idtitulo = document.getElementById("titulonuevo");
+				id.appendChild(nuevos);
+				idtitulo.appendChild(nuevotitulo);
+				PF('dlg');
+				//PF('dlg').show();  
+				//dlg.show();
+			}
+		</script>
+		<br></br>
+		<br></br>
+
+
+		<div class="contenido-area-total" style="padding: 1px;">
+			<h:form id="frmLisdjEstadoxUsuarios">
+
+				<h:panelGroup id="pnltabla">
+
+					<p:tabView id="tabView" style="width:1000px">
+						<p:ajax event="tabChange"
+							listener="#{djEstadoxUserMBean.seleccionarTab}" immediate="true"
+							update=":frmLisdjEstadoxUsuarios" />
+
+
+
+						<p:tab id="tab1" title="Declaraciones por Estado">
+							<h:panelGrid columns="9" cellpadding="8">
+								<table border="0">
+									<tr>
+										<td><p:outputLabel for="txtestado"
+												value="#{msg['msgYear']}:"></p:outputLabel></td>
+										<td><p:inputText id="txtestado"
+												value="#{djEstadoxUserMBean.anio}"
+												requiredMessage="#{msg['errorCampoObligatorio']}"></p:inputText>
+										</td>
+										<td><p:commandButton value="#{msg.msgBuscar}"
+												actionListener="#{djEstadoxUserMBean.listarDJEstado}"
+												process="@this txtestado" update="@form"
+												icon="ui-icon-search"
+												style="margin-left: 20px; height: 25px;">
+											</p:commandButton></td>
+										<td><p:commandButton value="Exportar a Excel"
+												id="btntoExcel" ajax="false"
+												actionListener="#{djEstadoxUserMBean.createExcel}">
+												<p:fileDownload value="#{djEstadoxUserMBean.archivo}"></p:fileDownload>
+											</p:commandButton> <p:commandButton type="button" value="Imprimir"
+												icon="ui-icon-extlink" onclick="exportChart()" 
+												update="conAnualSC">
+												<p:printer target=":totprin" />
+											</p:commandButton></td>
+
+
+									</tr>
+								</table>
+							</h:panelGrid>
+						</p:tab>
+
+
+
+						<p:tab id="tab2" title="Declaraciones por Usuario">
+							<h:panelGrid columns="9" cellpadding="8">
+								<table border="0">
+									<tr>
+										<td><p:outputLabel for="txtUsuario"
+												value="#{msg['msgYear']}:"></p:outputLabel></td>
+										<td><p:inputText id="txtUsuario"
+												value="#{djEstadoxUserMBean.anio}"
+												requiredMessage="#{msg['errorCampoObligatorio']}"></p:inputText>
+										</td>
+										<td><p:commandButton value="#{msg.msgBuscar}"
+												actionListener="#{djEstadoxUserMBean.listarDJUsuario}"
+												process="@this txtUsuario" update="@form"
+												icon="ui-icon-search"
+												style="margin-left: 20px; height: 25px;">
+											</p:commandButton></td>
+										<td><p:commandButton value="Export a PDF"
+												id="exportToPdfButton"  onclick="this.form.target='_self'"
+												actionListener="#{djEstadoxUserMBean.exportarToPDF}"
+												ajax="false" /> <p:commandButton value="Imprimir" onclick="this.form.target='_blank'"
+												actionListener="#{djEstadoxUserMBean.Imprimir}" ajax="false">
+											</p:commandButton></td>
+
+									</tr>
+								</table>
+							</h:panelGrid>
+						</p:tab>
+
+					</p:tabView>
+
+					<!--  
+
+				<fieldset class="ui-widget-content" style="margin-top: 10px;">
+					<legend>Reporte - Consolidado de DDJJ por Año GROUPPANEL</legend>
+					<h:panelGroup id="pnldj">
+
+						<div class="div-table">
+							<div class="div-row">
+
+								<div class="div-cell">
+									<p:outputLabel for="txtestadoGP" value="#{msg['msgYear']}:"></p:outputLabel>
+								</div>
+								<div class="div-cell">
+									<p:inputText id="txtestadoGP"
+										value="#{djEstadoxUserMBean.anio}"
+										requiredMessage="#{msg['errorCampoObligatorio']}"></p:inputText>
+								</div>
+								<div class="div-cell">
+									<p:commandButton value="#{msg.msgBuscar}"
+										actionListener="#{djEstadoxUserMBean.listarDJEstado}"
+										process="@this txtestadoGP" update="pnl" icon="ui-icon-search"
+										style="margin-left: 20px; height: 25px;">
+									</p:commandButton>
+								</div>
+								<div class="div-cell">
+
+									<p:commandButton value="Exportar a Excel" id="btntoExcelGP"
+										ajax="false"
+										actionListener="#{djEstadoxUserMBean.createExcel}">
+										<p:fileDownload value="#{djEstadoxUserMBean.archivo}"></p:fileDownload>
+									</p:commandButton>
+
+								</div>
+
+								<div class="div-cell">
+									<p:commandButton type="button" value="Vista Previa"
+										icon="ui-icon-extlink" onclick="exportChart()"
+										update="muestra">
+									</p:commandButton>
+								</div>
+
+							</div>
+						</div> -->
+				</h:panelGroup>
+
+
+
+
+
+				<!--  -->
+				<!-- Tabla  del Estado -->
+				<div class="div-table">
+					<br /> <br />
+
+					<h:panelGroup id="pnl"
+						rendered="#{djEstadoxUserMBean.opcBusquedadj ==  OpcionBusquedaDj.ESTADO}">
+						<table border="0" style="width: 1000px">
+
+							<tr align="Center">
+								<th colspan="2">
+
+									<div id="titulo">
+										<table border="0" width="1000px">
+											<tr>
+												<th colspan="9"></th>
+											</tr>
+											<tr>
+												<td colspan="2" rowspan="2" align="Center"><h:graphicImage
+														width="60px" height="60px"
+														url="/resources/images/logo111.png" /></td>
+												<td colspan="5" align="Center"
+													style="font-weight: Arial; font-size: 20px; font-weight: bold;">Consolidado
+													de Declaraciones por Estado del #{djEstadoxUserMBean.anio}</td>
+												<td style="font-weight: bold;" align="right">Fecha :</td>
+												<td><h:outputLabel id="lblfecha1"
+														value="#{djEstadoxUserMBean.fecha}"
+														style="font-weight: normal;">
+														<f:convertDateTime pattern="dd/MM/yyyy" />
+													</h:outputLabel></td>
+											</tr>
+											<tr>
+												<td colspan="5"></td>
+												<td style="font-weight: bold;" align="right">Hora :</td>
+												<td><h:outputLabel id="lbltiempo1"
+														value="#{djEstadoxUserMBean.tiempo}"
+														style="font-weight: normal;">
+														<f:convertDateTime pattern="HH:mm:ss" />
+													</h:outputLabel></td>
+											</tr>
+											<tr>
+												<td colspan="2" align="Center"
+													style="font-size: 8px; font-weight: bold;">Oficina de
+													Control de la Magistratura</td>
+												<td colspan="5"></td>
+												<td style="font-weight: bold;" align="right">Usuario :</td>
+												<td><h:outputLabel id="lblOportunidad1"
+														value="#{djEstadoxUserMBean.usuario}"
+														style="font-weight: normal;"></h:outputLabel></td>
+											</tr>
+											<tr>
+												<td colspan="2" align="Center"
+													style="font-size: 8px; font-weight: bold;">Oficina de
+													Declaraciones Juradas de Bienes y Servicios</td>
+												<td colspan="5"></td>
+												<td colspan="2"></td>
+											</tr>
+										</table>
+									</div>
+								</th>
+							</tr>
+
+							<tr align="center">
+								<td valign="top"><div id="enlaces">
+										<p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+											value="#{djEstadoxUserMBean.listarDJEstado}">
+											<p:columnGroup type="header">
+												<p:row>
+													<p:column style="align:center" headerText="Estado" />
+													<p:column style="align:center"
+														headerText="Total Declaraciones" />
+												</p:row>
+											</p:columnGroup>
+
+											<p:column style="text-align: center">
+            					#{item.ejercicio_pres}  
+      			  				</p:column>
+
+											<p:column style="text-align: center">  
+            					#{item.total}  
+      			  				</p:column>
+										</p:dataTable>
+									</div></td>
+							</tr>
+							<tr align="center">
+								<td></td>
+							</tr>
+							<tr align="center">
+								<td></td>
+							</tr>
+							<tr align="center">
+								<td></td>
+							</tr>
+							<tr align="Center">
+								<td><h:panelGroup rendered="#{djEstadoxUserMBean.flag}">
+										<p:barChart value="#{djEstadoxUserMBean.categoryModelEstado}"
+											widgetVar="barEStadoxDj" styleClass="ui-widget-content" datatipFormat="%2$d" showDatatip="true"
+											animate="true" barMargin="1" style="Height:350px;width:750px"
+											seriesColors="008B8B, 25B53B, EE940E, 11B0EA, FFD700, DC143C, 008B8B, 2F4F4F, EEE8AA, FFA500, 00008B, 6495ED, 66CDAA"
+											title="" />
+									</h:panelGroup></td>
+							</tr>
+
+						</table>
+					</h:panelGroup>
+				</div>
+				<!-- Tabla  del Usuario -->
+
+				<h:panelGroup
+					rendered="#{djEstadoxUserMBean.opcBusquedadj ==  OpcionBusquedaDj.USUARIO}">
+					<table border="0" style="align: center; width: 1000px">
+						<br />
+
+						<tr>
+							<td valign="top"><p:dataTable var="item" emptyMessage="#{msg['msgTablaVacia']}"
+									value="#{djEstadoxUserMBean.listarDJUsuario}" rows="25"
+									paginator="true" id="dataopcUsuario">
+
+									<p:column headerText="Usuario" width="80">
+										<h:outputText value="#{item.usuario}"></h:outputText>
+									</p:column>
+									<p:column headerText="Total" width="80">
+										<h:outputText value="#{item.total}"></h:outputText>
+									</p:column>
+									<p:column headerText="Estado" width="80">
+										<h:outputText value="#{item.estado}"></h:outputText>
+									</p:column>
+								</p:dataTable></td>
+						</tr>
+
+					</table>
+				</h:panelGroup>
+
+			</h:form>
+
+		</div>
+	</ui:define>
+
+	<!--  -->
+
+	<ui:define name="dialogos">
+		<p:dialog widgetVar="dlg"
+			header="Consolidado de Declaraciones Juradas" modal="true">
+			<br />
+			<br />
+			<h:panelGroup id="totprin">
+				<br />
+				<table width="1000px" border="0">
+					<tr align="Center">
+						<div id="titulonuevo"></div>
+					</tr>
+					<tr></tr>
+				</table>
+				<br />
+				<br />
+				<br />
+				<table width="1000px" border="0">
+					<tr align="center">
+						<td><p:outputPanel id="output" layout="block"
+								style="width:750px;height:350px;" /> <br />
+						<br />
+						<br /></td>
+					</tr>
+					<tr>
+						<td><div id="enlacesnuevos"></div></td>
+					</tr>
+				</table>
+				<h:form id="conAnualSC">
+				</h:form>
+			</h:panelGroup>
+		</p:dialog>
+	</ui:define>
+
+
+
+</ui:composition>
+</html>

@@ -18,14 +18,16 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="sybase.jdbc4.sqlanywhere.IDriver" />
 		<!--			
+		
 		<property name="url"
-			value="jdbc:sqlanywhere:eng=db_desarrollo_11;Host=172.22.220.118" />
+			value="jdbc:sqlanywhere:eng=ocma12;Host=172.22.221.231" />
+		
 		
 		<property name="url"
 			value="jdbc:sqlanywhere:eng=ocma11;Host=172.22.0.25" />		
 		-->		
 		<property name="url"
-			value="jdbc:sqlanywhere:eng=ocma12;Host=172.22.221.231" />	
+			value="jdbc:sqlanywhere:eng=db_desarrollo_11;Host=172.22.220.118" />	
 		
 		
 		<property name="username" value="aqueque" />

@@ -1,0 +1,2944 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+		
+			<o:importConstants type="pe.gob.ocma.common.enums.Accion" />
+			<div class="ui-widget-header contenido-cabecera">
+			<h:form id="frmMenuConsultasDj">
+				<div class="div-table" style="margin-top: 4px;">
+					<div class="div-row">
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-circle-check"></span>
+						</div>
+						<div class="div-cell">
+							<p:commandLink value="Declaraciones juradas"
+								actionListener="#{djVerificaMBean.irConsultar}"
+								></p:commandLink>
+						</div>
+						<div class="div-cell">
+							<span class="ui-icon ui-icon-triangle-1-e"></span>
+						</div>
+						<div class="div-cell">Datos Generales</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		
+		<div class="contenido-area-total" style="padding: 1px;">
+		<h:form id="frmDatosGenerales">		
+		<p:tabView id="tabDdjj" dinamic="true" activeIndex="#{djVerificaMBean.tabConsulta}"  >
+			<p:ajax event="tabChange" listener="#{djVerificaMBean.seleccionarTab}" immediate="true"
+			update=":frmDatosGenerales:tabDdjj"/>
+        <p:tab title="Datos Generales">
+        		
+		<p:panelGrid id="pnlEntidad"  >		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="4">
+		            		<div style="width: 100%; text-align: left;">DATOS DE LA ENTIDAD</div>		            		
+		            		</p:column>		            		
+		            		<p:column>
+		            		<div style="width: 100%; text-align: right;">		            		  
+	            				<p:commandButton value="Consolidado"
+												actionListener="#{djVerificaMBean.irConsolidado}"												
+												icon="ui-icon-bookmark">
+								</p:commandButton>															
+		            		</div>
+		            		</p:column>		            		
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblCorte"
+								value="CORTE :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtCorte" readonly="true"
+								value="#{djVerificaMBean.entidad.des_distri}" style="width: 550px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblEntidad"
+								value="ENTIDAD :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtEntidad" readonly="true"
+								value="#{djVerificaMBean.entidad.des_entidad}" style="width: 550px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDireccion"
+								value="DIRECCION :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtDireccion" readonly="true"
+								value="#{djVerificaMBean.entidad.dir_entidad}" style="width: 550px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>        			
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblEjercicio"
+								value="EJERCICIO PRESUPUESTAL :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtEjercicio" readonly="true"
+								value="#{djVerificaMBean.entidad.des_ejercicio}" style="width: 100px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>					
+		</p:panelGrid>
+		
+		<p:panelGrid id="pnlDeclarante" >		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="6">
+		            		<div style="width: 100%; text-align: left;">DATOS DEL DECLARANTE</div>
+		            		</p:column>
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDocumento"
+								value="DOCUMENTO (DNI) :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtDocumento" readonly="true"
+								value="#{djVerificaMBean.declarante.num_dni}" style="width: 100px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPaterno"
+								value="APELLIDO PATERNO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtPaterno" readonly="true"
+								value="#{djVerificaMBean.declarante.des_apepaterno}" style="width: 300px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblMaterno"
+								value="APELLIDO MATERNO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtMaterno" readonly="true"
+								value="#{djVerificaMBean.declarante.des_apematerno}" style="width: 300px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblNombre"
+								value="NOMBRES :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtNombre" readonly="true"
+								value="#{djVerificaMBean.declarante.des_nombre}" style="width: 300px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblRuc"
+								value="RUC :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtRuc" readonly="true"
+								value="#{djVerificaMBean.declarante.num_ruc}" style="width: 100px;">
+						</p:inputText>        				
+        				</p:column>   
+        				
+        				<p:column></p:column>
+        				
+        				<p:column>
+        				<h:outputLabel id="lblEstadoCivil"
+								value="ESTADO CIVIL :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtEstadoCivil" readonly="true"
+								value="#{djVerificaMBean.declarante.des_estciv}" style="width: 125px;">
+						</p:inputText>        				
+        				</p:column>
+        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDireccionDecla"
+								value="DIRECCION :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtDireccionDecla" readonly="true"
+							value="#{djVerificaMBean.declarante.des_direccion}" style="width: 500px;">
+						</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblCargo"
+								value="CARGO/ FUNCION/ LABOR :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="3">        				
+        				<p:inputText id="txtCargo" readonly="true"
+							value="#{djVerificaMBean.declarante.des_cargo}" style="width: 400px;">
+						</p:inputText>        				
+        				</p:column>
+        				
+        				<p:column>        				
+        				<p:inputText id="txtCargo2" readonly="true"
+							value="#{djVerificaMBean.declarante.des_estado}" style="width: 125px;">
+						</p:inputText>        				
+        				</p:column>        				        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblFechaAsume"
+								value="FECHA QUE ASUME :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtFechaAsume" readonly="true"
+								value="#{djVerificaMBean.declarante.fecha_asume}" style="width: 125px;">
+						</p:inputText>        				
+        				</p:column>   
+        				
+        				<p:column></p:column>
+        				
+        				<p:column>
+        				<h:outputLabel id="lblFechaCese"
+								value="FECHA DE CESE :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtFechaCese" readonly="true"
+								value="#{djVerificaMBean.declarante.fecha_cese}" style="width: 125px;">
+						</p:inputText>        				
+        				</p:column>      				
+        				
+        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblTiempoServicio"
+								value="TIEMPO DE SERVICIO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="2">        				
+        				<p:inputText id="txtYear" value="#{djVerificaMBean.declarante.anio_ts}" readonly="true" style="width: 50px;"/>						
+						<h:outputLabel id="lblYear" value="   Años  "></h:outputLabel>
+						<p:inputText id="txtMes" value="#{djVerificaMBean.declarante.mes_ts}" readonly="true" style="width: 50px;"/>						
+						<h:outputLabel id="lblMeses" value="  Meses  "></h:outputLabel>
+						<p:inputText id="txtDia" value="#{djVerificaMBean.declarante.dias_ts}" readonly="true" style="width: 50px;"/>						
+						<h:outputLabel id="lblDias" value="   Dias  "></h:outputLabel>						        				
+        				</p:column>
+        				<p:column></p:column>        				        				     				        				    				       				
+        				<p:column></p:column>
+        			</p:row>
+        			
+        			
+        </p:panelGrid>
+        
+        <p:panelGrid id="pnlOtrosDatos">		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="6">
+		            		<div style="width: 100%; text-align: left;">OTROS DATOS</div>
+		            		</p:column>
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblOportunidad"
+								value="OPORTUNIDAD DE PRESENTACION :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtOportunidad" readonly="true"
+								value="#{djVerificaMBean.declarante.oportunidad}" style="width: 200px;">
+							</p:inputText>        				
+        				</p:column>        				
+        				<p:column style="width: 300px;">        				
+        				</p:column>        				        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblNumeroPersonas"
+								value="NUMERO DE PERSONAS :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtNumeroPersonas" readonly="true"
+								value="#{djVerificaMBean.declarante.num_dependientes}" style="width: 50px;">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column style="width: 300px;">        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblFechaEla"
+								value="FECHA DE ELABORACION :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtFechaEla" readonly="true"
+								value="#{djVerificaMBean.declarante.fec_elab}" style="width: 100px;">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column style="width: 300px;">        				
+        				</p:column>			        				    				       				
+        			</p:row>
+        			        			
+        						
+		</p:panelGrid>
+		
+		 
+        <p:panelGrid id="pnlContraloria" columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="6">
+		            		<div style="width: 100%; text-align: left;">CONTRALORIA</div>
+		            		</p:column>
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblNumeroOficioContraloria"
+								value="NUMERO DE OFICIO :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtNumeroOficioContraloria" disabled="#{djVerificaMBean.flagContraloria eq 0}"
+								value="#{djVerificaMBean.contraloria.desNumeroOficio}" style="width: 200px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDescripcionContraloria"
+								value="DESCRIPCION :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputTextarea id="txtDescripcionContraloria" disabled="#{djVerificaMBean.flagContraloria eq 0}"
+								value="#{djVerificaMBean.contraloria.desObservacion}" style="width: 600px;">
+							</p:inputTextarea>        				
+        				</p:column>        				        				    				       				
+        			</p:row>    			
+        				        			
+        						
+		</p:panelGrid>
+		<p:panelGrid id="pnlContraloriaOpciones">
+			<p:row>
+        		<p:column>
+					<p:selectOneRadio value="#{djVerificaMBean.flagContraloria}">
+							<f:selectItem itemValue="0" itemLabel="No Observada"></f:selectItem>
+							<f:selectItem itemValue="1" itemLabel="Observada"></f:selectItem>
+							<f:selectItem itemValue="2" itemLabel="Subsanacion"></f:selectItem>
+							<f:selectItem itemValue="3" itemLabel="Variacion Patrimonial"></f:selectItem>
+							<p:ajax event="change" 
+							update=":frmDatosGenerales:tabDdjj:txtNumeroOficioContraloria :frmDatosGenerales:tabDdjj:txtDescripcionContraloria"/>							
+						</p:selectOneRadio>   
+        		</p:column>
+        		<p:column>     				
+        				<p:commandButton value="Grabar Observacion"
+								actionListener="#{djVerificaMBean.grabarContraloria}"
+								update=":frmDatosGenerales:tabDdjj:txtNumeroOficioContraloria :frmDatosGenerales:tabDdjj:txtDescripcionContraloria :listaMensajes " />
+								</p:column>
+			</p:row>
+		</p:panelGrid>
+		<p:panelGrid id="pnlConyuge" columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="6">
+		            		<div style="width: 100%; text-align: left;">DATOS DEL CONYUGE</div>
+		            		</p:column>
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDocumentoConyuge"
+								value="DOCUMENTO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtDocumentoConyuge" readonly="true"
+								value="#{djVerificaMBean.conyuge.des_docide}" style="width: 100px;">
+						</p:inputText>						
+						<p:inputText id="txtDocumentoNum" readonly="true"
+								value="#{djVerificaMBean.conyuge.num_docide}" style="width: 100px;">
+						</p:inputText>							        				
+        				</p:column>   
+        				
+        				<p:column style="width: 360px;">        				
+        				</p:column> 
+        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPaternoConyuge"
+								value="APELLIDO PATERNO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtPaternoConyuge" readonly="true"
+								value="#{djVerificaMBean.conyuge.des_apepaterno}" style="width: 400px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblMaternoConyuge"
+								value="APELLIDO MATERNO :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtMaternoConyuge" readonly="true"
+								value="#{djVerificaMBean.conyuge.des_apematerno}" style="width: 400px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>        			
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblNombresConyuge"
+								value="NOMBRES :*"></h:outputLabel>
+        				</p:column>
+        				<p:column colspan="4">        				
+        				<p:inputText id="txtNombresConyuge" readonly="true"
+								value="#{djVerificaMBean.conyuge.des_nombres}" style="width: 400px;">
+							</p:inputText>        				
+        				</p:column>        				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblRucConyuge"
+								value="RUC :*"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:inputText id="txtRucConyuge" readonly="true"
+								value="#{djVerificaMBean.conyuge.num_ruc}" style="width: 100px;">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column></p:column>        				        				    				       				
+        			</p:row>
+        						
+		</p:panelGrid>
+		<p:panelGrid id="panelAuditoria">
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblUsuarioCreacion"
+								value="Usuario de Creacion :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:outputLabel id="txtUsuarioCreacion">#{djVerificaMBean.djActual.codUsucre}</p:outputLabel>        				
+        				</p:column>        				        				    				       				
+        				
+        				<p:column>
+        				<h:outputLabel id="lblFechaCreacion"
+								value="Fecha de Creacion :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:outputLabel id="txtFechaCreacion">#{djVerificaMBean.djActual.fecCreacion}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblUsuarioUltimo"
+								value="Usuario de Ultima Actualizacion :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:outputLabel id="txtUsuarioUltimo">#{djVerificaMBean.djActual.codUsumod}</p:outputLabel>
+        				</p:column>        				        				    				       				
+        				
+        				<p:column>
+        				<h:outputLabel id="lblFechaModificacion"
+								value="Fecha de Ultima Modificacion :"></h:outputLabel>
+        				</p:column>
+        				<p:column>        				
+        				<p:outputLabel id="txtFechaModificacion">#{djVerificaMBean.djActual.fecMod}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+		</p:panelGrid>
+		
+		
+		<p:tabView id="tabObservaciones" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">
+        	
+        
+        	<h:panelGroup id="pnltablaObservaciones0">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones}" 
+									id="dataObservaciones0" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs0.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs0.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs0.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        
+        	<h:panelGroup id="pnltablaHistorico">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaHistorico}" 
+									id="dataHistorico" styleClass="tablaFixed" >									
+									<f:facet name="header">HISTORICO DE DECLARACIONES JURADAS</f:facet>
+																		
+									<p:column headerText="Fec Elab" width="70">
+										<h:outputText value="#{item.fec_elab}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Ejercicio" width="50">
+										<h:outputText value="#{item.des_ejercicio}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Oportunidad" width="150">
+										<h:outputText value="#{item.des_nombre}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Cargo" width="300">
+										<h:outputText value="#{item.des_cargo}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Condicion" width="200">
+										<h:outputText value="#{item.des_estado}"></h:outputText>
+									</p:column>								
+									
+									<p:column headerText="Fec. Asume" width="70">
+										<h:outputText value="#{item.fecha_asume}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>
+					
+        
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Personal">
+        	
+        
+        	<h:panelGroup id="pnltablaPersonal">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaPersonal}" 
+									id="dataPersonal" styleClass="tablaFixed" >									
+									<f:facet name="header">TRAYECTORIA DEL MAGISTRADO DECLARANTE - ESTADO LABORAL ACTUAL: </f:facet>
+																		
+									<p:column headerText="Nro Resolucion" width="150">
+										<h:outputText value="#{item.num_resolucion}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Fec Act." width="50">
+										<h:outputText value="#{item.fecha_grilla}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Cargo" width="200">
+										<h:outputText value="#{item.des_cargo}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Condicion" width="130">
+										<h:outputText value="#{item.des_condicionlaboral}"></h:outputText>
+									</p:column>								
+									
+									<p:column headerText="Distrito/ Ciudad / Area" width="350">
+										<h:outputText value="#{item.des_distritojudicial}/#{item.des_ciudad}/#{item.detalle_area}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+        
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Conyuge">
+        	
+        
+        	<h:panelGroup id="pnltablaConyugeLab">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaConyuge}"  emptyMessage="No tiene Conyuge en el Poder Judicial" 
+									id="dataConyugeLab" styleClass="tablaFixed" >									
+									<f:facet name="header">TRAYECTORIA DEL CONYUGE </f:facet>
+																		
+									<p:column headerText="Nro Resolucion" width="150">
+										<h:outputText value="#{item.num_resolucion}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Fec Act." width="50">
+										<h:outputText value="#{item.fecha_grilla}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Tipo Mov." width="100">
+										<h:outputText value="#{item.des_movimiento}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Cargo" width="130">
+										<h:outputText value="#{item.des_cargo}"></h:outputText>
+									</p:column>								
+									
+									<p:column headerText="Condicion" width="150">
+										<h:outputText value="#{item.des_condicionlaboral}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Distrito Judicial" width="150">
+										<h:outputText value="#{item.des_distritojudicial}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+        
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Posibles Pendientes">
+        	
+        
+        	<h:panelGroup id="pnltablaPosPendientes">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaPosPendiente}"  emptyMessage="No tiene declaraciones Pendientes" 
+									id="dataPosPendientes" styleClass="tablaFixed" >									
+									<f:facet name="header">TRAYECTORIA DEL MAGISTRADO DECLARANTE </f:facet>
+									
+									<p:column headerText="Cargo" width="200">
+										<h:outputText value="#{item.des_cargo}"></h:outputText>
+									</p:column>								
+									
+									<p:column headerText="Area" width="200">
+										<h:outputText value="#{item.detalle_area}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Ejercicio" width="100">
+										<h:outputText value="#{item.ejercicio}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+        
+        		
+        	</p:tab>        	
+        	
+        </p:tabView>		
+		
+		
+				
+		</p:tab>
+		
+		<p:tab title="Ingresos"> 
+				
+		<p:panelGrid id="pnlIngresos" columnClasses="coldj1,coldj2,coldj3,coldj4,coldj5,coldj6">		
+					<f:facet name="header">
+		        		<p:row>
+		            		<p:column colspan="6">
+		            		<div style="width: 100%; text-align: left;">I. INGRESOS</div>
+		            		</p:column>
+		        		</p:row>		        		 
+		    		</f:facet>	
+		    							
+					<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblRemBruMen" style="font-weight:bold" 
+        				value="Remuneracion Bruta Mensual *"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>        				
+	        			<p:column >
+	        				<div style="text-align:center">        				
+	        				<h:outputLabel id="lblSectorPublico" style="font-weight:bold" value="Sector Publico"></h:outputLabel>
+	        				</div>        				
+	        			</p:column>
+	        				<p:column></p:column>
+	        				<p:column>
+	        				<div style="text-align:center">
+	        				<h:outputLabel id="lblSectorPrivado" style="font-weight:bold" value="Sector Privado"></h:outputLabel>
+	        				</div>
+	        				</p:column>
+	        				<p:column>
+	        				<div style="text-align:center">
+	        				<h:outputLabel id="lblTotal" style="font-weight:bold" value="Total"></h:outputLabel>
+	        				</div>
+	        				</p:column>        				        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPagoporPlanilla"
+								value="(Pago por planillas, sujetos a rentas de quinta categoria)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				
+        				<p:column>       				
+        				<p:inputText id="txtRemBruta1" readonly="true" 
+								value="#{djVerificaMBean.bloqueIngreso.bruta_mensual_publico}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtRemBruta2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.bruta_mensual_privado}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtRemBruta3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.bruta_mensual_total}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>        				        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblRemBruInd" style="font-weight:bold" 
+        				value="Remuneracion Bruta por Ejercicio Individual"></h:outputLabel>
+        				</p:column>        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPagoporEjerInd"
+								value="(Ejercicio individual de profesion, oficio u otras tareas-renta de cuarta categoria)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtRemEje1" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.bruta_eje_publico}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtRemEje2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.bruta_eje_privado}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtRemEje3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.bruta_eje_total}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblOtrosIngresos" style="font-weight:bold" 
+        				value="Otros Ingresos mensuales"></h:outputLabel>
+        				</p:column>        				     				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblPredios"
+								value="(Predios arrendados, subarrendados o cedidos)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtPredio1" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_predio_publico}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtPredio2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_predio_privado}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtPredio3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_predio_total}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblBienesM"
+								value="(Bienes muebles arrendados, subarrendados o cedidos)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtBienes1" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_bien_publico}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtBienes2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_bien_privado}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtBienes3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_bien_total}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblIntereses"
+								value="(Intereses originados por colocacion de capitales, regalias, rentas vitalicias, etc.)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtIntereses1" readonly="true" 
+								value="#{djVerificaMBean.bloqueIngreso.otro_interes_publico}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtIntereses2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_interes_privado}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtIntereses3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_interes_total}" style="width: 100px;text-align: right">
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column>
+        				<h:outputLabel id="lblDietas"
+								value="(Dietas o Similares)"></h:outputLabel>
+        				</p:column>
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtDietas1" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_dieta_publico}" style="width: 100px;text-align: right">
+								<f:convertNumber pattern="#,##0.00" />
+							</p:inputText>        				
+        				</p:column> 
+        				<p:column></p:column>
+        				<p:column>       				
+        				<p:inputText id="txtDietas2" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_dieta_privado}" style="width: 100px;text-align: right">
+								<f:convertNumber pattern="#,##0.00" />
+							</p:inputText>        				
+        				</p:column>
+        				<p:column>       				
+        				<p:inputText id="txtDietas3" readonly="true"
+								value="#{djVerificaMBean.bloqueIngreso.otro_dieta_total}" style="width: 100px;text-align: right">
+								<f:convertNumber pattern="#,##0.00" />
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column></p:column>        				
+        				<p:column></p:column>
+        				<p:column></p:column>        				
+        				<p:column></p:column>
+        				
+        				<p:column>
+        				<h:outputLabel id="lblTotalIngresos"
+								value="TOTAL INGRESOS:"></h:outputLabel>
+        				</p:column>
+        				
+        				
+        				<p:column>       				
+        				<p:inputText id="txtTotalIngresos" readonly="true" 
+								value="#{djVerificaMBean.bloqueIngreso.total_ingresos}" style="width: 100px;text-align: right; border:solid 2px #000000;">
+								<f:convertNumber pattern="#,##0.00" />
+							</p:inputText>        				
+        				</p:column>        				       				        				    				       				
+        			</p:row>
+        			
+        						
+		</p:panelGrid>
+		
+		<p:tabView id="tabObservaciones1" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones1">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones1}" emptyMessage="No Presenta Observaciones" 
+									id="dataObservaciones1" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs1.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs1.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs1.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Consolidado por Bloque">
+        	
+        
+        	 		
+        	</p:tab>        	
+        </p:tabView>
+		
+		        
+        </p:tab>
+        
+        <p:tab title="Inmuebles">
+        
+        	<h:panelGroup id="pnltablaInmuebles">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueInmuebles}"  styleClass="tablaFixed" emptyMessage="No se registro Informacion"
+									id="dataBloqueInmuebles">
+									<f:facet name="header">INFORMACION</f:facet>									
+									<p:column headerText="TIPO DE BIEN" width="75">
+										<h:outputText value="#{item.tipoviv}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="DIRECCION"  width="400">										
+										<h:outputText value="#{item.des_direcc}"></h:outputText>																				
+									</p:column>
+									
+									<p:column headerText="N° FICHA - REG. PUBLICOS" width="150">
+										<h:outputText value="#{item.des_ficha}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="60">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR AUTOVALUO" width="80">
+										<h:outputText value="#{item.num_monto}">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>																		
+								</p:dataTable>
+														  
+						 </td>						
+					</tr>				
+					
+					<tr>
+						<td align="right">
+							<h:outputText style="font-weight:bold;" value="Monto M. Nacional:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueInmueble.MONTO_NACIONAL}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText> 
+							
+							<h:outputText style="font-weight:bold;" value="  -  Total M. Extranjera:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueInmueble.MONTO_EXTRANJERA}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>								
+						</td>
+						</tr>
+							
+				</table>
+					
+				
+												
+			</h:panelGroup>			
+			
+			<p:tabView id="tabObservaciones2" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones2">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones2}" emptyMessage="No Presenta Observaciones" 
+									id="dataObservaciones2" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs2.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs2.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs2.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>				
+					
+									
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        	<h:panelGroup id="pnltablaHistorico2">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoInmuebles}" emptyMessage="No se registro Informacion"
+									id="dataHistorico2" styleClass="tablaFixed" >									
+																		
+									<p:column headerText="TIPO BIEN" width="100">
+										<h:outputText value="#{item.tipoviv}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="DIRECCION" width="200">
+										<h:outputText value="#{item.des_direcc}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="N° FICHA - REG. PUBLICOS" width="200">
+										<h:outputText value="#{item.des_ficha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR AUTOVALUO" width="120">
+										<h:outputText value="#{item.num_monto}"></h:outputText>
+									</p:column>								
+									
+									<p:column headerText="EJERCICIO" width="70">
+										<h:outputText value="#{item.ejercicio}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>
+        	
+        
+        	 		
+        	</p:tab>        	
+        </p:tabView>	
+        
+                    
+        </p:tab>
+        
+        <p:tab title="Muebles">
+        
+        
+        	<h:panelGroup id="pnltablaMuebles">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueMuebles}" styleClass="tablaFixed" 
+									id="dataBloqueMuebles" emptyMessage="No se registro Informacion">
+									
+									<f:facet name="header">VEHICULOS</f:facet>									
+									<p:column headerText="TIPO MUEBLE" width="100">
+										<h:outputText value="#{item.tipomueble}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="MARCA-MODELO-AÑO" width="300" >										
+										<h:outputText value="#{item.des_detalle}"></h:outputText>																				
+									</p:column>
+									
+									<p:column headerText="PLACA/CARACTERISTICA" width="300">
+										<h:outputText value="#{item.des_caract}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>				
+										
+				</table>								
+			</h:panelGroup>
+			
+			<h:panelGroup id="pnltablaOtros">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueOtros}" emptyMessage="No se registro Informacion" 
+									id="dataBloqueMueblesOtros" styleClass="tablaFixed" >
+									
+									<f:facet name="header">OTROS</f:facet>									
+									<p:column headerText="OTROS" width="100">
+										<h:outputText value="#{item.tipomueble}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="DESCRIPCION" width="300">						
+										<h:outputText value="#{item.des_detalle}"></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="CARACTERISTICAS" width="300">										
+										<h:outputText value="#{item.des_caract}"></h:outputText>												
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<h:outputText style="font-weight:bold;" value="Monto M. Nacional:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueMueble.MONTO_NACIONAL}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText> 
+							
+							<h:outputText style="font-weight:bold;" value="  -  Total M. Extranjera:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueMueble.MONTO_EXTRANJERA}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>								
+						</td>
+					</tr>
+										
+				</table>								
+			</h:panelGroup>
+				
+        <p:tabView id="tabObservaciones3" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones3">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones3}"  emptyMessage="No Presenta Observaciones"
+									id="dataObservaciones3" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs3.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs3.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs3.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        	<h:panelGroup id="pnltablaHistorico3">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoMuebles1}" emptyMessage="No se registro Informacion" 
+									id="dataHistorico3" styleClass="tablaFixed" >
+									
+									<f:facet name="header">VEHICULOS</f:facet>									
+																		
+									<p:column headerText="TIPO MUEBLE" width="100">
+										<h:outputText value="#{item.tipomueble}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="MARCA-MODELO-AÑO" width="300" >										
+										<h:outputText value="#{item.des_detalle}"></h:outputText>																				
+									</p:column>
+									
+									<p:column headerText="PLACA/CARACTERISTICA" width="300">
+										<h:outputText value="#{item.des_caract}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>									
+									
+									<p:column headerText="EJERCICIO" width="70">
+										<h:outputText value="#{item.ejercicio}"></h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>
+				
+				<h:panelGroup id="pnltablaHistorico3_1">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoMuebles0}"  emptyMessage="No se registro Informacion"
+									id="dataHistorico3_1" styleClass="tablaFixed" >
+									
+									<f:facet name="header">OTROS</f:facet>									
+									<p:column headerText="OTROS" width="100">
+										<h:outputText value="#{item.tipomueble}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="DESCRIPCION" width="300">						
+										<h:outputText value="#{item.des_detalle}"></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="CARACTERISTICAS" width="300">										
+										<h:outputText value="#{item.des_caract}"></h:outputText>												
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>
+									<p:column headerText="EJERCICIO" width="70">
+										<h:outputText value="#{item.ejercicio}"></h:outputText>
+									</p:column>		
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+        	
+        
+        	 		
+        	</p:tab>        	
+        </p:tabView>
+                    
+        </p:tab>
+        
+        <p:tab title="Ahorros"> 
+        
+        	<h:panelGroup id="pnltablaAhorros">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueAhorro}" emptyMessage="No se registro Informacion"
+									id="dataBloqueAhorros" styleClass="tablaFixed" >
+									
+									<f:facet name="header">INFORMACION</f:facet>									
+									<p:column headerText="ENTIDAD FINANCIERA" width="500">
+										<h:outputText value="#{item.des_entidad}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="INSTRUMENTO FINANCIERO" width="200">										
+										<h:outputText value="#{item.des_instrumento}"></h:outputText> 										
+									</p:column>									
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75" >
+										<h:outputText value="#{item.num_valor}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<h:outputText style="font-weight:bold;" value="Monto M. Nacional:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueAhorro.MONTO_NACIONAL}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText> 
+							
+							<h:outputText style="font-weight:bold;" value="  -  Total M. Extranjera:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueAhorro.MONTO_EXTRANJERA}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>								
+						</td>
+					</tr>
+										
+				</table>								
+			</h:panelGroup>
+			
+			<p:tabView id="tabObservaciones4" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones4">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones4}" emptyMessage="No Presenta Observaciones" 
+									id="dataObservaciones4" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs4.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs4.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs4.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        	<h:panelGroup id="pnltablaHistorico4">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoAhorro}" emptyMessage="No se registro Informacion"
+									id="dataHistorico4" styleClass="tablaFixed" >									
+																		
+									<p:column headerText="ENTIDAD FINANCIERA" width="500">
+										<h:outputText value="#{item.des_entidad}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="INSTRUMENTO FINANCIERO" width="200">										
+										<h:outputText value="#{item.des_instrumento}"></h:outputText> 										
+									</p:column>									
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75" >
+										<h:outputText value="#{item.num_valor}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>			
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>
+        	
+        
+        	 		
+        	</p:tab>        	
+        </p:tabView>
+                   
+        </p:tab>
+        
+        <p:tab title="Otros Bienes e Ingresos">
+        
+        
+        	<h:panelGroup id="pnltablaOtrosIngresos">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueOtrosIngresos}" styleClass="tablaFixed"  emptyMessage="No se registro Informacion"
+									id="dataBloqueOtrosIngresos">
+									
+									<f:facet name="header">INGRESOS</f:facet>									
+									<p:column headerText="DETALLE DE LOS INGRESOS" width="500">
+										<h:outputText value="#{item.DES_BIEN}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="SECTOR PUBLICO" width="75">
+										<h:outputText value="#{item.PUBLICO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>			
+									
+									<p:column headerText="SECTOR PRIVADO" width="75">
+										<h:outputText value="#{item.PRIVADO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>		
+									
+									<p:column headerText="TOTAL" width="75">
+										<h:outputText value="#{item.TOTAL}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>
+					
+					
+										
+				</table>								
+			</h:panelGroup>
+			
+			<h:panelGroup id="pnltablaOtrosBienes">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueOtrosBienes}"  emptyMessage="No se registro Informacion"
+									id="dataBloqueOtrosBienes" styleClass="tablaFixed" >
+									
+									<f:facet name="header">BIENES</f:facet>									
+									<p:column headerText="DETALLE DE LOS BIENES" width="675">
+										<h:outputText value="#{item.DES_BIEN}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="TIPO MONEDA" width="100" >									
+										<h:outputText value="#{item.des_moneda}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.NUM_MONTO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<h:outputText style="font-weight:bold;" value="Monto M. Nacional:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueOtrosBienes.MONTO_NACIONAL}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText> 
+							
+							<h:outputText style="font-weight:bold;" value="  -  Total M. Extranjera:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueOtrosBienes.MONTO_EXTRANJERA}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>								
+						</td>
+					</tr>					
+										
+				</table>								
+			</h:panelGroup>
+				
+        <p:tabView id="tabObservaciones5" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones5">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones5}" emptyMessage="No Presenta Observaciones" 
+									id="dataObservaciones5" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs5.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs5.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs5.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        	<h:panelGroup id="pnltablaHistorico5">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoOtrosBienes}" emptyMessage="No Presenta Informacion"
+									id="dataHistorico5" styleClass="tablaFixed" >									
+									<f:facet name="header">INGRESOS</f:facet>									
+									<p:column headerText="DETALLE DE LOS INGRESOS" width="575">
+										<h:outputText value="#{item.DES_BIEN}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100">
+										<h:outputText value="#{item.des_moneda}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="SECTOR PUBLICO" width="75">
+										<h:outputText value="#{item.PUBLICO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>			
+									
+									<p:column headerText="SECTOR PRIVADO" width="75">
+										<h:outputText value="#{item.PRIVADO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>		
+									
+									<p:column headerText="TOTAL" width="75">
+										<h:outputText value="#{item.TOTAL}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>
+				
+				
+				<h:panelGroup id="pnltablaHistorico5_1">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoOtrosIngresos}" emptyMessage="No Presenta Informacion"
+									id="dataHistorico5_1" styleClass="tablaFixed" >
+									<f:facet name="header">BIENES</f:facet>									
+									<p:column headerText="DETALLE DE LOS BIENES" width="600">
+										<h:outputText value="#{item.DES_BIEN}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="TIPO MONEDA" width="100" >									
+										<h:outputText value="#{item.des_moneda}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="VALOR" width="75">
+										<h:outputText value="#{item.NUM_MONTO}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>		
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>	 		
+        	</p:tab>        	
+        </p:tabView>
+        
+                    
+        </p:tab>
+        
+        <p:tab title="Acreencias, Oblig">
+        
+        	<h:panelGroup id="pnltablaDeudas">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueDeudas}" emptyMessage="No se registro Informacion"
+									id="dataBloqueDeudas" styleClass="tablaFixed" >
+									
+									<f:facet name="header">INFORMACION</f:facet>									
+									<p:column headerText="DETALLE DE LA ACREENCIA U OBLIGACION A SU CARGO (Tipo de Deuda)" width="600">
+										<h:outputText value="#{item.des_detalle}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="TIPO" width="100" >									
+										<h:outputText value="#{item.DES_TIPO_OBLIGACION}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100" >									
+										<h:outputText value="#{item.des_moneda}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="MONTO" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<h:outputText style="font-weight:bold;" value="Monto M. Nacional:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueDeudas.MONTO_NACIONAL}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText> 
+							
+							<h:outputText style="font-weight:bold;" value="  -  Total M. Extranjera:  "/>
+							<h:outputText value="#{djVerificaMBean.totalBloqueDeudas.MONTO_EXTRANJERA}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>								
+						</td>
+					</tr>
+										
+				</table>								
+			</h:panelGroup>				
+       
+      
+      <p:tabView id="tabObservaciones6" >
+        	<p:tab title="Observaciones" rendered="#{djVerificaMBean.permiso}">       	
+        
+        	<h:panelGroup id="pnltablaObservaciones6">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.listaObservaciones6}" emptyMessage="No Presenta Observaciones" 
+									id="dataObservaciones6" styleClass="tablaFixed" >																		
+									<p:column headerText="Tipo" width="70">
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoObs}"
+												update=":pnlDialogos" oncomplete="dlgVarNuevoObs6.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarObs}"
+														update=":pnlDialogos" oncomplete="dlgVarNuevoObs6.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarObs6.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djBloqueSelected}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>
+																		
+									<p:column headerText="Tipo" width="100">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Detalle" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>						
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+       	 
+        		
+        	</p:tab>
+        	
+        	<p:tab title="Historico">
+        	
+        	<h:panelGroup id="pnltablaHistorico6">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.histoDeudas}" emptyMessage="No Presenta Informacion"
+									id="dataHistorico6" styleClass="tablaFixed" >									
+									<p:column headerText="DETALLE DE LA ACREENCIA U OBLIGACION A SU CARGO (Tipo de Deuda)" width="600">
+										<h:outputText value="#{item.des_detalle}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="TIPO" width="100" >									
+										<h:outputText value="#{item.DES_TIPO_OBLIGACION}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="TIPO MONEDA" width="100" >									
+										<h:outputText value="#{item.des_moneda}" style="float: center" ></h:outputText> 										
+									</p:column>
+									
+									<p:column headerText="MONTO" width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>
+									
+									<p:column headerText="EJERCICIO" width="100" >									
+										<h:outputText value="#{item.ejercicio}" style="float: center" ></h:outputText> 										
+									</p:column>			
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+					</table>								
+				</h:panelGroup>			
+				
+			 		
+        	</p:tab>        	
+        </p:tabView>
+       
+                            
+                    
+        </p:tab>
+        
+        <p:tab title="Otra Inf.">            
+        
+        
+        	<h:panelGroup id="pnltablaOtraInfo">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueOtraInfo}" emptyMessage="No se registro Informacion"
+									id="dataBloqueOtraInfo" styleClass="tablaFixed" >									
+									<f:facet name="header">OTRA INFORMACION QUE CONSIDERE EL OBLIGADO</f:facet>									
+									<p:column headerText="DETALLE" width="800">
+										<h:outputText value="#{item.des_otro}"></h:outputText>
+									</p:column>																		
+									
+									<p:column headerText="MONTO S/." width="75">
+										<h:outputText value="#{item.num_monto}" style="float: right">
+											<f:convertNumber pattern="#,##0.00" />
+										</h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>			
+        
+        
+        </p:tab>
+        
+        <p:tab title="Observ.">
+        
+        
+        	<h:panelGroup id="pnltablaObservaciones">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueObservaciones}" 
+									id="dataBloqueObservaciones" styleClass="tablaFixed" >									
+									<f:facet name="header">OBSERVACIONES</f:facet>									
+									<p:column headerText="Bloques" width="350">
+										<h:outputText value="#{item.DES_BLOQUE}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Descripcion de Observaciones" width="350">
+										<h:outputText value="#{item.DES_OBSERVACION_BLOQUE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fecha Creacion" width="60">
+										<h:outputText value="#{item.fecha}"></h:outputText>
+									</p:column>	
+									
+									<p:column headerText="Ultima Act." width="60">
+										<h:outputText value="#{item.fecha_MODIFICACION}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Tipo" width="60">
+										<h:outputText value="#{item.DES_TIPO_OBS}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.COD_USUCRE}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.COD_USUMOD}"></h:outputText>
+									</p:column>								
+																		
+								</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+				
+        
+        
+                    
+        </p:tab>
+        
+        <p:tab title="Movimientos">
+        
+        
+        	<h:panelGroup id="pnltablaMovimientos">
+				<table border="0" style="align: center; width: 50%" >
+					<tr>
+						<td valign="top">
+						  <p:dataTable var="item" value="#{djVerificaMBean.bloqueMovimientos}" 
+									id="dataBloqueMovimientos" styleClass="tablaFixed" >									  									
+									<f:facet name="header">HISTORIAL DE MOVIMIENTOS Y DECLARACIONES</f:facet>
+																		
+									<p:column headerText="Tipo" width="70" rendered="#{djVerificaMBean.permiso}" >
+									<f:facet name="header">
+											<p:commandButton value="#{msg['msgNuevo']}"
+												actionListener="#{djVerificaMBean.nuevoMovimiento}"
+												update=":pnlDialogos" oncomplete="dlgVarEstados.show()"
+												icon="ui-icon-document">
+											</p:commandButton>
+									</f:facet>
+									
+									<div class="div-table">
+											<div class="div-row">
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEditar']}"
+														actionListener="#{djVerificaMBean.editarMov}"
+														update=":pnlDialogos" oncomplete="dlgVarEstados.show()"
+														icon="ui-icon-pencil" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djSelectedMov}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+												<div class="div-cell"
+													style="width: 16px; text-align: center;">
+													<p:commandButton title="#{msg['msgEliminar']}"
+														oncomplete="dlgVarConfirmarMov.show()" immediate="true"
+														icon="ui-icon-close" styleClass="button-icon-edit">
+														<f:setPropertyActionListener
+															target="#{djVerificaMBean.djSelectedMov}" value="#{item}"></f:setPropertyActionListener>
+													</p:commandButton>
+												</div>
+											</div>
+										</div>
+									
+									
+									</p:column>	
+									
+																		
+									<p:column headerText="Tipo Mov." width="80">
+										<h:outputText value="#{item.des_tipo_mov_dj}"></h:outputText>
+									</p:column>																	
+									
+									<p:column headerText="Estado" width="80">
+										<h:outputText value="#{item.DES_ESTADO_DJ}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fec Present." width="55">
+										<h:outputText value="#{item.fec_present}"></h:outputText>
+									</p:column>	
+									
+									<p:column headerText="Nro. Registro" width="55">
+										<h:outputText value="#{item.numero_registro}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Fec. Mov." width="55">
+										<h:outputText value="#{item.fec_mov}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Tip. Doc." width="55">
+										<h:outputText value="#{item.tipo_documento}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Remitente" width="60">
+										<h:outputText value="#{item.remitente}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Detalle Doc." width="70">
+										<h:outputText value="#{item.detalle_documento}"></h:outputText>
+									</p:column>`
+									
+									<p:column headerText="Observacion" width="80">
+										<h:outputText value="#{item.des_observacion}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Cre." width="60">
+										<h:outputText value="#{item.cod_usucre}"></h:outputText>
+									</p:column>
+									
+									<p:column headerText="Usuario Mod." width="60">
+										<h:outputText value="#{item.cod_usumod}"></h:outputText>
+									</p:column>		
+									
+							</p:dataTable>						  
+						 </td>						
+					</tr>					
+				</table>								
+			</h:panelGroup>
+		
+                    
+        </p:tab>
+		
+		</p:tabView>
+		
+		</h:form>
+		
+		
+		</div> 
+	</ui:define>
+	
+	
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+		<p:dialog widgetVar="dlgVarNuevoObs0"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion0">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones:dataObservaciones0"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs0)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs0.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog widgetVar="dlgVarNuevoObs1"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion1">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion1"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion1"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle1"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle1"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones1:dataObservaciones1"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs1)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs1.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog widgetVar="dlgVarNuevoObs2"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion2">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion2"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion2"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle2"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle2"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones2:dataObservaciones2"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs2)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs2.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog widgetVar="dlgVarNuevoObs3"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion3">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion3"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion3"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle3"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle3"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones3:dataObservaciones3"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs3)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs3.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog widgetVar="dlgVarNuevoObs4"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion4">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion4"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion4"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle4"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle4"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones4:dataObservaciones4"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs4)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs4.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			<p:dialog widgetVar="dlgVarNuevoObs5"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion5">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion5"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion5"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle5"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle5"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones5:dataObservaciones5"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs5)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs5.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			
+			<p:dialog widgetVar="dlgVarNuevoObs6"
+				header="#{djVerificaMBean.accion==Accion.NUEVO ? msg['msgCreacion'] : msg['msgEdicionDatos']}"
+				modal="true">
+				<h:form id="frmNuevaObservacion6">
+					<div class="div-table">
+						<div class="div-row">
+							<div class="div-cell">
+								<div class="div-table" style="border-spacing: 10px;">
+
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="cboTipObservacion6"
+												value="Tipo Observacion "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:selectOneMenu id="cboTipObservacion6"
+												value="#{djVerificaMBean.selectedOpcion}">
+												<f:selectItems value="#{djVerificaMBean.listaTipObs}"
+													var="item" itemValue="#{item.codTipoObs}"
+													itemLabel="#{item.desTipoObs}"></f:selectItems>
+											</p:selectOneMenu>
+										</div>
+									</div>
+									
+									<div class="div-row">
+										<div class="div-cell">
+											<h:outputLabel for="txtDesDetalle6"
+												value="Detalle "></h:outputLabel>
+										</div>
+										<div class="div-cell">
+											<p:inputTextarea id="txtDesDetalle6"
+												value="#{djVerificaMBean.detalleObs}"
+												style="width:300px">
+											</p:inputTextarea>
+										</div>
+										<div class="div-cell"></div>
+									</div>
+																																					
+									<div class="div-row">
+										<div class="div-cell"></div>
+										<div style="position: relative; margin-left: 40px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarObs}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:tabObservaciones6:dataObservaciones6"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarNuevoObs6)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarNuevoObs6.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+			</p:dialog>
+			
+			
+			<p:dialog widgetVar="dlgVarEstados"
+				header="ESTADO DE LA DECLARACION JURADA"
+				modal="true">
+			<h:form id="frmEditarEstado">
+				
+				<p:fieldset legend="Datos Generales de la Declaracion Jurada" style="width: 700px" styleClass="myFieldset">
+				<p:panelGrid id="pnlDeclaracion" >
+							
+					<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDeclaranteEstado"
+								value="Declarante"></h:outputLabel>
+        				</p:column>
+        				<p:column style="width:400px">        				
+        				  <p:outputLabel>: #{djVerificaMBean.declaranteDj.des_apepaterno} #{djVerificaMBean.declaranteDj.des_apematerno}, #{djVerificaMBean.declaranteDj.des_nombre}</p:outputLabel>        				
+        				</p:column>        				     				
+        			</p:row>        			
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDniEstado"
+								value="DNI"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.num_dni}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblDistrito"
+								value="Distrito"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djVerificaMBean.entidadDj.des_distri}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>     				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblCargo"
+								value="Cargo"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.des_cargo}</p:outputLabel>        				
+        				</p:column>
+        				
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblEjercicio"
+								value="Ejercicio"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djVerificaMBean.entidadDj.des_ejercicio}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblCondicion"
+								value="Condicion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.des_estado}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblOportunidad"
+								value="Oportunidad"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:300px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.oportunidad}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblFechaElab"
+								value="Fecha Elaboracion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.fec_elab}</p:outputLabel>        				
+        				</p:column>        				
+        			
+        				<p:column style="width:80px">
+        				<h:outputLabel id="lblFechaPre"
+								value="Fecha Presentacion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:100px">
+        					<p:outputLabel>: #{djVerificaMBean.declaranteDj.fec_present}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>        			
+        			</p:panelGrid>
+        		</p:fieldset>
+        		
+        		<p:fieldset legend="Cambio de Estado de Declaracion Jurada" style="width: 700px" styleClass="myFieldset">
+				<p:panelGrid id="pnlCambioDeclaracion">			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:140px">
+        				<h:outputLabel id="lblTipoEstado" style="float: left"
+								value="Tipo"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px;" >
+        				<p:selectOneMenu id="cboTipoMovimiento"
+								value="#{djVerificaMBean.selectedTipoMov}"
+								style="width: 200px;float: left">
+								<f:selectItems value="#{djVerificaMBean.listaTipoMovDj}" var="item"
+									itemValue="#{item.cod_tipo_mov}" itemLabel="#{item.des_tipo_mov_dj}"></f:selectItems>
+									<p:ajax update="estadoRadio" />	
+							</p:selectOneMenu>
+        				</p:column>
+        			</p:row>
+        			 </f:facet>       			
+        		</p:panelGrid>
+        		
+        		<p:panelGrid id="pnlCambioEstadoDeclaracion">			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:140px">
+        				<h:outputLabel id="lblEstadoActual" style="float: left"
+								value="Estado Actual"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px;">
+        					<p:outputLabel style="float: left" >: #{djVerificaMBean.estadoActual}</p:outputLabel>        				
+        				</p:column>        				
+        			</p:row>
+        			 </f:facet>
+        			<p:row>
+        				<p:column style="width:140px">	
+        				<h:outputLabel id="lblEstadoSelecccion" style="float: left"
+								value="Estado"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:500px">        				  
+        					<p:selectOneRadio id="estadoRadio" value="#{djVerificaMBean.selectedEstado}" layout="grid" columns="4" disabled="#{djVerificaMBean.selectedTipoMov ne 'E'}"> 
+ 					            <f:selectItems value="#{djVerificaMBean.listaEstadoDj}" var="item" itemLabel="#{item.des_estado_dj}" 
+ 					            itemValue="#{item.cod_estado_dj}"/>
+ 					            <p:ajax event="change" update="lblAsocLista cboAsocLista "/>
+        					</p:selectOneRadio>         				
+        				</p:column>        				
+        			</p:row>       			        			       			
+        		</p:panelGrid>
+        		
+        		<p:panelGrid id="pnlDetalleMovimiento" >			
+        			<f:facet name="header">
+        			<p:row>
+        				<p:column style="width:240px">
+        				     <h:outputLabel id="lblMovimiento" style="float: left"
+								value="Movimiento"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        					        				
+        				</p:column>        				
+        			</p:row>
+        			 </f:facet>
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblFechaPres" 
+								value="Fecha Presentacion en Bienes y Rentas (*)"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        					<p:calendar value="#{djVerificaMBean.fechaTemp}" size="10"
+							pattern="#{aplicacionMBean.formatoFecha}"/>        				
+        						
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblNumReg" 
+								value="Numero de Registro de Mesa de Partes (*)"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        					<p:inputText id="txtNumeroRegistro"
+								value="#{djVerificaMBean.numRegistro}" style="width: 100px;">
+							</p:inputText>
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblMovObservacion" 
+								value="Observacion"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">        				  
+        						<p:inputTextarea id="txtObservacionEstado"
+        							value="#{djVerificaMBean.observacionEst}" style="width: 350px;">
+        						</p:inputTextarea>
+        				</p:column>        				
+        			</p:row>
+        			
+        			<p:row>
+        				<p:column style="width:240px">
+        				<h:outputLabel id="lblAsocLista" 
+								value="Asociar a Lista"></h:outputLabel>
+        				</p:column>        					
+        				<p:column style="width:400px">
+        					<p:selectOneMenu id="cboAsocLista"	disabled="#{djVerificaMBean.selectedEstado ne 1}" value="#{djVerificaMBean.selectedLista}"	 					
+								style="width: 200px;float: left">
+								<f:selectItems value="#{djVerificaMBean.listasDisponibles}" var="item"
+									itemValue="#{item.codLista}" itemLabel="#{item.desNombre}"></f:selectItems>									
+							</p:selectOneMenu> 
+        						
+        				</p:column>     
+        			</p:row>
+        			       			        			       			
+        		</p:panelGrid>
+        		
+        		</p:fieldset>
+        		
+        		<div style="position: relative; margin-left: 270px;">
+											<p:commandButton value="#{msg['msgGuardar']}"
+												actionListener="#{djVerificaMBean.guardarMovimiento}"
+												update=":listaMensajes :frmDatosGenerales:tabDdjj:dataBloqueMovimientos"
+												oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgVarEstados)"
+												icon="ui-icon-disk"></p:commandButton>
+											<p:commandButton value="#{msg['msgCancelar']}" type="button"
+												onclick="dlgVarEstados.hide()" icon="ui-icon-close"></p:commandButton>
+										</div>
+        				
+			</h:form>
+		</p:dialog>
+			
+			
+			<h:form prependId="false">			
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs0"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones:dataObservaciones0" oncomplete="dlgVarConfirmarObs0.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs0.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs1"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones1:dataObservaciones1" oncomplete="dlgVarConfirmarObs1.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs1.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs2"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones2:dataObservaciones2" oncomplete="dlgVarConfirmarObs2.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs2.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs3"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones3:dataObservaciones3" oncomplete="dlgVarConfirmarObs3.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs3.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs4"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones4:dataObservaciones4" oncomplete="dlgVarConfirmarObs4.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs4.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs5"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones5:dataObservaciones5" oncomplete="dlgVarConfirmarObs5.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs5.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarObs6"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarObs}"
+						update=":frmDatosGenerales:tabDdjj:tabObservaciones6:dataObservaciones6" oncomplete="dlgVarConfirmarObs6.hide()" />
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarObs6.hide()" type="button" />
+				</p:confirmDialog>
+				
+				<p:confirmDialog widgetVar="dlgVarConfirmarMov"
+					header="#{msg['msgConfirmacion']}"
+					message="#{msg['msgEstaSeguroEliminar']}" severity="alert">
+					<p:commandButton value="#{msg['msgSi']}"
+						actionListener="#{djVerificaMBean.eliminarMov}" 						 
+						update=":frmDatosGenerales:tabDdjj:dataBloqueMovimientos" oncomplete="dlgVarConfirmarMov.hide()" />						
+					<p:commandButton value="#{msg['msgNo']}"
+						onclick="dlgVarConfirmarMov.hide()" type="button" />
+				</p:confirmDialog>
+				
+			</h:form>
+			
+		</h:panelGroup>
+	</ui:define>
+		
+</ui:composition>
+</html>
