@@ -14,11 +14,15 @@
  */
 package pe.gob.ocma.ddjj.controller;
 
+import java.io.Serializable;
+
 /**
  * FIXME DESCRIBIR
  * @author Gino Maquera Coyla
  * 22/9/2014 16:11:26
  */
-public class DjIngreso {
+public class DjIngreso implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 }
