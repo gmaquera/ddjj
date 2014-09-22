@@ -28,7 +28,9 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjPublicacionesModel;
@@ -209,6 +211,19 @@ public class DjCVDaoImpl extends BaseHibernateDaoImpl<DjMaster,Integer> implemen
 		List<DjMeritoModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjMeritoModel.class)).list();
 		return datalist;
 		
+	}
+
+	@Override
+	public List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente) {
+
+		Query query = this.getSession().createSQLQuery(
+			"exec web_ocma.sp_web_info_familia_2  :cpersonal , :cpariente ")				
+			.setParameter("cpersonal",cod_personal )
+			.setParameter("cpariente",cpariente );
+			//query.setString("des_ejercicio", des_ejercicio);			 
+			List<DjInfoFamiliarModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjInfoFamiliarModel.class)).list();
+		return datalist;
+			
 	}
 	
 }

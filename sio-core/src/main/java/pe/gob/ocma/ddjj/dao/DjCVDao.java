@@ -22,6 +22,7 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
@@ -53,4 +54,5 @@ public interface DjCVDao extends BaseHibernateDao<DjMaster, Integer>{
 	
 	public abstract List<DjMeritoModel> lisInfoMeritoCV(String cod_personal,String cod_academia);
 	
+	public abstract List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente);
 }

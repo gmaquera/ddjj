@@ -729,12 +729,13 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td align="center"><p:dataTable var="item" style="align:center" 
+																<td align="center"><p:dataTable var="item"
+																		style="align:center"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoAcademicaCV}"
 																		id="DjInfoAcademiCV">
 
-																		<p:column headerText="Nivel Estudiado" width="80"  >
+																		<p:column headerText="Nivel Estudiado" width="80">
 																			<h:outputText value="#{item.des_cv_titulo}"></h:outputText>
 																		</p:column>
 																		<p:column headerText="Tipo" width="60">
@@ -778,8 +779,8 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item"  style="align:center" 
-																		emptyMessage="#{msg['msgTablaVacia']}" 
+																<td><p:dataTable var="item" style="align:center"
+																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoAcademicaComCV}"
 																		id="DjInfoAcademiComCV">
 
@@ -830,7 +831,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoCapacitacionCV}"
 																		id="DjInfoCapacitaCV">
@@ -870,7 +871,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoCapacitacionCompCV}"
 																		id="DjInfoCapacitaIdiomaCV">
@@ -907,7 +908,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpProfesionalCV">
@@ -942,7 +943,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpAuxJurCV">
@@ -982,7 +983,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpDocCV">
@@ -1025,7 +1026,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpAuxActividadCV">
@@ -1066,11 +1067,11 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoPublicacionesCV}"
 																		id="DjInfoExpPublicacionesCV">
-																		<p:column headerText="Tipo" width="80">
+																		<p:column headerText="Tipo" width="50">
 																			<h:outputText value="#{item.des_inv_pub}"></h:outputText>
 																		</p:column>
 																		<p:column headerText="Tipo / Tema" width="120">
@@ -1105,16 +1106,16 @@
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoMeritoCV}"
 																		id="DjInfoMeritosCV">
-																		<p:column headerText="Fecha" width="80">
+																		<p:column headerText="Fecha" width="50">
 																			<h:outputText value="#{item.des_fecha}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Tipo" width="120">
+																		<p:column headerText="Tipo" width="60">
 																			<h:outputText value="#{item.des_cv_merito}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Institución" width="120">
+																		<p:column headerText="Institución" width="100">
 																			<h:outputText value="#{item.des_centro_estudios}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Detalle" width="60">
+																		<p:column headerText="Detalle" width="120">
 																			<h:outputText value="#{item.des_merito}"></h:outputText>
 																		</p:column>
 																	</p:dataTable></td>
@@ -1131,7 +1132,110 @@
 								</p:tab>
 
 								<p:tab id="tab4" title="Informacion Familiar">
+
+									<p:fieldset legend="Curriculum Vitae" style="width: 900px"
+										styleClass="myFieldset">
+										<h:panelGroup id="pnlInfoFamiliar">
+											<table>
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblappaterno2f" value="Apellido Paterno :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtappaterno2f"
+															value="#{djInfoGeneralMBean.ap_paterno}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"><p:graphicImage
+															value="#{djInfoGeneralMBean.des_foto}" /></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblapmaterno2f" value="Apellido Materno :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtapmaterno2f"
+															value="#{djInfoGeneralMBean.ap_materno}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblnombres2f" value="Nombres :" style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtnombres2f"
+															value="#{djInfoGeneralMBean.des_nombre}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lbldni2f" value="Documento de Identidad :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtdni2f" value="DNI  #{djInfoGeneralMBean.num_dni}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+
+											</table>
+
+										</h:panelGroup>
+										<table style="width: 980px">
+											<tr>
+												<td><p:dataTable var="item"
+														emptyMessage="#{msg['msgTablaVacia']}"
+														value="#{djCVMBean.lisInfoFamiliar}"
+														id="DjInfofamiliar">
+
+														<p:column headerText="Parentesco" width="180">
+															<h:outputText value="#{item.des_pariente}"></h:outputText>
+														</p:column>
+														<p:column headerText="Ap. Paterno" width="200">
+															<h:outputText value="#{item.des_ape_paterno}"></h:outputText>
+														</p:column>
+														<p:column headerText="Ap. Materno" width="90">
+															<h:outputText value="#{item.des_ape_materno}"></h:outputText>
+														</p:column>
+														<p:column headerText="Nombres" width="100">
+															<h:outputText value="#{item.des_nombre}"></h:outputText>
+														</p:column>
+														<p:column headerText="Fec. Nacimiento" width="80">
+															<h:outputText value="#{item.fecha}"></h:outputText>
+														</p:column>
+														<p:column headerText="Sexo" width="80">
+															<h:outputText value="#{item.des_sexo}"></h:outputText>
+														</p:column>
+														<p:column headerText="¿Vivo?" width="80">
+															<h:outputText value="#{item.des_vivo}"></h:outputText>
+														</p:column>
+
+													</p:dataTable></td>
+											</tr>
+										</table>
+									</p:fieldset>
 								</p:tab>
+
+
 								<p:tab id="tab5" title="Declaracion Jurada" disabled="true">
 								</p:tab>
 

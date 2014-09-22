@@ -26,6 +26,7 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
@@ -89,6 +90,11 @@ public class DjCVServiceImpl implements DjCVService{
 	@Override
 	public List<DjMeritoModel> lisInfoMeritoCV(String cod_personal,String cod_academia) {
 		return djCVDao.lisInfoMeritoCV(cod_personal,cod_academia);
+	}
+
+	@Override
+	public List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente) {
+		return djCVDao.lisInfoFamiliarCV(cod_personal,cpariente);
 	}
 
 }
