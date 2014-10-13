@@ -110,6 +110,16 @@ body>.ui-layout-center .ui-layout-unit-content {
 	height: 34px;
 }
 
+.menu-magis {
+	position: absolute;
+	top: 47px;
+	left:0px;	
+	right: 0px;
+	margin: auto;
+	width: 1024px;
+	height: 34px;
+}
+
 .ui-tree {
 	width: 100%;
 	min-width: 200px;
@@ -144,6 +154,17 @@ body>.ui-layout-center .ui-layout-unit-content {
 	left: 0px;
 	overflow: auto;
 	/*width: 1280px; tamaño para el marco principal*/
+}
+
+.contenido-principal {
+	position: absolute;
+	top: 4px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	margin: auto;
+	overflow: auto;
+	width: 1024px;
 }
 
 .contenido-menu {
