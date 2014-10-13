@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
@@ -44,39 +46,44 @@ public class DjInfoGeneralDaoImpl  extends BaseHibernateDaoImpl<DjMaster,Integer
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DjInfoGeneralModel> lisInfoGeneral(String cod_personal) {
-			
-			Query query = this.getSession().createSQLQuery(
+			Session session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
+			Query query = session.createSQLQuery(
 				"exec WEB_OCMA.sp_web_info_laboral :cod_personal")				
 				.setParameter("cod_personal",cod_personal );
 			//query.setString("des_ejercicio", des_ejercicio);			 
 			List<DjInfoGeneralModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjInfoGeneralModel.class)).list();
+			session.getTransaction().commit();
 			return datalist;
 			
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DjInfoLaboralModel> lisInfoLaboral(String cod_personal) {
-
-	
+	public List<DjInfoLaboralModel> lisInfoLaboral(String cod_personal) {	
+			Session session = sessionFactory.getCurrentSession();
+			session.beginTransaction();
 			StringBuilder sql = new StringBuilder("select  detalle_area,des_funcio,dateformat(fec_inicio_cargo,'DD-MM-YYYY') as fec_inicio_cargo,des_direccion,num_telefono,edad ");
 			sql.append("from web_ocma.view_personal where cod_personal = :cod_personal "); 
-	 	    Query query = this.getSession().createSQLQuery(sql.toString());
+	 	    Query query = session.createSQLQuery(sql.toString());
 			query.setString("cod_personal", cod_personal);
 			List<DjInfoLaboralModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjInfoLaboralModel.class)).list();
+			session.getTransaction().commit();
 			return datalist;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DjTrayMagistradoModel> lisTrayectoriaMagis(String cod_personal) {
-
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
 		StringBuilder sql = new StringBuilder("select num_resolucion,fecha_grilla,des_cargo,des_condicionlaboral,des_distritojudicial from web_ocma.view_personal_historico "); 
 		sql.append("where cod_personal = :cod_personal ");
 		sql.append("order by fecha_asignacion desc ");
-		Query query = this.getSession().createSQLQuery(sql.toString());
+		Query query = session.createSQLQuery(sql.toString());
 		query.setString("cod_personal", cod_personal);
 		List<DjTrayMagistradoModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjTrayMagistradoModel.class)).list();
+		session.getTransaction().commit();
 		return datalist;
 		
 	}
@@ -84,22 +91,25 @@ public class DjInfoGeneralDaoImpl  extends BaseHibernateDaoImpl<DjMaster,Integer
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DjExpedientesModel> lisExpedienteMagis(int cod_personal,int cod_inicio, int cod_fin) {
-		
-		Query query = this.getSession().createSQLQuery(
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createSQLQuery(
 				"exec web_ocma.sp_web_expedientes :cod_personal, :cod_inicio, :cod_fin")				
 				.setParameter("cod_personal",cod_personal )
 				.setParameter("cod_inicio",cod_inicio )	
 				.setParameter("cod_fin",cod_fin );
 			//	query.setString("des_ejercicio", des_ejercicio);			 
 			List<DjExpedientesModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjExpedientesModel.class)).list();
+			session.getTransaction().commit();
 			return datalist;
 		
 	}
 
 	@Override
 	public List<DjSancionesModel> lisSancionesMagis(int distrito_origen,int cod_personal, int cod_inicio, int cod_fin) {
-		
-		Query query = this.getSession().createSQLQuery(
+		Session session = sessionFactory.getCurrentSession();
+		session.beginTransaction();
+		Query query = session.createSQLQuery(
 				"EXEC web_ocma.sp_web_sanciones :distrito_origen, :cod_personal , :cod_inicio, :cod_fin")
 				.setParameter("distrito_origen",distrito_origen )
 				.setParameter("cod_personal",cod_personal )
@@ -108,6 +118,7 @@ public class DjInfoGeneralDaoImpl  extends BaseHibernateDaoImpl<DjMaster,Integer
 			//	query.setString("des_ejercicio", des_ejercicio);			 
 			@SuppressWarnings("unchecked")
 			List<DjSancionesModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjSancionesModel.class)).list();
+			session.getTransaction().commit();
 			return datalist;
 			
 	}

@@ -25,6 +25,9 @@ import pe.gob.ocma.common.dao.impl.BaseHibernateDaoImpl;
 import pe.gob.ocma.ddjj.dao.DjCVDao;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionIdiomaModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDepartamentoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDistritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjEstadoCivilModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
@@ -33,6 +36,7 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjProvinciaMocel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjPublicacionesModel;
 import pe.gob.ocma.entities.oc_ocma.DjMaster;
 
@@ -202,7 +206,7 @@ public class DjCVDaoImpl extends BaseHibernateDaoImpl<DjMaster,Integer> implemen
 		sql.append("from  ");
 		sql.append("web_ocma.personal_academica, web_ocma.tabla_cv_merito ");
 		sql.append("where ");
-		sql.append("cod_personal= :cod_personal and COD_ACADEMICA= :cod_academia and ");
+		sql.append("cod_personal= :cod_personal and cod_academica= :cod_academia and ");
 		sql.append("personal_academica.cod_cv_merito = tabla_cv_merito.cod_cv_merito ");
 		sql.append("order by fec_inicio desc, des_cv_merito asc");  
 		Query query = this.getSession().createSQLQuery(sql.toString());
@@ -213,6 +217,7 @@ public class DjCVDaoImpl extends BaseHibernateDaoImpl<DjMaster,Integer> implemen
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente) {
 
@@ -224,6 +229,51 @@ public class DjCVDaoImpl extends BaseHibernateDaoImpl<DjMaster,Integer> implemen
 			List<DjInfoFamiliarModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjInfoFamiliarModel.class)).list();
 		return datalist;
 			
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DjEstadoCivilModel> lisEstadoCivilCV() {
+		
+		StringBuilder sql = new StringBuilder("select COD_ESTADOCIVIL as cod_estadocivil, DES_ESTADOCIVIL as des_estadocivil,FLA_ESTADO as  fla_estado from web_ocma.tabla_estado_civil where fla_estado=1 and cod_estadocivil<>0 order by des_estadocivil ");
+		Query query = this.getSession().createSQLQuery(sql.toString());
+		List<DjEstadoCivilModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjEstadoCivilModel.class)).list();
+		return datalist;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DjDepartamentoModel> lisDepartamentoCV() {
+				
+		StringBuilder sql = new StringBuilder("select  convert(varchar(4),cod_departamento) as  cod_departamento, des_nombre as des_nombre from sistema.ubigeo where COD_PROVINCIA='00' and COD_DISTRITO='00' and COD_CENTRO_POBLADO='0000' and COD_DEPARTAMENTO<>'00' order by DES_NOMBRE ");
+		Query query = this.getSession().createSQLQuery(sql.toString());
+		List<DjDepartamentoModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjDepartamentoModel.class)).list();
+		return datalist;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DjProvinciaMocel> lisProvinciaCV(String cod_departamento) {
+		
+		StringBuilder sql = new StringBuilder("select convert(varchar(4),cod_provincia) as cod_provincia, des_nombre as des_nombre from sistema.ubigeo where COD_PROVINCIA<>'00' and COD_DISTRITO='00' and COD_CENTRO_POBLADO='0000' and COD_DEPARTAMENTO= :cod_departamento order by DES_NOMBRE ");
+		Query query = this.getSession().createSQLQuery(sql.toString());
+		query.setString("cod_departamento", cod_departamento);
+		List<DjProvinciaMocel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjProvinciaMocel.class)).list();
+		return datalist;
+				
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<DjDistritoModel> lisDistritoCV(String cod_provincia,String cod_departamento) {
+		
+		StringBuilder sql = new StringBuilder("select convert(varchar(4),cod_distrito) as cod_distrito, des_nombre as des_nombre FROM sistema.ubigeo WHERE COD_PROVINCIA= :cod_provincia AND COD_DISTRITO<>'00' AND COD_CENTRO_POBLADO='0000' AND COD_DEPARTAMENTO= :cod_departamento  ORDER BY DES_NOMBRE ");
+		Query query = this.getSession().createSQLQuery(sql.toString());
+		query.setString("cod_departamento", cod_departamento);
+		query.setString("cod_provincia", cod_provincia);
+		List<DjDistritoModel> datalist = query.setResultTransformer(Transformers.aliasToBean(DjDistritoModel.class)).list();
+		return datalist;
+		
 	}
 	
 }

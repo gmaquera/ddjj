@@ -34,7 +34,7 @@ import pe.gob.ocma.ddjj.service.DjInfoGeneralService;
  * 10/09/2014 15:19:33
  */
 
-@Transactional(readOnly=true)
+
 @Service("djInfoGeneralService")
 public class DjInfoGeneralServiceImpl implements DjInfoGeneralService{
 

@@ -18,6 +18,9 @@ import java.util.List;
 
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionIdiomaModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDepartamentoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDistritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjEstadoCivilModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
@@ -25,6 +28,7 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjProvinciaMocel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjPublicacionesModel;
 
 /**
@@ -53,4 +57,12 @@ public interface DjCVService {
 	public abstract List<DjMeritoModel> lisInfoMeritoCV(String cod_personal,String cod_academia);
 	
 	public abstract List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente);
+	
+	public abstract List<DjEstadoCivilModel> lisEstadoCivilCV();
+	
+	public abstract List<DjDepartamentoModel> lisDepartamentoCV();
+	
+	public abstract List<DjProvinciaMocel> lisProvinciaCV(String cod_departamento);
+	
+	public abstract List<DjDistritoModel> lisDistritoCV(String cod_provincia, String cod_departamento);
 }

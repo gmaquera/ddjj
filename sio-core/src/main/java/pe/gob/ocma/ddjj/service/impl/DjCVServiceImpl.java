@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pe.gob.ocma.ddjj.dao.DjCVDao;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionIdiomaModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDepartamentoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDistritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjEstadoCivilModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
@@ -30,6 +33,7 @@ import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjProvinciaMocel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjPublicacionesModel;
 import pe.gob.ocma.ddjj.service.DjCVService;
 
@@ -95,6 +99,26 @@ public class DjCVServiceImpl implements DjCVService{
 	@Override
 	public List<DjInfoFamiliarModel> lisInfoFamiliarCV(int cod_personal,int cpariente) {
 		return djCVDao.lisInfoFamiliarCV(cod_personal,cpariente);
+	}
+
+	@Override
+	public List<DjDepartamentoModel> lisDepartamentoCV() {
+		return djCVDao.lisDepartamentoCV();
+	}
+
+	@Override
+	public List<DjProvinciaMocel> lisProvinciaCV(String cod_departamento) {
+		return djCVDao.lisProvinciaCV(cod_departamento);
+	}
+
+	@Override
+	public List<DjDistritoModel> lisDistritoCV(String cod_provincia, String cod_departamento) {
+		return djCVDao.lisDistritoCV(cod_provincia,cod_departamento);
+	}
+
+	@Override
+	public List<DjEstadoCivilModel> lisEstadoCivilCV() {
+		return djCVDao.lisEstadoCivilCV();
 	}
 
 }
