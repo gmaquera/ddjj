@@ -1,0 +1,293 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
+	<ui:define name="contenido">
+	<div class="contenido-principal">
+		<h:form>	
+				<p:tabView id="tabViewSeg">
+
+							<p:tab id="tabViewSegExp" title="Expedientes">
+								<p:fieldset legend="EXPEDIENTES"
+									styleClass="myFieldset">
+									<h:panelGroup id="pnlInfoGeneralEx">
+										<table>
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblappaternoEx2" value="Apellido Paterno :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtappaternoEx2"
+														value="#{djInfoGeneralMBean.ap_paterno}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"><p:graphicImage
+														value="#{djInfoGeneralMBean.des_foto}" /></td>
+											</tr>
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblapmaternoEx2" value="Apellido Materno :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtapmaternoEx2"
+														value="#{djInfoGeneralMBean.ap_materno}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblnombresEx2" value="Nombres :" style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtnombresEx2"
+														value="#{djInfoGeneralMBean.des_nombre}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lbldniEx2" value="Documento de Identidad :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtdniEx2" value="#{djInfoGeneralMBean.num_dni}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+
+										</table>
+
+									</h:panelGroup>
+
+									<table style="width: 980px">
+										<tr height="30px"></tr>
+
+										<tr>
+											<td><p:dataTable var="item"
+													emptyMessage="#{msg['msgTablaVacia']}"
+													value="#{djInfoGeneralMBean.lisExpedienteMagis}"
+													id="DjTracyMagis">
+
+													<p:column headerText="Fec. Aper" width="90">
+														<h:outputText value="#{item.fec_recepc}"></h:outputText>
+													</p:column>
+													<p:column headerText="Expediente" width="100">
+														<h:outputText value="#{item.c_expediente}"></h:outputText>
+													</p:column>
+													<p:column headerText="Distrito Origen" width="200">
+														<h:outputText value="#{item.des_distri}"></h:outputText>
+													</p:column>
+													<p:column headerText="Estado Res." width="150">
+														<h:outputText value="#{item.des_estaex}"></h:outputText>
+													</p:column>
+													<p:column headerText="Encargado" width="180">
+														<h:outputText value="#{item.des_encarg}"></h:outputText>
+													</p:column>
+													<p:column headerText="Resolucion" width="180">
+														<h:outputText value="#{item.des_resinf}"></h:outputText>
+													</p:column>
+													<p:column headerText="Fec. Resolucion" width="180">
+														<h:outputText value="#{item.fec_movimi}"></h:outputText>
+													</p:column>
+
+												</p:dataTable></td>
+										</tr>
+									</table>
+
+									<table style="width: 980px">
+										<tr height="40px"></tr>
+										<tr>
+											<td>TOTAL QUEJAS:</td>
+											<td>#{djInfoGeneralMBean.c_tot_queja}</td>
+											<td>TOTAL MED.CAUTELAR(ES):</td>
+											<td>#{djInfoGeneralMBean.c_tot_cautelar}</td>
+											<td>TOTAL DE INVESTIGACION(ES):</td>
+											<td>#{djInfoGeneralMBean.c_tot_investigacion}</td>
+										</tr>
+										<tr>
+											<td>TOTAL DE VISITA(S):</td>
+											<td>#{djInfoGeneralMBean.c_tot_visita}</td>
+											<td>TOTAL DE REHABILITADO(S):</td>
+											<td>#{djInfoGeneralMBean.c_tot_rehabilitado}</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>EXPEDIENTES ARCHIVADO(S):</td>
+											<td>#{djInfoGeneralMBean.c_expediente_archivado}</td>
+											<td>EXPEDIENTE(S) EN TRAMITE:</td>
+											<td>#{djInfoGeneralMBean.c_tot_tramite}</td>
+											<td>EXPEDIENTE(S) EN REHAB.:</td>
+											<td>#{djInfoGeneralMBean.c_tot_expediente_rehabilitacion}</td>
+										</tr>
+										<tr>
+											<td>TOTAL EXPEDIENTES:</td>
+											<td>#{djInfoGeneralMBean.c_tot_expediente}</td>
+											<td></td>
+											<td></td>
+											<td>TOTAL DE SANCIONES:</td>
+											<td>#{djInfoGeneralMBean.c_tot_sancion}</td>
+										</tr>
+									</table>
+								</p:fieldset>
+
+							</p:tab>
+
+							<p:tab id="tabViewSegSanc" title="Sanciones">
+
+								<p:fieldset legend="SANCIONES" style="width: 980px"
+									styleClass="myFieldset">
+									<h:panelGroup id="pnlInfoGeneralSan">
+										<table>
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblappaternoSan2" value="Apellido Paterno :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtappaternoSan2"
+														value="#{djInfoGeneralMBean.ap_paterno}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"><p:graphicImage
+														value="#{djInfoGeneralMBean.des_foto}" /></td>
+											</tr>
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblapmaternoSan2" value="Apellido Materno :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtapmaternoSan2"
+														value="#{djInfoGeneralMBean.ap_materno}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblnombresSan2" value="Nombres :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtnombresSan2"
+														value="#{djInfoGeneralMBean.des_nombre}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lbldniSan2" value="Documento de Identidad :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left" colspan="3"><p:inputText
+														id="txtdniSan2" value="#{djInfoGeneralMBean.num_dni}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+												<td rowspan="4"></td>
+											</tr>
+
+
+										</table>
+
+									</h:panelGroup>
+
+									<table style="width: 980px">
+										<tr height="30px"></tr>
+
+										<tr>
+											<td><p:dataTable var="item"
+													emptyMessage="#{msg['msgTablaVacia']}"
+													value="#{djInfoGeneralMBean.lisSancionesMagis}"
+													id="DjSanMagis">
+
+													<p:column headerText="Expediente" width="90">
+														<h:outputText value="#{item.expediente}"></h:outputText>
+													</p:column>
+													<p:column headerText="Instancia" width="100">
+														<h:outputText value="INSTANCIA"></h:outputText>
+													</p:column>
+													<p:column headerText="Distrito Origen" width="200">
+														<h:outputText value="#{item.des_distrito_judicial}"></h:outputText>
+													</p:column>
+													<p:column headerText="Sancion" width="150">
+														<h:outputText value="#{item.des_sancio}"></h:outputText>
+													</p:column>
+													<p:column headerText="Fecha" width="180">
+														<h:outputText value="#{item.fec_movimi}"></h:outputText>
+													</p:column>
+													<p:column headerText="Estado" width="180">
+														<h:outputText value="#{item.des_estado}"></h:outputText>
+													</p:column>
+
+
+												</p:dataTable></td>
+										</tr>
+										<tr>
+											<td align="Center" style="font: 20px"><STRONG><h:outputText
+														value="#{djInfoGeneralMBean.msg}"></h:outputText></STRONG></td>
+										</tr>
+									</table>
+
+									<table style="width: 980px; align: Center">
+										<tr height="40px"></tr>
+										<tr>
+											<td align="Center">TOTAL DE APERCIBIMIENTO(S):</td>
+											<td>#{djInfoGeneralMBean.c_tot_apercibimiento}</td>
+											<td align="Center">TOTAL DE SUSPENCION(ES):</td>
+											<td>#{djInfoGeneralMBean.c_tot_suspencion}</td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="Center">TOTAL DE MULTA(S):</td>
+											<td>#{djInfoGeneralMBean.c_tot_multa}</td>
+											<td align="Center">TOTAL DE DESTITUCION(ES):</td>
+											<td>#{djInfoGeneralMBean.c_tot_destituciones}</td>
+											<td align="Center">TOTAL DE SANCION(ES):</td>
+											<td>#{djInfoGeneralMBean.c_tot_sanciones}</td>
+										</tr>
+									</table>
+
+
+								</p:fieldset>
+							</p:tab>
+						</p:tabView>
+	</h:form>
+	</div>	
+	</ui:define>
+</ui:composition>
+</html>
