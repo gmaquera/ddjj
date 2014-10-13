@@ -25,6 +25,22 @@
 					style="height: 34px; margin-left: 10px; border: none;"></p:button>
 			</f:facet>
 		</p:menubar>
+		
+		<p:tabMenu activeIndex="0" styleClass="menu-magis">
+			<p:menuitem value="DATOS DEL MAGISTRADO" url="/sistema/index.xhtml" >
+				<f:param name="0" value="0" />
+			</p:menuitem>
+			
+			<p:menuitem value="SEGUIMIENTO DISCIPLINARIO" url="/sistema/ddjj/disciplinario.xhtml" >
+				<f:param name="1" value="1" />
+			</p:menuitem>
+			
+			<p:menuitem value="DECLARACION JURADA" url="/sistema/ddjj/declaracion.xhtml" >
+				<f:param name="2" value="2" />
+			</p:menuitem>
+					
+		</p:tabMenu>
+		
 	</h:form>
 </ui:composition>
 </html>
