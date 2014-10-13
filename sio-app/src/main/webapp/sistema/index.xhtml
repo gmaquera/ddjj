@@ -6,11 +6,12 @@
 <ui:composition template="/WEB-INF/plantillas/planPrincipal.xhtml">
 	<ui:define name="contenido">
 
+
 		<h:form id="frmMagistrado">
 			<h:panelGroup id="pnlGeneral">
 				<p:tabView id="tabViewGeneral" style="width:1080px">
 
-					<p:tab id="tabG1" title="DATOS DEL MAGISTRADO">
+					<p:tab id="tabG1" title="DATOS DEL MAGISTRADOl">
 
 						<h:panelGroup id="pnlfla">
 							<p:tabView id="tabView" style="width:1080px">
@@ -21,6 +22,7 @@
 										<h:panelGroup id="pnlInfoGeneral">
 											<table>
 												<tr>
+
 													<td width="160px" align="left"><p:outputLabel
 															id="lblappaterno" value="Apellido Paterno :"
 															style="width: 100px;"></p:outputLabel></td>
@@ -63,14 +65,13 @@
 													<td rowspan="4"></td>
 												</tr>
 
-
 												<tr>
 
 													<td width="160px" align="left"><p:outputLabel
 															id="lbldni" value="Documento de Identidad :"
 															style="width: 100px;"></p:outputLabel></td>
 													<td width="200px" align="left" colspan="3"><p:inputText
-															id="txtdni" value="DNI  #{djInfoGeneralMBean.num_dni}"
+															id="txtdni" value="#{djInfoGeneralMBean.num_dni}"
 															style="width: 120px;">
 														</p:inputText></td>
 													<td></td>
@@ -314,7 +315,7 @@
 															id="lbldni2" value="Documento de Identidad :"
 															style="width: 100px;"></p:outputLabel></td>
 													<td width="200px" align="left" colspan="3"><p:inputText
-															id="txtdni2" value="DNI  #{djInfoGeneralMBean.num_dni}"
+															id="txtdni2" value="#{djInfoGeneralMBean.num_dni}"
 															style="width: 120px;">
 														</p:inputText></td>
 													<td></td>
@@ -420,7 +421,7 @@
 															id="lbldni3" value="Documento de Identidad :"
 															style="width: 100px;"></p:outputLabel></td>
 													<td width="200px" align="left" colspan="3"><p:inputText
-															id="txtdni3" value="DNI  #{djInfoGeneralMBean.num_dni}"
+															id="txtdni3" value="#{djInfoGeneralMBean.num_dni}"
 															style="width: 120px;">
 														</p:inputText></td>
 													<td></td>
@@ -438,6 +439,10 @@
 									<p:tabView id="tabViewCurriculumV" style="width:980px">
 
 										<p:tab id="tabCVInfPer" title="Inf. Personal">
+											<h:panelGroup id="pnlInformacionPersonalCV">
+											<p:commandButton value="Editar" oncomplete="dlgEditar.show()">
+											</p:commandButton>
+
 											<p:fieldset style="width: 900px" styleClass="myFieldset">
 												<h:panelGroup id="pnlinfoPersonal">
 													<table>
@@ -583,7 +588,7 @@
 																	id="lbltelfijo" value="Telefono Fijo :"
 																	style="width: 100px;"></p:outputLabel></td>
 															<td width="260px" align="left"><p:inputText
-																	id="txttelfijo" value="01#{djCVMBean.telefono}"
+																	id="txttelfijo" value="#{djCVMBean.telefono}"
 																	style="width: 120px;">
 																</p:inputText></td>
 															<td><p:outputLabel id="lbltelmovil"
@@ -616,8 +621,13 @@
 
 												</h:panelGroup>
 											</p:fieldset>
+											</h:panelGroup>
 										</p:tab>
 										<p:tab id="tabCVInfLab" title="Inf. Laboral">
+
+											<p:commandButton value="Editar"
+												oncomplete="dlgLaboralEditar.show()">
+											</p:commandButton>
 
 											<p:fieldset legend="" style="width: 900px"
 												styleClass="myFieldset">
@@ -691,8 +701,9 @@
 
 
 														<tr>
-															<td width="160px" align="left"><p:outputLabel
-																	id="lblafp" value="AFP :" style="width: 100px;"></p:outputLabel></td>
+															<td width="160px" align="left">
+																<p:outputLabel id="lblafp" value="AFP :" style="width: 100px;"></p:outputLabel>
+															</td>
 															<td width="260px" align="left"><p:inputText
 																	id="txtafp" value="#{djCVMBean.des_afp}"
 																	style="width: 120px;">
@@ -727,12 +738,13 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td align="center"><p:dataTable var="item" style="align:center" 
+																<td align="center"><p:dataTable var="item"
+																		style="align:center"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoAcademicaCV}"
 																		id="DjInfoAcademiCV">
 
-																		<p:column headerText="Nivel Estudiado" width="80"  >
+																		<p:column headerText="Nivel Estudiado" width="80">
 																			<h:outputText value="#{item.des_cv_titulo}"></h:outputText>
 																		</p:column>
 																		<p:column headerText="Tipo" width="60">
@@ -776,8 +788,8 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item"  style="align:center" 
-																		emptyMessage="#{msg['msgTablaVacia']}" 
+																<td><p:dataTable var="item" style="align:center"
+																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoAcademicaComCV}"
 																		id="DjInfoAcademiComCV">
 
@@ -828,7 +840,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoCapacitacionCV}"
 																		id="DjInfoCapacitaCV">
@@ -868,7 +880,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoCapacitacionCompCV}"
 																		id="DjInfoCapacitaIdiomaCV">
@@ -905,7 +917,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpProfesionalCV">
@@ -940,7 +952,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpAuxJurCV">
@@ -980,7 +992,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpDocCV">
@@ -1023,7 +1035,7 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoExpProfesionalCV}"
 																		id="DjInfoExpAuxActividadCV">
@@ -1064,11 +1076,11 @@
 													<td>
 														<table style="width: 980px">
 															<tr>
-																<td><p:dataTable var="item" style="align:center;" 
+																<td><p:dataTable var="item" style="align:center;"
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoPublicacionesCV}"
 																		id="DjInfoExpPublicacionesCV">
-																		<p:column headerText="Tipo" width="80">
+																		<p:column headerText="Tipo" width="50">
 																			<h:outputText value="#{item.des_inv_pub}"></h:outputText>
 																		</p:column>
 																		<p:column headerText="Tipo / Tema" width="120">
@@ -1103,16 +1115,16 @@
 																		emptyMessage="#{msg['msgTablaVacia']}"
 																		value="#{djCVMBean.lisInfoMeritoCV}"
 																		id="DjInfoMeritosCV">
-																		<p:column headerText="Fecha" width="80">
+																		<p:column headerText="Fecha" width="50">
 																			<h:outputText value="#{item.des_fecha}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Tipo" width="120">
+																		<p:column headerText="Tipo" width="60">
 																			<h:outputText value="#{item.des_cv_merito}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Institución" width="120">
+																		<p:column headerText="Institución" width="100">
 																			<h:outputText value="#{item.des_centro_estudios}"></h:outputText>
 																		</p:column>
-																		<p:column headerText="Detalle" width="60">
+																		<p:column headerText="Detalle" width="120">
 																			<h:outputText value="#{item.des_merito}"></h:outputText>
 																		</p:column>
 																	</p:dataTable></td>
@@ -1129,7 +1141,109 @@
 								</p:tab>
 
 								<p:tab id="tab4" title="Informacion Familiar">
+
+									<p:fieldset legend="Informacion Familiar" style="width: 900px"
+										styleClass="myFieldset">
+										<h:panelGroup id="pnlInfoFamiliar">
+											<table>
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblappaterno2f" value="Apellido Paterno :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtappaterno2f"
+															value="#{djInfoGeneralMBean.ap_paterno}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"><p:graphicImage
+															value="#{djInfoGeneralMBean.des_foto}" /></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblapmaterno2f" value="Apellido Materno :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtapmaterno2f"
+															value="#{djInfoGeneralMBean.ap_materno}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lblnombres2f" value="Nombres :" style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtnombres2f"
+															value="#{djInfoGeneralMBean.des_nombre}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+												<tr>
+
+													<td width="160px" align="left"><p:outputLabel
+															id="lbldni2f" value="Documento de Identidad :"
+															style="width: 100px;"></p:outputLabel></td>
+													<td width="200px" align="left" colspan="3"><p:inputText
+															id="txtdni2f" value="#{djInfoGeneralMBean.num_dni}"
+															style="width: 120px;">
+														</p:inputText></td>
+													<td></td>
+													<td></td>
+													<td rowspan="4"></td>
+												</tr>
+
+
+											</table>
+
+										</h:panelGroup>
+										<table style="width: 980px">
+											<tr>
+												<td><p:dataTable var="item"
+														emptyMessage="#{msg['msgTablaVacia']}"
+														value="#{djCVMBean.lisInfoFamiliar}" id="DjInfofamiliar">
+
+														<p:column headerText="Parentesco" width="180">
+															<h:outputText value="#{item.des_pariente}"></h:outputText>
+														</p:column>
+														<p:column headerText="Ap. Paterno" width="200">
+															<h:outputText value="#{item.des_ape_paterno}"></h:outputText>
+														</p:column>
+														<p:column headerText="Ap. Materno" width="90">
+															<h:outputText value="#{item.des_ape_materno}"></h:outputText>
+														</p:column>
+														<p:column headerText="Nombres" width="100">
+															<h:outputText value="#{item.des_nombre}"></h:outputText>
+														</p:column>
+														<p:column headerText="Fec. Nacimiento" width="80">
+															<h:outputText value="#{item.fecha}"></h:outputText>
+														</p:column>
+														<p:column headerText="Sexo" width="80">
+															<h:outputText value="#{item.des_sexo}"></h:outputText>
+														</p:column>
+														<p:column headerText="¿Vivo?" width="80">
+															<h:outputText value="#{item.des_vivo}"></h:outputText>
+														</p:column>
+
+													</p:dataTable></td>
+											</tr>
+										</table>
+									</p:fieldset>
 								</p:tab>
+
+
 								<p:tab id="tab5" title="Declaracion Jurada" disabled="true">
 								</p:tab>
 
@@ -1198,7 +1312,7 @@
 														id="lbldniEx2" value="Documento de Identidad :"
 														style="width: 100px;"></p:outputLabel></td>
 												<td width="200px" align="left" colspan="3"><p:inputText
-														id="txtdniEx2" value="DNI  #{djInfoGeneralMBean.num_dni}"
+														id="txtdniEx2" value="#{djInfoGeneralMBean.num_dni}"
 														style="width: 120px;">
 													</p:inputText></td>
 												<td></td>
@@ -1344,7 +1458,7 @@
 														id="lbldniSan2" value="Documento de Identidad :"
 														style="width: 100px;"></p:outputLabel></td>
 												<td width="200px" align="left" colspan="3"><p:inputText
-														id="txtdniSan2" value="DNI  #{djInfoGeneralMBean.num_dni}"
+														id="txtdniSan2" value="#{djInfoGeneralMBean.num_dni}"
 														style="width: 120px;">
 													</p:inputText></td>
 												<td></td>
@@ -1426,5 +1540,428 @@
 			</h:panelGroup>
 		</h:form>
 	</ui:define>
+
+
+	<!-- INF. PERSONLA  DEL TAB (CURRICULUM VITAE) -->
+	<ui:define name="dialogos">
+		<h:panelGroup id="pnlDialogos">
+			<p:dialog header="Buscar Lista" widgetVar="dlgEditar">
+				<h:form id="pnlDial">
+					<p:fieldset style="width: 800px" styleClass="myFieldset">
+						<h:panelGroup id="pnlinfoPersonalEdit">
+							<table>
+								<tr height="20px">
+									<td><STRONG>Informacion Personal</STRONG></td>
+								</tr>
+								<tr>
+									<td width="65px" align="left"><p:outputLabel
+											id="lblsexoCV" value="Sexo :" style="width: 65px;"></p:outputLabel>
+									</td>
+									<td width="260px" align="left">
+										<h:selectOneRadio value="#{djCVMBean.fla_sexo}">
+											<f:selectItem itemValue="1" itemLabel="Masculino"></f:selectItem>
+											<f:selectItem itemValue="0" itemLabel="Femenino"></f:selectItem>
+										</h:selectOneRadio>
+									</td>
+									<td>
+										<p:outputLabel id="lblEstadoCV" value="Estado Civil :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td >
+									   <p:selectOneMenu id="cboEstadoCivil" style="width:190px"
+											value="#{djCVMBean.codEstadocivil}">
+											<f:selectItems value="#{djCVMBean.lisEstadoCivilCV}"
+												var="item" itemValue="#{item.cod_estadocivil}"
+												itemLabel="#{item.des_estadocivil}">
+											</f:selectItems>
+										</p:selectOneMenu>
+									</td>
+ 							
+								</tr>
+
+								<tr>
+
+									<td width="65px" align="left">
+										<p:outputLabel id="lblpasaporte" value="Pasaporte :" style="width: 65px;"></p:outputLabel>
+									</td>
+									<td width="200px" align="left">
+										<p:inputText id="txtpasaporte" value="#{djCVMBean.pasaporte}" style="width: 120px;"></p:inputText>
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+						
+							</table>
+
+						</h:panelGroup>
+					</p:fieldset>
+					
+					
+					<p:fieldset legend="Datos de  Nacimiento" style="width: 800px"
+						styleClass="myFieldset">
+						<h:panelGroup id="pnlDatosNac">
+							<table>
+							 
+								 <tr>
+									<td width="160px" align="left">
+										<p:outputLabel id="lblfecnac" value="Fecha :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="70px" align="left">
+										<p:outputLabel id="lblFiltrardjdia" value="Dias:" style="width: 70px;"></p:outputLabel>
+									</td>
+									<td  width="70px" align="left">									
+										<p:selectOneMenu id="cboDia" style="width:70px"
+											value="#{djCVMBean.getDia}">
+											<f:selectItems value="#{djCVMBean.listaDias}">
+											</f:selectItems>
+										</p:selectOneMenu>
+									</td>
+									<td width="70px" align="left">
+										<p:outputLabel id="lblFiltrardj" value="#{msg['msgMes']}:" style="width: 70px;"></p:outputLabel>
+									</td>
+									<td  width="70px" align="left">								
+										<p:selectOneMenu id="cboMes" style="width:100px"
+											value="#{djCVMBean.getMes}">
+											<f:selectItems value="#{djCVMBean.listaMeses}">
+											</f:selectItems>			
+										</p:selectOneMenu>
+
+									</td>
+									<td width="70px" align="left">
+										<p:outputLabel id="lblFiltrardjAnio" value="Años:" style="width: 70px;"></p:outputLabel>
+									</td>
+									<td width="70px" align="left">
+										<p:selectOneMenu id="cboAnio" style="width:60px"
+											value="#{djCVMBean.getAnio}">
+											<f:selectItems value="#{djCVMBean.listaAnios}">											
+											</f:selectItems>			
+										</p:selectOneMenu>
+									</td>
+					
+								</tr>
+							
+							 
+								<tr>
+
+									<td width="160px" align="left">
+										<p:outputLabel id="lbldepartamentonac" value="Departameto :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="150px" align="left" colspan="2">
+										<p:selectOneMenu
+											id="cboDepartamento" style="width:130px"
+											value="#{djCVMBean.codDepartamentonac}">
+											<f:selectItems value="#{djCVMBean.lisDepartamentoCV}"
+												var="item" itemValue="#{item.cod_departamento}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+											<p:ajax listener="#{djCVMBean.seleccionarDepartamentonac}"
+											 update=":pnlDial:cboProvincia"/>
+										</p:selectOneMenu>
+									</td>
+									<td width="100px" align="Right">
+										<p:outputLabel id="lblpprovincianac" value="Provincia :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td colspan="2">
+										<p:selectOneMenu colspan="2"
+											id="cboProvincia" style="width:220px"
+											value="#{djCVMBean.codProvincianac}">
+											<f:selectItems value="#{djCVMBean.lisProvinciaCV}"
+												var="item" itemValue="#{item.cod_provincia}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+											<p:ajax listener="#{djCVMBean.seleccionarDProvincianac}"
+											update=":pnlDial:cboDistritoEdit"/>											
+										</p:selectOneMenu>
+									</td>
+									 <td width="90px" align="Right">
+										<p:outputLabel id="lbldistritonac" value="Distrito :" style="width: 90px;"></p:outputLabel>									 
+									 </td>
+									 <td width="200px" align="left" colspan="2">
+										<p:selectOneMenu
+											id="cboDistritoEdit" style="width:220px"
+											value="#{djCVMBean.codDistritonac}">
+											<f:selectItems value="#{djCVMBean.lisDistritoCV}"
+												var="item" itemValue="#{item.cod_distrito}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+										</p:selectOneMenu>										
+									 </td>
+									 <td></td>
+								</tr>
+
+
+
+							</table>
+
+						</h:panelGroup>
+					</p:fieldset>
+		 		
+					<p:fieldset legend="Datos de Residencia" style="width: 800px"
+						styleClass="myFieldset">
+						<h:panelGroup id="pnlDatosResidencial">
+							<table>
+								<tr>
+									<td width="160px" align="left">
+										<p:outputLabel id="lblfec" value="Direccion :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td width="260px" align="left" colspan="3">
+										<p:inputText id="txtfec"
+											value="#{djCVMBean.direccion}" style="width: 220px;">
+										</p:inputText>
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td width="160px" align="left">
+										<p:outputLabel id="lbldepartamentonacedit" value="Departameto :" style="width: 100px;"></p:outputLabel>									
+									</td>
+									<td width="150px">
+									
+										<p:selectOneMenu
+											id="cboDepartamento1" style="width:130px"
+											value="#{djCVMBean.codDepartamento}">
+											<f:selectItems value="#{djCVMBean.lisDepartamentoCV}"
+												var="item" itemValue="#{item.cod_departamento}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+											<p:ajax listener="#{djCVMBean.seleccionarDepartamento}"
+											 update=":pnlDial:cboProvincia1"/>
+										</p:selectOneMenu>									
+
+									</td>
+
+
+									<td width="100px" align="Right">
+									 	<p:outputLabel id="lblpprovincianacedit" value="Provincia :" style="width: 100px;"></p:outputLabel>
+									</td>
+									<td align="left">
+										<p:selectOneMenu
+											id="cboProvincia1" style="width:220px"
+											value="#{djCVMBean.codProvincia}">
+											<f:selectItems value="#{djCVMBean.lisProvinciaCV}"
+												var="item" itemValue="#{item.cod_provincia}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+											<p:ajax listener="#{djCVMBean.seleccionarDProvincia}"
+											update=":pnlDial:cboDistritoEdit1"/>											
+										</p:selectOneMenu>
+									</td>
+									<td width="90px" align="Right">
+										<p:outputLabel id="lbldistritonacedit" value="Distrito :" style="width: 90px;"></p:outputLabel>
+									</td>
+									<td  align="left">
+										<p:selectOneMenu
+											id="cboDistritoEdit1" style="width:220px"
+											value="#{djCVMBean.codDistrito}">
+											<f:selectItems value="#{djCVMBean.lisDistritoCV}"
+												var="item" itemValue="#{item.cod_distrito}"
+												itemLabel="#{item.des_nombre}">
+											</f:selectItems>
+										</p:selectOneMenu>
+									</td>								
+								</tr>|
+								
+							</table>
+
+						</h:panelGroup>
+					</p:fieldset>
+
+ 					<p:fieldset legend="Medios de Contacto" style="width: 800px"
+						styleClass="myFieldset">
+						<h:panelGroup id="pnlDatosMediosContacto">
+							<table>
+								<tr>
+									<td width="160px" align="left"><p:outputLabel
+											id="lbltelfijo" value="Telefono Fijo :" style="width: 100px;"></p:outputLabel></td>
+									<td width="260px" align="left"><p:inputText
+											id="txttelfijo" value="#{djCVMBean.telefono}"
+											style="width: 120px;">
+										</p:inputText></td>
+									<td><p:outputLabel id="lbltelmovil"
+											value="Telefono Movil :" style="width: 100px;"></p:outputLabel></td>
+									<td><p:inputText id="txttelmovil"
+											value="#{djCVMBean.movil}" style="width: 120px;">
+										</p:inputText></td>
+
+								</tr>
+
+								<tr>
+
+									<td width="160px" align="left"><p:outputLabel
+											id="lblcorreolab" value="Correo Electronico Laboral :"
+											style="width: 100px;"></p:outputLabel></td>
+									<td width="200px" align="left"><p:inputText
+											id="txtcorreolab" value="#{djCVMBean.des_email_laboral}"
+											style="width: 120px;">
+										</p:inputText></td>
+									<td><p:outputLabel id="lblcorreoper"
+											value="Correo Electronico Personal :" style="width: 100px;"></p:outputLabel></td>
+									<td><p:inputText id="txtcorreoper"
+											value="#{djCVMBean.mail}" style="width: 120px;">
+										</p:inputText></td>
+								</tr>
+
+							</table>
+
+						</h:panelGroup>
+					</p:fieldset>
+			
+					
+					<table width="780px">
+						<tr height="20px">
+							<td></td>
+						</tr>
+						<tr>
+							<td align="Center">
+							<p:commandButton value="Guardar"
+									icon="ui-icon-disk" 
+									actionListener="#{djCVMBean.updateInfoPersonalCV}"
+									update=":listaMensajes :frmMagistrado:tabViewGeneral:tabView:tabViewCurriculumV:txtsexoCV"
+									process="@form"
+									oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgEditar)"
+									style="margin-left: 20px; height: 25px;">
+																		
+								</p:commandButton> <p:commandButton value="#{msg['msgCancelar']}" type="button"
+									onclick="dlgEditar.hide()" icon="ui-icon-close"
+									style="margin-left: 20px; height: 25px;"></p:commandButton></td>
+						</tr>
+					</table>
+				</h:form>
+			</p:dialog>
+
+
+
+
+			<!-- INF. LABORAL  DEL TAB (CURRICULUM VITAE) -->
+
+			<p:dialog header="Buscar Lista" widgetVar="dlgLaboralEditar">
+				<h:form id="pnlDialLabora">
+					<table width="600px">
+						<tr align="Center">
+							<td><p:fieldset legend="" style="width: 900px"
+									styleClass="myFieldset">
+									<h:panelGroup id="pnlinfoLaboralCVEdit">
+										<table>
+											<tr height="20px">
+												<td><STRONG>Informacion Laboral</STRONG></td>
+											</tr>
+											<tr>
+												<td width="160px" align="left"><p:outputLabel
+														id="lblescalafono" value="Escalafon :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="260px" align="left"><p:inputText
+														id="txtescalafon" value="#{djCVMBean.num_escalafon}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td><p:outputLabel id="lblfecingrecv"
+														value="Fecha de Ingreso al PJ :" style="width: 100px;"></p:outputLabel></td>
+												<td>
+													<p:calendar
+														value="#{djInfoLaboralMBean.fec_ingres_new}" style="width: 120px;"
+														pattern="#{aplicacionMBean.formatoFecha}"
+														id="popupFecIngre" />
+												</td>
+
+											</tr>
+
+											<tr>
+
+												<td width="160px" align="left"><p:outputLabel
+														id="lblbnacion" value="Cta Banco Nacion :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="200px" align="left"><p:inputText
+														id="txtbnacion" value="#{djCVMBean.num_bnacion}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td></td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td width="160px" align="left"><p:outputLabel
+														id="lblcodContable" value="Cod Contable :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td width="260px" align="left"><p:inputText
+														id="txtcodContable" value="#{djCVMBean.cod_contab}"
+														style="width: 120px;">
+													</p:inputText></td>
+												<td><p:outputLabel id="lblruc" value="R.U.C :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td><p:inputText id="txtruc"
+														value="#{djCVMBean.num_ruc}" style="width: 120px;">
+													</p:inputText></td>
+
+											</tr>
+
+
+											<tr>
+												<td width="160px" align="left"><p:outputLabel
+														id="lblregpension" value="Regimen de Pension :" style="width: 100px;"></p:outputLabel>
+												</td>
+												<td width="260px" align="left">
+													 <p:selectOneMenu id="cboRegPensionCV" style="width:190px"
+														value="#{djInfoLaboralMBean.codAfp}">
+														<f:selectItems value="#{djInfoLaboralMBean.listipoRegimenPension}"
+															var="item" itemValue="#{item.codRegpension}"
+															itemLabel="#{item.desRegpension}">
+														</f:selectItems>
+													</p:selectOneMenu>
+												</td>
+												<td><p:outputLabel id="lblessalud"
+														value="Num. ESSALUD :" style="width: 100px;"></p:outputLabel></td>
+												<td><p:inputText id="txtessalud"
+														value="#{djCVMBean.num_essalud}" style="width: 120px;">
+													</p:inputText></td>
+
+											</tr>
+
+
+
+											<tr>
+												<td width="160px" align="left">
+													<p:outputLabel id="lblafp" value="AFP :" style="width: 100px;"></p:outputLabel>
+												</td>
+												<td width="260px" align="left">
+													 <p:selectOneMenu id="cboAFPCV" style="width:190px"
+														value="#{djInfoLaboralMBean.codAfp}">
+														<f:selectItems value="#{djInfoLaboralMBean.listipoAFP}"
+															var="item" itemValue="#{item.codAfp}"
+															itemLabel="#{item.desAfp}">
+														</f:selectItems>
+													</p:selectOneMenu>
+												</td>
+												<td><p:outputLabel id="lblnumafp" value="Num. AFP :"
+														style="width: 100px;"></p:outputLabel></td>
+												<td><p:inputText id="txtnumafp"
+														value="#{djCVMBean.num_afp}" style="width: 120px;">
+													</p:inputText></td>
+
+											</tr>
+
+
+										</table>
+
+									</h:panelGroup>
+								</p:fieldset></td>
+						</tr>
+
+						<tr>
+							<td align="Center"><p:commandButton value="Guardar"
+									icon="ui-icon-disk"
+									oncomplete="manejarDlgAccioncorrecta(xhr, status, args, dlgLaboralEditar)"
+									style="margin-left: 20px; height: 25px;">
+								</p:commandButton> <p:commandButton value="#{msg['msgCancelar']}" type="button"
+									onclick="dlgLaboralEditar.hide()" icon="ui-icon-close"
+									style="margin-left: 20px; height: 25px;"></p:commandButton></td>
+						</tr>
+					</table>
+				</h:form>
+			</p:dialog>
+		</h:panelGroup>
+	</ui:define>
+
 </ui:composition>
 </html>

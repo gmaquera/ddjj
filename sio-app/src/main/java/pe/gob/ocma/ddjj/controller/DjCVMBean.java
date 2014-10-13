@@ -15,13 +15,19 @@
 package pe.gob.ocma.ddjj.controller;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +35,26 @@ import org.slf4j.LoggerFactory;
 import pe.gob.ocma.common.controller.BaseMBean;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionIdiomaModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjCapacitacionModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDepartamentoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjDistritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjEstadoCivilModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjExpeProfesionalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaCompModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoAcademicaModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjInfoFamiliarModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralCVModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoLaboralModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjInfoPersonalModel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjMeritoModel;
+import pe.gob.ocma.ddjj.dto.magistrado.DjProvinciaMocel;
 import pe.gob.ocma.ddjj.dto.magistrado.DjPublicacionesModel;
 import pe.gob.ocma.ddjj.service.DjCVService;
 import pe.gob.ocma.ddjj.service.DjInfoGeneralService;
+import pe.gob.ocma.entities.web.EstadoNoticia;
+import pe.gob.ocma.entities.web_ocma.PersonalInfo;
+import pe.gob.ocma.entities.web_ocma.TablaEstadoCivil;
+import pe.gob.ocma.webocma.dto.WebInfoPersonalModel;
+import pe.gob.ocma.webocma.service.WebCVService;
 
 /**
  * FIXME DESCRIBIR
@@ -63,8 +79,25 @@ public class DjCVMBean extends BaseMBean implements Serializable{
 	private List<DjExpeProfesionalModel> lisInfoExpProfesionalCV = new ArrayList<DjExpeProfesionalModel>();
 	private List<DjPublicacionesModel> lisInfoPublicacionesCV = new ArrayList<DjPublicacionesModel>();
 	private List<DjMeritoModel> lisInfoMeritoCV = new ArrayList<DjMeritoModel>();
+	private List<DjInfoFamiliarModel> lisInfoFamiliar = new ArrayList<DjInfoFamiliarModel>();
+	
+	///*** UPDATE INFO. PERSONAL CV ****////
+	//private List<WebInfoPersonalModel> listaData = new ArrayList<WebInfoPersonalModel>();
+	
+	//// COMBO LISTA -  ESTADO CIVIL 
+	private List<DjEstadoCivilModel> lisEstadoCivilCV = new ArrayList<DjEstadoCivilModel>();
+
+	//// COMBO LISTA -  DEPARTAMENTO 
+	private List<DjDepartamentoModel> lisDepartamentoCV = new ArrayList<DjDepartamentoModel>();
+	//// COMBO LISTA -  PROVINCIA 
+	private List<DjProvinciaMocel> lisProvinciaCV = new ArrayList<DjProvinciaMocel>();
+	//// COMBO LISTA -  DISTRITO
+	private List<DjDistritoModel> lisDistritoCV = new ArrayList<DjDistritoModel>();
 	
 	private String sexo;
+	
+	private int fla_sexo;
+	//private String getfec_nacimiento;
 	private String des_estadocivil;
 	private String pasaporte;
 	private String fec_nacimiento;
@@ -95,6 +128,25 @@ public class DjCVMBean extends BaseMBean implements Serializable{
 	private String num_afp;
 	
 	
+	private int codEstadocivil;
+	private String codDepartamento;
+	private String codProvincia;
+	private String codDistrito;
+	
+	private String codDepartamentonac;
+	private String codProvincianac;
+	private String codDistritonac;
+	
+	/// LISTA MESSES
+	private List<Integer> listaDias= new ArrayList<Integer>();
+	private SelectItem[] ListaMeses = new SelectItem[12];
+	private List<Integer> listaAnios= new ArrayList<Integer>();
+	private int anio,anioLimite;
+	private String getMes,getDia,getAnio;
+	private String new_Fec_Nacimiento = null ;
+	
+	
+	
 	
 	@ManagedProperty(value = "#{djCVService}")
 	private DjCVService djCVService;
@@ -102,7 +154,24 @@ public class DjCVMBean extends BaseMBean implements Serializable{
 	@ManagedProperty(value = "#{djInfoGeneralService}")
 	private DjInfoGeneralService djInfoGeneralService;
 	
+	@ManagedProperty(value = "#{webCVService}")
+	private WebCVService webCVService;
+	
 	public DjCVMBean() {
+		
+//		ListaMeses [0] = new SelectItem("0", super.getMessage("msgTodos"));
+		ListaMeses [0] = new SelectItem(1, super.getMessage("msgEnero"));
+		ListaMeses [1] = new SelectItem(2, super.getMessage("msgFebrero"));
+		ListaMeses [2] = new SelectItem(3, super.getMessage("msgMarzo"));
+		ListaMeses [3] = new SelectItem(4, super.getMessage("msgAbril"));
+		ListaMeses [4] = new SelectItem(5, super.getMessage("msgMayo"));
+		ListaMeses [5] = new SelectItem(6, super.getMessage("msgJunio"));
+		ListaMeses [6] = new SelectItem(7, super.getMessage("msgJulio"));
+		ListaMeses [7] = new SelectItem(8, super.getMessage("msgAgosto"));
+		ListaMeses [8] = new SelectItem(9, super.getMessage("msgSetiembre"));
+		ListaMeses [9] = new SelectItem(10, super.getMessage("msgOctubre"));
+		ListaMeses [10] = new SelectItem(11, super.getMessage("msgNoviembre"));
+		ListaMeses [11] = new SelectItem(12, super.getMessage("msgDiciembre"));
 
 	}
 	
@@ -110,53 +179,442 @@ public class DjCVMBean extends BaseMBean implements Serializable{
 	@PostConstruct
 	private void inicializar() {
 		
-		lisInfoPersonalCV = djCVService.lisInfoPersonalCV("69666");
-		lisInfoLaboral = djInfoGeneralService.lisInfoLaboral("69666");
-		lisInfoLaboralCV = djCVService.lisInfoLaboralCV("69666");
-		lisInfoAcademicaCV = djCVService.lisInfoAcademicaCV("69666", "1"); 
-		lisInfoAcademicaComCV = djCVService.lisInfoAcademicaComCV("69666", "2");
-		lisInfoCapacitacionCV = djCVService.lisInfoCapacitacionCV("69666", "3");
-		lisInfoCapacitacionCompCV = djCVService.lisInfoCapacitacionCompCV("69666", "4");
-		lisInfoExpProfesionalCV = djCVService.lisInfoExpProfesionalCV("69666", "2");
-		lisInfoPublicacionesCV = djCVService.lisInfoPublicacionesCV("69666");
-		lisInfoMeritoCV  = djCVService.lisInfoMeritoCV("69666","1");
+	  //codEstadocivil = 0;
+	  //codDepartamento ="01";
+	  //codProvincia = "01";
+				
+	  lisInfoPersonalCV = djCVService.lisInfoPersonalCV("69666");
+	  lisInfoLaboral = djInfoGeneralService.lisInfoLaboral("69666");
+	  lisInfoLaboralCV = djCVService.lisInfoLaboralCV("69666");
+	  lisInfoAcademicaCV = djCVService.lisInfoAcademicaCV("69666", "1"); 
+	  lisInfoAcademicaComCV = djCVService.lisInfoAcademicaComCV("69666", "2");
+	  lisInfoCapacitacionCV = djCVService.lisInfoCapacitacionCV("69666", "3");
+	  lisInfoCapacitacionCompCV = djCVService.lisInfoCapacitacionCompCV("69666", "4");
+	  lisInfoExpProfesionalCV = djCVService.lisInfoExpProfesionalCV("69666", "2");
+	  lisInfoPublicacionesCV = djCVService.lisInfoPublicacionesCV("69666");
+	  lisInfoMeritoCV  = djCVService.lisInfoMeritoCV("69666","1");
+	  lisInfoFamiliar  = djCVService.lisInfoFamiliarCV(69666,0);
+	  System.out.println("sexo:"+ lisInfoPersonalCV.get(0).getFla_sexo());
+	  fla_sexo = lisInfoPersonalCV.get(0).getFla_sexo();
+	  if(lisInfoPersonalCV.get(0).getFla_sexo() == 1){
+		  sexo = "Masculino";
+	  }else{
+		  sexo = "Femenino";
+	  }
+	  pasaporte = lisInfoPersonalCV.get(0).getPasaporte();
+	  /////Datos  de Nacimiento //////
+	  codEstadocivil  = lisInfoPersonalCV.get(0).getC_estadocivil();
+	  codProvincianac = lisInfoPersonalCV.get(0).getC_provincianac();
+	  codDepartamentonac = lisInfoPersonalCV.get(0).getC_departamentonac();
+	  codDistritonac = lisInfoPersonalCV.get(0).getC_distritonac();
+	  ////////////////////////////////
+	  
+	  /////Datos  de Residencia //////
+	  codProvincia = lisInfoPersonalCV.get(0).getC_provincia();
+	  codDepartamento = lisInfoPersonalCV.get(0).getC_departamento();
+	  codDistrito = lisInfoPersonalCV.get(0).getC_distrito();
+	  ////////////////////////////////
+	  
+	  des_estadocivil = lisInfoPersonalCV.get(0).getDes_estadocivil();
+	  fec_nacimiento = lisInfoPersonalCV.get(0).getFec_nacimiento();
+	  departamentonac = lisInfoPersonalCV.get(0).getDepartamentonac();
+	  provincianac = lisInfoPersonalCV.get(0).getProvincianac();
+	  distritonac = lisInfoPersonalCV.get(0).getDistritonac();
+	  edad = lisInfoLaboral.get(0).getEdad();
+	  
+	  departamento = lisInfoPersonalCV.get(0).getDepartamento();
+	  provincia = lisInfoPersonalCV.get(0).getProvincia();
+	  distrito = lisInfoPersonalCV.get(0).getDistrito();
+	  direccion = lisInfoPersonalCV.get(0).getDireccion();
+	  
+	  telefono = lisInfoPersonalCV.get(0).getTelefono();
+	  movil = lisInfoPersonalCV.get(0).getMovil();
+	  mail = lisInfoPersonalCV.get(0).getMail();
+	  des_email_laboral = lisInfoPersonalCV.get(0).getDes_email_laboral();
+	  
+	  ////	INF  LABORAL CV
+	  
+	  num_escalafon = lisInfoLaboralCV.get(0).getNum_escalafon();
+	  fec_ingreso = lisInfoLaboralCV.get(0).getFec_ingreso();
+	  num_bnacion = lisInfoLaboralCV.get(0).getNum_bnacion();
+	  cod_contab = lisInfoLaboralCV.get(0).getCod_contab();
+	  num_ruc = lisInfoLaboralCV.get(0).getNum_ruc();
+	  des_regpension = lisInfoLaboralCV.get(0).getDes_regpension();
+	  des_afp = lisInfoLaboralCV.get(0).getDes_afp();
+	  num_essalud = lisInfoLaboralCV.get(0).getNum_essalud();
+	  num_afp = lisInfoLaboralCV.get(0).getNum_afp();
+	  
+	  /// COMBO  ESTADO - CIVIL 
+	  lisEstadoCivilCV = djCVService.lisEstadoCivilCV();
+	  /// COMBO  DEPARTAMENTO
+	  lisDepartamentoCV = djCVService.lisDepartamentoCV();
+	  /// COMBO  PROVINCIA 
+	  lisProvinciaCV = djCVService.lisProvinciaCV(codDepartamento);
+	  /// COMBO  DISTRITO
+	  lisDistritoCV = djCVService.lisDistritoCV(codProvincia, codDepartamento);
+	  
+	  
+	  
+	  ///// COMBOS  FECHA  DE NACIMIENTO
+	  
+	  //  LISTA  DIAS  
+	  for (int i = 1; i < 32 ; i++) {
+		  listaDias.add(i);
+		  
+		  //System.out.println(dropList.get(i));
+	  }
+	  
+	  Calendar calendar = Calendar.getInstance();
+	  
+	  anio = calendar.get(calendar.YEAR);
+	  //LISTA ANIOS 
+	  anioLimite = anio - 25;
+	  for (int j = 1927; j < anioLimite ; j++) {
+		  
+		  listaAnios.add(j);	
+		  
+	  }	
+	  
+	  
+	  // DIA 
+	  getDia =listaDias.get(Integer.parseInt(fec_nacimiento.toString().substring(0, 2).toString())-1).toString();
+	  System.out.println("Dia :" + getDia);
+	  
+	  // MES
+	  getMes = fec_nacimiento.toString().substring(3, 5);
+	  
+	  getMes = listaDias.get(Integer.parseInt(fec_nacimiento.toString().substring(3, 5).toString())-1).toString();
+	  
+	  // AÑIO
+	  getAnio = fec_nacimiento.toString().substring(6, 10);
+	  
+	  new_Fec_Nacimiento = getAnio + "-" + getMes + "-" + getDia;
+	  System.out.println("Fec  nacimiento  inicializar : " + new_Fec_Nacimiento.toString());
+			
+	}	
 		
-		if(lisInfoPersonalCV.get(0).getFla_sexo() == 1){
-			sexo = "Masculino"; 
-		}else{
-			sexo = "Femenino";
+	
+	public void updateInfoPersonalCV(ActionEvent ev){
+		
+		//WebInfoPersonalModel listaDataInfPer = new WebInfoPersonalModel();
+		WebInfoPersonalModel personal = new WebInfoPersonalModel();
+		
+		new_Fec_Nacimiento = getAnio + "-" + getMes + "-" + getDia;
+		System.out.println("UPDATE ----- " + new_Fec_Nacimiento.toString());
+		try {
+//			System.out.println("UPDATE : " + new_Fec_Nacimiento);
+			//listaDataInfPer.set(69666);
+//			personal.setc(69666);
+			personal.setFla_sexo(fla_sexo);
+			personal.setC_estadocivil(codEstadocivil);
+			personal.setPasaporte(pasaporte);
+//			TablaEstadoCivil tablaEstadoCivil = new TablaEstadoCivil();
+//			tablaEstadoCivil.setCodEstadocivil(codEstadocivil);
+			
+	
+//			***** DATOS  DEL NACIMIENTO *****///
+
+//			Date getfec_nacimiento = new Date();
+//			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//			getfec_nacimiento = dateFormat.parse(new_Fec_Nacimiento);
+//			System.out.println("UPDATE : " +  getfec_nacimiento.toString());
+			
+			//personal.setFec_nacimiento(new_Fec_Nacimiento);
+			personal.setFec_nacimiento(new_Fec_Nacimiento);
+			personal.setC_departamentonac(codDepartamentonac);
+			personal.setC_provincianac(codProvincianac);
+			personal.setC_distritonac(codDistritonac);
+	
+		
+			//***** DATOS  DE  RESIDENCIA  *****///
+			personal.setDireccion(direccion);
+			personal.setC_departamento(codDepartamento);
+			personal.setC_provincia(codProvincia);
+			personal.setC_distrito(codDistrito);
+		
+	
+			//***** MEDIOS  DEL CONTACTO  *****///
+			
+			personal.setTelefono(telefono);
+			personal.setMovil(movil);
+			personal.setMail(mail);
+			personal.setDes_email_laboral(des_email_laboral);
+			
+			webCVService.EditarInfPersonalCV(personal,69666);
+			addInfoMessage(super.getMessage("msgCambiosGuardadosExito"));
+			addCallbackParam("correcto", true);
+			//lisInfoPersonalCV = djCVService.lisInfoPersonalCV("69666");
+			
+		} catch (Exception ex) {
+			String msg = super.getMessage("errorGuardandoDatos");
+			logger.error(msg, ex);
+			addErrorMessage(msg);
 		}
-		des_estadocivil = lisInfoPersonalCV.get(0).getDes_estadocivil();
-		fec_nacimiento = lisInfoPersonalCV.get(0).getFec_nacimiento();
-		departamentonac = lisInfoPersonalCV.get(0).getDepartamentonac();
-		provincianac = lisInfoPersonalCV.get(0).getProvincianac();
-		distritonac = lisInfoPersonalCV.get(0).getDistritonac();
-		edad = lisInfoLaboral.get(0).getEdad();
-		
-		departamento = lisInfoPersonalCV.get(0).getDepartamento();
-		provincia = lisInfoPersonalCV.get(0).getProvincia();
-		distrito = lisInfoPersonalCV.get(0).getDistrito();
-		direccion = lisInfoPersonalCV.get(0).getDireccion();
-		
-		telefono = lisInfoPersonalCV.get(0).getTelefono();
-		movil = lisInfoPersonalCV.get(0).getMovil();
-		mail = lisInfoPersonalCV.get(0).getMail();
-		des_email_laboral = lisInfoPersonalCV.get(0).getDes_email_laboral();
-		
-		////INF  LABORAL CV
-		
-		num_escalafon = lisInfoLaboralCV.get(0).getNum_escalafon();
-		fec_ingreso = lisInfoLaboralCV.get(0).getFec_ingreso();
-		num_bnacion = lisInfoLaboralCV.get(0).getNum_bnacion();
-		cod_contab = lisInfoLaboralCV.get(0).getCod_contab();
-		num_ruc = lisInfoLaboralCV.get(0).getNum_ruc();
-		des_regpension = lisInfoLaboralCV.get(0).getDes_regpension();
-		des_afp = lisInfoLaboralCV.get(0).getDes_afp();
-		num_essalud = lisInfoLaboralCV.get(0).getNum_essalud();
-		num_afp = lisInfoLaboralCV.get(0).getNum_afp();
+		//lisInfoPersonalCV = djCVService.lisInfoPersonalCV("69666");
+	}
+	
+
+	public void seleccionarDepartamento(){
+		lisProvinciaCV = djCVService.lisProvinciaCV(codDepartamento);
 		
 	}
 
+	public void seleccionarDProvincia(){
+		lisDistritoCV = djCVService.lisDistritoCV(codProvincia, codDepartamento);
+		
+	}
+	
+
+	public void seleccionarDepartamentonac(){
+		lisProvinciaCV = djCVService.lisProvinciaCV(codDepartamentonac);
+		
+	}
+
+	public void seleccionarDProvincianac(){
+		lisDistritoCV = djCVService.lisDistritoCV(codProvincianac, codDepartamentonac);
+		
+	}
+	
+	/////////////////////
+
+
+	public String getNew_Fec_Nacimiento() {
+		return new_Fec_Nacimiento;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+
+	public int getFla_sexo() {
+		return fla_sexo;
+	}
+
+
+	public void setFla_sexo(int fla_sexo) {
+		this.fla_sexo = fla_sexo;
+	}
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+
+	public void setNew_Fec_Nacimiento(String new_Fec_Nacimiento) {
+		this.new_Fec_Nacimiento = new_Fec_Nacimiento;
+	}
+
+
+	public WebCVService getWebCVService() {
+		return webCVService;
+	}
+
+
+	public void setWebCVService(WebCVService webCVService) {
+		this.webCVService = webCVService;
+	}
+
+
+		public SelectItem[] getListaMeses() {
+		return ListaMeses;
+	}
+
+	
+	public String getGetDia() {
+		return getDia;
+	}
+
+
+	public void setGetDia(String getDia) {
+		this.getDia = getDia;
+	}
+
+
+	public String getGetAnio() {
+		return getAnio;
+	}
+
+
+	public void setGetAnio(String getAnio) {
+		this.getAnio = getAnio;
+	}
+
+
+	public String getGetMes() {
+		return getMes;
+	}
+
+
+	public void setGetMes(String getMes) {
+		this.getMes = getMes;
+	}
+
+
+	public int getAnio() {
+		return anio;
+	}
+
+
+	public void setAnio(int anio) {
+		this.anio = anio;
+	}
+
+
+	public int getAnioLimite() {
+		return anioLimite;
+	}
+
+
+	public void setAnioLimite(int anioLimite) {
+		this.anioLimite = anioLimite;
+	}
+
+
+	public List<Integer> getListaDias() {
+		return listaDias;
+	}
+
+
+	public void setListaDias(List<Integer> listaDias) {
+		this.listaDias = listaDias;
+	}
+
+
+	public List<Integer> getListaAnios() {
+		return listaAnios;
+	}
+
+
+	public void setListaAnios(List<Integer> listaAnios) {
+		this.listaAnios = listaAnios;
+	}
+
+
+	public void setListaMeses(SelectItem[] listaMeses) {
+		this.ListaMeses = listaMeses;
+	}
+
+
+	public String getCodDepartamentonac() {
+		return codDepartamentonac;
+	}
+
+
+	public void setCodDepartamentonac(String codDepartamentonac) {
+		this.codDepartamentonac = codDepartamentonac;
+	}
+
+
+	public String getCodProvincianac() {
+		return codProvincianac;
+	}
+
+
+	public void setCodProvincianac(String codProvincianac) {
+		this.codProvincianac = codProvincianac;
+	}
+
+
+	public String getCodDistritonac() {
+		return codDistritonac;
+	}
+
+
+	public void setCodDistritonac(String codDistritonac) {
+		this.codDistritonac = codDistritonac;
+	}
+
+
+	public String getCodDistrito() {
+		return codDistrito;
+	}
+
+
+	public void setCodDistrito(String codDistrito) {
+		this.codDistrito = codDistrito;
+	}
+
+
+	public String getCodDepartamento() {
+		return codDepartamento;
+	}
+
+
+	public void setCodDepartamento(String codDepartamento) {
+		this.codDepartamento = codDepartamento;
+	}
+
+
+	public String getCodProvincia() {
+		return codProvincia;
+	}
+
+
+	public void setCodProvincia(String codProvincia) {
+		this.codProvincia = codProvincia;
+	}
+
+
+	public List<DjDepartamentoModel> getLisDepartamentoCV() {
+		return lisDepartamentoCV;
+	}
+
+
+	public void setLisDepartamentoCV(List<DjDepartamentoModel> lisDepartamentoCV) {
+		this.lisDepartamentoCV = lisDepartamentoCV;
+	}
+
+
+	public List<DjProvinciaMocel> getLisProvinciaCV() {
+		return lisProvinciaCV;
+	}
+
+
+	public void setLisProvinciaCV(List<DjProvinciaMocel> lisProvinciaCV) {
+		this.lisProvinciaCV = lisProvinciaCV;
+	}
+
+
+	public List<DjDistritoModel> getLisDistritoCV() {
+		return lisDistritoCV;
+	}
+
+
+	public void setLisDistritoCV(List<DjDistritoModel> lisDistritoCV) {
+		this.lisDistritoCV = lisDistritoCV;
+	}
+
+
+	public List<DjEstadoCivilModel> getLisEstadoCivilCV() {
+		return lisEstadoCivilCV;
+	}
+
+
+	public void setLisEstadoCivilCV(List<DjEstadoCivilModel> lisEstadoCivilCV) {
+		this.lisEstadoCivilCV = lisEstadoCivilCV;
+	}
+
+
+	public int getCodEstadocivil() {
+		return codEstadocivil;
+	}
+
+
+	public void setCodEstadocivil(int codEstadocivil) {
+		this.codEstadocivil = codEstadocivil;
+	}
+
+
+	public List<DjInfoFamiliarModel> getLisInfoFamiliar() {
+		return lisInfoFamiliar;
+	}
+
+
+	public void setLisInfoFamiliar(List<DjInfoFamiliarModel> lisInfoFamiliar) {
+		this.lisInfoFamiliar = lisInfoFamiliar;
+	}
 
 
 	public List<DjMeritoModel> getLisInfoMeritoCV() {
@@ -437,17 +895,6 @@ public class DjCVMBean extends BaseMBean implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-
-	public String getSexo() {
-		return sexo;
-	}
-
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
 
 	public String getDes_estadocivil() {
 		return des_estadocivil;
